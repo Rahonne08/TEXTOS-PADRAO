@@ -27,6 +27,7 @@ import {
   ShieldAlert,
   History,
   Menu,
+  Pin,
   X,
   Info,
   Heart
@@ -440,6 +441,7 @@ export default function TemplateGenerator() {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [copiedId, setCopiedId] = useState<string | null>(null);
   const [favorites, setFavorites] = useState<string[]>([]);
+  const [pinnedCategories, setPinnedCategories] = useState<string[]>([]);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [theme, setTheme] = useState<'light' | 'dark'>('light');
   const [mounted, setMounted] = useState(false);
@@ -462,6 +464,15 @@ export default function TemplateGenerator() {
           console.error('Error parsing favorites', e);
         }
       }
+
+      const savedPinned = localStorage.getItem('pinnedCategories');
+      if (savedPinned) {
+        try {
+          setPinnedCategories(JSON.parse(savedPinned));
+        } catch (e) {
+          console.error('Error parsing pinned categories', e);
+        }
+      }
       setMounted(true);
     };
     
@@ -475,6 +486,12 @@ export default function TemplateGenerator() {
     if (!mounted) return;
     localStorage.setItem('favorites', JSON.stringify(favorites));
   }, [favorites, mounted]);
+
+  // Update localStorage when pinned categories change
+  useEffect(() => {
+    if (!mounted) return;
+    localStorage.setItem('pinnedCategories', JSON.stringify(pinnedCategories));
+  }, [pinnedCategories, mounted]);
 
   // Update localStorage and document class when theme changes
   useEffect(() => {
@@ -504,7 +521,17 @@ export default function TemplateGenerator() {
     );
   };
 
+  const togglePin = (id: string, e: React.MouseEvent) => {
+    e.stopPropagation();
+    setPinnedCategories(prev => 
+      prev.includes(id) ? prev.filter(pinnedId => pinnedId !== id) : [...prev, id]
+    );
+  };
+
   const filteredCategories = useMemo(() => {
+    // Return raw templates if not mounted to avoid hydration mismatch with dates
+    if (!mounted) return SERVICE_CATEGORIES;
+
     const currentDate = new Date().toLocaleDateString('pt-BR');
     
     const processTemplates = (templates: Template[]) => 
@@ -544,7 +571,7 @@ export default function TemplateGenerator() {
         template.content.toLowerCase().includes(searchQuery.toLowerCase())
       )
     })).filter(category => category.templates.length > 0);
-  }, [searchQuery, favorites, selectedCategory]);
+  }, [searchQuery, favorites, selectedCategory, mounted]);
 
   const handleCopy = (text: string, id: string) => {
     navigator.clipboard.writeText(text);
@@ -603,27 +630,45 @@ export default function TemplateGenerator() {
               <span className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest">Serviços</span>
             </div>
 
-            {SERVICE_CATEGORIES.map((cat) => (
-              <button
-                key={cat.id}
-                onClick={() => handleCategorySelect(cat.id)}
-                className={cn(
-                  "w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold transition-all",
-                  selectedCategory === cat.id 
-                    ? "bg-indigo-50 dark:bg-blue-800/40 text-indigo-600 dark:text-blue-300" 
-                    : "text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-blue-800/30 hover:text-slate-700 dark:hover:text-slate-200"
-                )}
-              >
-                <div className={cn(
-                  "p-1.5 rounded-lg transition-colors",
-                  selectedCategory === cat.id 
-                    ? "bg-indigo-100 dark:bg-blue-700/40" 
-                    : "bg-slate-100 dark:bg-blue-900/50"
-                )}>
-                  {cat.icon}
-                </div>
-                {cat.name}
-              </button>
+            {[...SERVICE_CATEGORIES].sort((a, b) => {
+              const aPinned = pinnedCategories.includes(a.id);
+              const bPinned = pinnedCategories.includes(b.id);
+              if (aPinned && !bPinned) return -1;
+              if (!aPinned && bPinned) return 1;
+              return 0;
+            }).map((cat) => (
+              <div key={cat.id} className="relative group">
+                <button
+                  onClick={() => handleCategorySelect(cat.id)}
+                  className={cn(
+                    "w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold transition-all",
+                    selectedCategory === cat.id 
+                      ? "bg-indigo-50 dark:bg-blue-800/40 text-indigo-600 dark:text-blue-300" 
+                      : "text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-blue-800/30 hover:text-slate-700 dark:hover:text-slate-200"
+                  )}
+                >
+                  <div className={cn(
+                    "p-1.5 rounded-lg transition-colors",
+                    selectedCategory === cat.id 
+                      ? "bg-indigo-100 dark:bg-blue-700/40" 
+                      : "bg-slate-100 dark:bg-blue-900/50"
+                  )}>
+                    {cat.icon}
+                  </div>
+                  <span className="flex-1 text-left truncate pr-6">{cat.name}</span>
+                </button>
+                
+                <button
+                  onClick={(e) => togglePin(cat.id, e)}
+                  className={cn(
+                    "absolute right-2 top-1/2 -translate-y-1/2 p-1.5 rounded-lg transition-all opacity-0 group-hover:opacity-100 hover:bg-slate-200 dark:hover:bg-blue-700/50 z-10",
+                    pinnedCategories.includes(cat.id) && "opacity-100 text-indigo-500 dark:text-blue-400"
+                  )}
+                  title={pinnedCategories.includes(cat.id) ? "Desafixar categoria" : "Fixar categoria no topo"}
+                >
+                  <Pin className={cn("w-3.5 h-3.5", pinnedCategories.includes(cat.id) && "fill-current")} />
+                </button>
+              </div>
             ))}
           </div>
 

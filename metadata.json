@@ -1,0 +1,5 @@
+{
+  "name": "Gerador de Templates de Atendimento",
+  "description": "Aplicação para consulta e cópia rápida de templates de registros de atendimento para serviços de energia elétrica.",
+  "requestFramePermissions": []
+}

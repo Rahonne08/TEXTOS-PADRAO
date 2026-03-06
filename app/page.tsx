@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useMemo, useEffect } from 'react';
+import { motion, AnimatePresence } from 'motion/react';
 import { 
   Search, 
   Copy, 
@@ -32,13 +33,39 @@ import {
   Info,
   Heart
 } from 'lucide-react';
-import { motion, AnimatePresence } from 'motion/react';
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 
 function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
+
+const Tooltip = ({ text, children, position = 'top' }: { text: string, children: React.ReactNode, position?: 'top' | 'bottom' | 'left' | 'right' }) => {
+  const positionClasses = {
+    top: 'bottom-full left-1/2 -translate-x-1/2 mb-2',
+    bottom: 'top-full left-1/2 -translate-x-1/2 mt-2',
+    left: 'right-full top-1/2 -translate-y-1/2 mr-2',
+    right: 'left-full top-1/2 -translate-y-1/2 ml-2'
+  };
+
+  return (
+    <div className="group/tooltip relative inline-flex items-center justify-center">
+      {children}
+      <div className={cn(
+        "absolute hidden group-hover/tooltip:block z-50 px-2.5 py-1.5 bg-slate-900 dark:bg-slate-800 text-white text-[10px] font-bold rounded-lg shadow-2xl pointer-events-none whitespace-nowrap border border-slate-700/50",
+        positionClasses[position]
+      )}>
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9, y: 2 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          className="flex items-center gap-1.5"
+        >
+          {text}
+        </motion.div>
+      </div>
+    </div>
+  );
+};
 
 interface Template {
   id: string;
@@ -594,9 +621,11 @@ export default function TemplateGenerator() {
               </div>
               <span className="font-bold text-lg tracking-tight dark:text-white">TEXTOS PADRÕES ATENDIMENTO LESTE</span>
             </div>
-            <button onClick={() => setIsSidebarOpen(false)} className="lg:hidden p-2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300">
-              <X className="w-5 h-5" />
-            </button>
+            <Tooltip text="Fechar Menu" position="left">
+              <button onClick={() => setIsSidebarOpen(false)} className="lg:hidden p-2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300">
+                <X className="w-5 h-5" />
+              </button>
+            </Tooltip>
           </div>
 
           <div className="flex-1 overflow-y-auto p-4 space-y-1 scrollbar-thin scrollbar-thumb-slate-300 dark:scrollbar-thumb-blue-800 scrollbar-track-transparent hover:scrollbar-thumb-slate-400 dark:hover:scrollbar-thumb-blue-700 transition-colors">
@@ -655,19 +684,22 @@ export default function TemplateGenerator() {
                   )}>
                     {cat.icon}
                   </div>
-                  <span className="flex-1 text-left truncate pr-6">{cat.name}</span>
+                <span className="flex-1 text-left truncate pr-6">{cat.name}</span>
                 </button>
                 
-                <button
-                  onClick={(e) => togglePin(cat.id, e)}
-                  className={cn(
-                    "absolute right-2 top-1/2 -translate-y-1/2 p-1.5 rounded-lg transition-all opacity-0 group-hover:opacity-100 hover:bg-slate-200 dark:hover:bg-blue-700/50 z-10",
-                    pinnedCategories.includes(cat.id) && "opacity-100 text-indigo-500 dark:text-blue-400"
-                  )}
-                  title={pinnedCategories.includes(cat.id) ? "Desafixar categoria" : "Fixar categoria no topo"}
-                >
-                  <Pin className={cn("w-3.5 h-3.5", pinnedCategories.includes(cat.id) && "fill-current")} />
-                </button>
+                <div className="absolute right-2 top-1/2 -translate-y-1/2 z-10">
+                  <Tooltip text={pinnedCategories.includes(cat.id) ? "Desafixar categoria" : "Fixar categoria no topo"} position="left">
+                    <button
+                      onClick={(e) => togglePin(cat.id, e)}
+                      className={cn(
+                        "p-1.5 rounded-lg transition-all opacity-0 group-hover:opacity-100 hover:bg-slate-200 dark:hover:bg-blue-700/50",
+                        pinnedCategories.includes(cat.id) && "opacity-100 text-indigo-500 dark:text-blue-400"
+                      )}
+                    >
+                      <Pin className={cn("w-3.5 h-3.5", pinnedCategories.includes(cat.id) && "fill-current")} />
+                    </button>
+                  </Tooltip>
+                </div>
               </div>
             ))}
           </div>
@@ -697,12 +729,14 @@ export default function TemplateGenerator() {
         <header className="sticky top-0 z-40 bg-white/80 dark:bg-[#020617]/80 backdrop-blur-md border-b border-slate-200 dark:border-blue-900/50 transition-colors duration-500">
           <div className="px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
             <div className="flex items-center gap-2">
-              <button 
-                onClick={() => setIsSidebarOpen(true)}
-                className="lg:hidden p-2 text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-blue-900/50 rounded-lg"
-              >
-                <Menu className="w-6 h-6" />
-              </button>
+              <Tooltip text="Abrir Menu" position="right">
+                <button 
+                  onClick={() => setIsSidebarOpen(true)}
+                  className="lg:hidden p-2 text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-blue-900/50 rounded-lg"
+                >
+                  <Menu className="w-6 h-6" />
+                </button>
+              </Tooltip>
               
               <div className="relative flex-1 min-w-[300px] max-w-8xl">
                 <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
@@ -717,17 +751,18 @@ export default function TemplateGenerator() {
             </div>
 
             <div className="flex items-center gap-4">
-              <button
-                onClick={toggleTheme}
-                className="p-2.5 rounded-xl bg-slate-100 dark:bg-blue-900/50 text-slate-500 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-blue-800 transition-all"
-                title={theme === 'light' ? 'Ativar Modo Escuro' : 'Ativar Modo Claro'}
-              >
-                {theme === 'light' ? (
-                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
-                ) : (
-                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
-                )}
-              </button>
+              <Tooltip text={theme === 'light' ? 'Ativar Modo Escuro' : 'Ativar Modo Claro'} position="bottom">
+                <button
+                  onClick={toggleTheme}
+                  className="p-2.5 rounded-xl bg-slate-100 dark:bg-blue-900/50 text-slate-500 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-blue-800 transition-all"
+                >
+                  {theme === 'light' ? (
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+                  ) : (
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
+                  )}
+                </button>
+              </Tooltip>
 
               <div className="hidden sm:flex items-center gap-3">
                 <div className="flex flex-col items-end">
@@ -801,29 +836,32 @@ export default function TemplateGenerator() {
                             <span className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest">ID: {template.id}</span>
                           </div>
                           <div className="flex items-center gap-2">
-                            <button
-                              onClick={(e) => toggleFavorite(template.id, e)}
-                              className={cn(
-                                "p-3 rounded-2xl transition-all shadow-sm",
-                                favorites.includes(template.id)
-                                  ? "bg-rose-50 dark:bg-rose-900/30 text-rose-500"
-                                  : "bg-slate-50 dark:bg-blue-900/50 text-slate-400 dark:text-slate-500 hover:bg-rose-50 dark:hover:bg-rose-900/20 hover:text-rose-400"
-                              )}
-                              title={favorites.includes(template.id) ? "Remover dos Favoritos" : "Adicionar aos Favoritos"}
-                            >
-                              <Heart className={cn("w-5 h-5", favorites.includes(template.id) && "fill-current")} />
-                            </button>
-                            <button
-                              onClick={() => handleCopy(template.content, template.id)}
-                              className={cn(
-                                "shrink-0 p-3 rounded-2xl transition-all shadow-sm",
-                                copiedId === template.id 
-                                  ? "bg-emerald-500 text-white scale-110" 
-                                  : "bg-slate-50 dark:bg-blue-900/50 text-slate-400 dark:text-slate-500 group-hover:bg-indigo-600 dark:group-hover:bg-blue-600 group-hover:text-white"
-                              )}
-                            >
-                              {copiedId === template.id ? <Check className="w-5 h-5" /> : <Copy className="w-5 h-5" />}
-                            </button>
+                            <Tooltip text={favorites.includes(template.id) ? "Remover dos Favoritos" : "Adicionar aos Favoritos"}>
+                              <button
+                                onClick={(e) => toggleFavorite(template.id, e)}
+                                className={cn(
+                                  "p-3 rounded-2xl transition-all shadow-sm",
+                                  favorites.includes(template.id)
+                                    ? "bg-rose-50 dark:bg-rose-900/30 text-rose-500"
+                                    : "bg-slate-50 dark:bg-blue-900/50 text-slate-400 dark:text-slate-500 hover:bg-rose-50 dark:hover:bg-rose-900/20 hover:text-rose-400"
+                                )}
+                              >
+                                <Heart className={cn("w-5 h-5", favorites.includes(template.id) && "fill-current")} />
+                              </button>
+                            </Tooltip>
+                            <Tooltip text={copiedId === template.id ? "Copiado!" : "Copiar Template"}>
+                              <button
+                                onClick={() => handleCopy(template.content, template.id)}
+                                className={cn(
+                                  "shrink-0 p-3 rounded-2xl transition-all shadow-sm",
+                                  copiedId === template.id 
+                                    ? "bg-emerald-500 text-white scale-110" 
+                                    : "bg-slate-50 dark:bg-blue-900/50 text-slate-400 dark:text-slate-500 group-hover:bg-indigo-600 dark:group-hover:bg-blue-600 group-hover:text-white"
+                                )}
+                              >
+                                {copiedId === template.id ? <Check className="w-5 h-5" /> : <Copy className="w-5 h-5" />}
+                              </button>
+                            </Tooltip>
                           </div>
                         </div>
                         

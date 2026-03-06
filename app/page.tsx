@@ -505,7 +505,13 @@ export default function TemplateGenerator() {
   };
 
   const filteredCategories = useMemo(() => {
-    let categories = SERVICE_CATEGORIES;
+    const currentDate = new Date().toLocaleDateString('pt-BR');
+    
+    const processTemplates = (templates: Template[]) => 
+      templates.map(t => ({
+        ...t,
+        content: t.content.replace(/00\/00\/0000/g, currentDate)
+      }));
 
     if (selectedCategory === 'favorites') {
       const allTemplates = SERVICE_CATEGORIES.flatMap(cat => cat.templates);
@@ -515,13 +521,18 @@ export default function TemplateGenerator() {
         id: 'favorites',
         name: 'Meus Favoritos',
         icon: <Heart className="w-5 h-5 fill-rose-500 text-rose-500" />,
-        templates: favoriteTemplates.filter(template => 
+        templates: processTemplates(favoriteTemplates).filter(template => 
           !searchQuery || 
           template.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
           template.content.toLowerCase().includes(searchQuery.toLowerCase())
         )
       } as Category].filter(cat => cat.templates.length > 0);
     }
+
+    const categories = SERVICE_CATEGORIES.map(cat => ({
+      ...cat,
+      templates: processTemplates(cat.templates)
+    }));
 
     if (!searchQuery) return categories;
 

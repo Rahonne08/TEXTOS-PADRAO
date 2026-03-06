@@ -50,6 +50,7 @@ interface Category {
   name: string;
   icon: React.ReactNode;
   templates: Template[];
+  info?: string;
 }
 
 const SERVICE_CATEGORIES: Category[] = [
@@ -79,6 +80,7 @@ const SERVICE_CATEGORIES: Category[] = [
     id: 'ligacao-nova',
     name: 'Ligação Nova',
     icon: <Zap className="w-5 h-5" />,
+    info: 'Na aba “ Meios de comunicação: Caso cliente não tenha e-mail ou não queira informar, como campo é obrigatório, preencher campo de e-mail com: naoinformado@equatorialenergia.com.br\n\nIMPORTANTE: Salvar arquivo como “Carta de Deferimento assinada_CC XXXX”',
     templates: [
       {
         id: 'padrao-completo',
@@ -89,6 +91,21 @@ const SERVICE_CATEGORIES: Category[] = [
         id: 'financiamento-padrao',
         title: 'Com Financiamento de Padrão',
         content: 'COORD. GEOGRÁFICAS: XXXXXX;\nPONTO DE REFERÊNCIA: XXXXXX\nANÁLISE DUP CADASTRO? NÃO\nPADRÃO FINANCIADO: FPC5 OU PFC7\nPARCELADO: XXx R$ XX\nLOCAL DEMARCADO: SIM OU NÃO (DESCREVER O LOCAL)\nLIG. EM PRAÇA PÚBLICA?\nAUTORIZAÇÃO BLITZ URBANA?\nNÃO POSSUI REDE PROX. AO IMÓVEL? SIM\nTELEFONE: XXXXXX\nWHATSAPP: XXXXXX\nE-MAIL VÁLIDO: XXXXXX\nENDEREÇO DA CONEXÃO É O MESMO ENDEREÇO De CORRESPONDÊNCIA? SIM ENDEREÇO CORRESPONDÊNCIA: XXXXXX ASSINOU FORMULÁRIO DE FINANC. DE PADRÃO? SIM *CLIENTE VEIO AO ATENDIMENTO E SOLICITOU CONEXÃO COM FINANCIAMENTO DE PADRÃO. CIENTE DO PRAZO DE VISTORIA. **ANEXO DOC. DO SOLICITANTE, FORMULÁRIO DE CONEXÃO E FORMULÁRIO DE FINACIAMENTO DE PADRÃO ASSINADOS.'
+      },
+      {
+        id: 'oc-indeferimento',
+        title: 'Script para Carta de Indeferimento',
+        content: 'Sr.(a) compareceu ao atendimento portando RG e CPF para solicitação da conexão OC. Contudo, não apresentou documentos válidos de posse e/ou propriedade. Segue em anexo a carta de indeferimento devidamente assinada.'
+      },
+      {
+        id: 'oc-deferimento-aprovada',
+        title: 'Script para Carta de Deferimento Aprovada',
+        content: 'DOCUMENTAÇÃO APROVADA.\nCARTA DE DEFERIMENTO ENTREGUE EM MÃOS AO SR(A)XXXXXXXX\nCARTA ASSINADA NO ANEXO DA NOTA'
+      },
+      {
+        id: 'oc-deferimento-estudo',
+        title: 'Script para Carta de Deferimento Aprovada c/ Estudo',
+        content: 'DOCUMENTAÇÃO APROVADA C/ ESTUDO\nCARTA DE DEFERIMENTO ENTREGUE EM MÃOS AO SR(A)XXXXXXXX\nCARTA ASSINADA NO ANEXO DA NOTA'
       }
     ]
   },
@@ -503,7 +520,7 @@ export default function TemplateGenerator() {
           template.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
           template.content.toLowerCase().includes(searchQuery.toLowerCase())
         )
-      }].filter(cat => cat.templates.length > 0);
+      } as Category].filter(cat => cat.templates.length > 0);
     }
 
     if (!searchQuery) return categories;
@@ -703,6 +720,15 @@ export default function TemplateGenerator() {
                       <p className="text-sm text-slate-500 dark:text-slate-400">{category.templates.length} templates disponíveis</p>
                     </div>
                   </div>
+
+                  {category.info && (
+                    <div className="bg-indigo-50 dark:bg-blue-900/20 border border-indigo-100 dark:border-blue-900/50 rounded-2xl p-4 flex items-start gap-3">
+                      <Info className="w-5 h-5 text-indigo-600 dark:text-blue-400 shrink-0 mt-0.5" />
+                      <p className="text-sm text-indigo-800 dark:text-blue-200 leading-relaxed whitespace-pre-wrap">
+                        {category.info}
+                      </p>
+                    </div>
+                  )}
 
                   <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
                     {category.templates.map((template) => (

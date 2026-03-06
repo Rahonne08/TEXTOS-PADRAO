@@ -659,7 +659,7 @@ export default function TemplateGenerator() {
                 <Menu className="w-6 h-6" />
               </button>
               
-              <div className="relative flex-1 min-w-[300px] max-w-6xl">
+              <div className="relative flex-1 min-w-[300px] max-w-8xl">
                 <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
                 <input 
                   type="text"

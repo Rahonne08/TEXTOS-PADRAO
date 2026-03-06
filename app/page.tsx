@@ -537,7 +537,7 @@ export default function TemplateGenerator() {
               <div className="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center text-white shadow-lg shadow-indigo-200 dark:shadow-indigo-900/20">
                 <ClipboardList className="w-5 h-5" />
               </div>
-              <span className="font-bold text-lg tracking-tight dark:text-white">TemplateHub</span>
+              <span className="font-bold text-lg tracking-tight dark:text-white">TEXTOS PADRÕES ATENDIMENTO LESTE</span>
             </div>
             <button onClick={() => setIsSidebarOpen(false)} className="lg:hidden p-2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300">
               <X className="w-5 h-5" />
@@ -658,7 +658,7 @@ export default function TemplateGenerator() {
 
               <div className="hidden sm:flex items-center gap-3">
                 <div className="flex flex-col items-end">
-                  <span className="text-xs font-bold text-slate-800 dark:text-slate-200">Atendimento Equatorial</span>
+                  <span className="text-xs font-bold text-slate-800 dark:text-slate-200">TEXTOS PADRÕES ATENDIMENTO LESTE</span>
                   <span className="text-[10px] text-slate-400 dark:text-slate-500 font-medium uppercase tracking-wider">Base de Templates</span>
                 </div>
                 <div className="w-8 h-8 rounded-full bg-slate-200 dark:bg-blue-900/50 border-2 border-white dark:border-blue-800 shadow-sm flex items-center justify-center text-slate-500 dark:text-slate-400">

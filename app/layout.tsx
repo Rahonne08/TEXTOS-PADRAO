@@ -2,7 +2,7 @@ import type {Metadata} from 'next';
 import './globals.css'; // Global styles
 
 export const metadata: Metadata = {
-  title: 'TemplateHub - Gerador de Atendimento',
+  title: 'TEXTOS PADRÕES ATENDIMENTO LESTE',
   description: 'Consulta e cópia rápida de templates de registros de atendimento.',
 };
 

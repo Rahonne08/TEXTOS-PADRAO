@@ -813,11 +813,51 @@ export default function TemplateGenerator() {
                   </div>
 
                   {category.info && (
-                    <div className="bg-indigo-50 dark:bg-blue-900/20 border border-indigo-100 dark:border-blue-900/50 rounded-2xl p-4 flex items-start gap-3">
-                      <Info className="w-5 h-5 text-indigo-600 dark:text-blue-400 shrink-0 mt-0.5" />
-                      <p className="text-sm text-indigo-800 dark:text-blue-200 leading-relaxed whitespace-pre-wrap">
-                        {category.info}
-                      </p>
+                    <div className="bg-indigo-50 dark:bg-blue-900/20 border border-indigo-100 dark:border-blue-900/50 rounded-2xl p-4 flex flex-col gap-3">
+                      <div className="flex items-start gap-3">
+                        <Info className="w-5 h-5 text-indigo-600 dark:text-blue-400 shrink-0 mt-0.5" />
+                        <p className="text-sm text-indigo-800 dark:text-blue-200 leading-relaxed whitespace-pre-wrap flex-1">
+                          {category.info}
+                        </p>
+                      </div>
+                      {category.info.includes('naoinformado@equatorialenergia.com.br') && (
+                        <div className="flex flex-col items-end gap-2">
+                          <button
+                            onClick={() => handleCopy('naoinformado@equatorialenergia.com.br', 'email-copy')}
+                            className="flex items-center gap-2 px-3 py-1.5 bg-indigo-100 dark:bg-blue-800/40 text-indigo-700 dark:text-blue-300 rounded-lg text-xs font-bold hover:bg-indigo-200 dark:hover:bg-blue-700/60 transition-all shadow-sm border border-indigo-200 dark:border-blue-800/50 w-fit"
+                          >
+                            {copiedId === 'email-copy' ? (
+                              <>
+                                <Check className="w-3.5 h-3.5" />
+                                Email Copiado!
+                              </>
+                            ) : (
+                              <>
+                                <Copy className="w-3.5 h-3.5" />
+                                Copiar Email
+                              </>
+                            )}
+                          </button>
+                          {category.info.includes('Carta de Deferimento assinada_CC XXXX') && (
+                            <button
+                              onClick={() => handleCopy('Carta de Deferimento assinada_CC XXXX', 'title-copy')}
+                              className="flex items-center gap-2 px-3 py-1.5 bg-indigo-100 dark:bg-blue-800/40 text-indigo-700 dark:text-blue-300 rounded-lg text-xs font-bold hover:bg-indigo-200 dark:hover:bg-blue-700/60 transition-all shadow-sm border border-indigo-200 dark:border-blue-800/50 w-fit"
+                            >
+                              {copiedId === 'title-copy' ? (
+                                <>
+                                  <Check className="w-3.5 h-3.5" />
+                                  Título Copiado!
+                                </>
+                              ) : (
+                                <>
+                                  <Copy className="w-3.5 h-3.5" />
+                                  Copiar Título da Carta
+                                </>
+                              )}
+                            </button>
+                          )}
+                        </div>
+                      )}
                     </div>
                   )}
 

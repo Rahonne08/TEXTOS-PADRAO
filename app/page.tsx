@@ -31,10 +31,12 @@ import {
   Pin,
   X,
   Info,
-  Heart
+  Heart,
+  Image as ImageIcon
 } from 'lucide-react';
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
+import ImageGenerator from '@/components/ImageGenerator';
 
 function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -256,7 +258,7 @@ const SERVICE_CATEGORIES: Category[] = [
       {
         id: 'script-reclamacao',
         title: 'Script da Reclamação',
-        content: 'Script da Reclamação:\nDESCRIÇÃO DA RECLAMAÇÃO:\nANALISE DO ATENDENTE:\nREMEDIAÇÃO PRETENDIDA\nMEIO DE RESPOSTA: CARTA ( ) TELEFONE ( ) E-MAIL ( )\nDESCRIÇÃO DO MEIO DE RESPOSTA:\nAUTORIZA TERCEIROS: SIM ( ) NÃO ( )'
+        content: 'Script da Reclamação:\n* DESCRIÇÃO DA RECLAMAÇÃO:\n* SOLUÇÃO PRETENDIDA:\n* ANÁLISE DO ATENDENTE:\n* MEIO DE RESPOSTA DA RECLAMAÇÃO: TELEFONE ( ) CARTA ( ) E-MAIL ( )\n* ACEITA RECEBER RESPOSTA / FATURA VIA WHATSAPP: SIM ( ) NÃO ( )\n* TELEFONE PARA CONTATO: (DDD) XXXXX\n* MELHOR HORÁRIO PARA CONTATO: MANHÃ ( ) TARDE ( )\n* E-MAIL: XXXX (quando o cliente não possui e-mail, sinalizar com o texto "não informado")\n* AUTORIZA TERCEIROS: SIM ( ) NÃO ( )\n* INFORMAÇÕES COMPLEMENTARES:'
       },
       {
         id: 'erro-leitura',
@@ -654,6 +656,19 @@ export default function TemplateGenerator() {
               <Heart className={cn("w-4 h-4", selectedCategory === 'favorites' && "fill-current")} />
               Meus Favoritos
             </button>
+
+            <button
+              onClick={() => handleCategorySelect('images')}
+              className={cn(
+                "w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold transition-all",
+                selectedCategory === 'images' 
+                  ? "bg-indigo-50 dark:bg-blue-800/40 text-indigo-600 dark:text-blue-300" 
+                  : "text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-blue-800/30 hover:text-slate-700 dark:hover:text-slate-200"
+              )}
+            >
+              <ImageIcon className="w-4 h-4" />
+              Gerador de Imagens
+            </button>
             
             <div className="pt-4 pb-2 px-4">
               <span className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest">Serviços</span>
@@ -792,16 +807,26 @@ export default function TemplateGenerator() {
             </div>
           </div>
           <AnimatePresence mode="popLayout">
-            {filteredCategories
-              .filter(cat => !selectedCategory || cat.id === selectedCategory)
-              .map((category) => (
-                <motion.section 
-                  key={category.id}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, scale: 0.95 }}
-                  className="space-y-6"
-                >
+            {selectedCategory === 'images' ? (
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.95 }}
+                className="max-w-2xl mx-auto"
+              >
+                <ImageGenerator />
+              </motion.div>
+            ) : (
+              filteredCategories
+                .filter(cat => !selectedCategory || cat.id === selectedCategory)
+                .map((category) => (
+                  <motion.section 
+                    key={category.id}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, scale: 0.95 }}
+                    className="space-y-6"
+                  >
                   <div className="flex items-center gap-4">
                     <div className="w-12 h-12 bg-white dark:bg-[#0f172a] rounded-2xl flex items-center justify-center text-indigo-600 dark:text-blue-400 shadow-sm border border-slate-200 dark:border-blue-900/50 transition-colors duration-500">
                       {category.icon}
@@ -934,7 +959,8 @@ export default function TemplateGenerator() {
                     ))}
                   </div>
                 </motion.section>
-              ))}
+                ))
+            )}
           </AnimatePresence>
 
           {filteredCategories.length === 0 && (

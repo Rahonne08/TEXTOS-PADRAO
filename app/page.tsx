@@ -32,11 +32,10 @@ import {
   X,
   Info,
   Heart,
-  Image as ImageIcon
+  Star
 } from 'lucide-react';
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
-import ImageGenerator from '@/components/ImageGenerator';
 
 function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -269,6 +268,18 @@ const SERVICE_CATEGORIES: Category[] = [
         id: 'cnr',
         title: 'CNR',
         content: 'RECLAMAÇÃO: *** RECLAMA DA FATURA DE COMPETENCIA **/20**- R$**,** VENCIMENTO **/**/2022, POIS NÃO CONCORDA COM O VALOR COBRADO REFERENTE A CONSUMO NÃO REGISTRADO.\nSOLUÇÃO PRETENDIDA: DESTA FORMA, CLIENTE DESEJA QUE A FATURA SEJA CANCELADA E APRESENTOU A CARTA DE DEFESA E CONSTA EM ANEXO.\nFORMA DE RETORNO: CLIENTE DESEJA RECEBER RESPOSTA POR MEIO DE CARTA DISPONIBILIZADA NA AGÊNCIA DE ATENDIMENTO.\nAUTORIZAÇÃO DE TERCEIROS: NÃO AUTORIZA TERCEIROS A RECEBER RESPOSTA EM CASO DE AUSÊNCIA.TELEFONE PARA CONTATO:'
+      }
+    ]
+  },
+  {
+    id: 'manifesto-cliente',
+    name: 'Manifesto do Cliente',
+    icon: <Star className="w-5 h-5" />,
+    templates: [
+      {
+        id: 'manifesto-agradecimento',
+        title: 'Manifesto do Cliente',
+        content: 'Cliente fez questão de agradecer pelo atendimento recebido na agência de <<nome da agência>>\npela Atendente: XXXXXXXXXXX\nCliente solicita resposta através do telefone: XXXXXXXXXXXX\nAnalisar o anexo do formulário de manifestação'
       }
     ]
   },
@@ -656,19 +667,6 @@ export default function TemplateGenerator() {
               <Heart className={cn("w-4 h-4", selectedCategory === 'favorites' && "fill-current")} />
               Meus Favoritos
             </button>
-
-            <button
-              onClick={() => handleCategorySelect('images')}
-              className={cn(
-                "w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold transition-all",
-                selectedCategory === 'images' 
-                  ? "bg-indigo-50 dark:bg-blue-800/40 text-indigo-600 dark:text-blue-300" 
-                  : "text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-blue-800/30 hover:text-slate-700 dark:hover:text-slate-200"
-              )}
-            >
-              <ImageIcon className="w-4 h-4" />
-              Gerador de Imagens
-            </button>
             
             <div className="pt-4 pb-2 px-4">
               <span className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest">Serviços</span>
@@ -807,26 +805,16 @@ export default function TemplateGenerator() {
             </div>
           </div>
           <AnimatePresence mode="popLayout">
-            {selectedCategory === 'images' ? (
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, scale: 0.95 }}
-                className="max-w-2xl mx-auto"
-              >
-                <ImageGenerator />
-              </motion.div>
-            ) : (
-              filteredCategories
-                .filter(cat => !selectedCategory || cat.id === selectedCategory)
-                .map((category) => (
-                  <motion.section 
-                    key={category.id}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, scale: 0.95 }}
-                    className="space-y-6"
-                  >
+            {filteredCategories
+              .filter(cat => !selectedCategory || cat.id === selectedCategory)
+              .map((category) => (
+                <motion.section 
+                  key={category.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, scale: 0.95 }}
+                  className="space-y-6"
+                >
                   <div className="flex items-center gap-4">
                     <div className="w-12 h-12 bg-white dark:bg-[#0f172a] rounded-2xl flex items-center justify-center text-indigo-600 dark:text-blue-400 shadow-sm border border-slate-200 dark:border-blue-900/50 transition-colors duration-500">
                       {category.icon}
@@ -959,8 +947,7 @@ export default function TemplateGenerator() {
                     ))}
                   </div>
                 </motion.section>
-                ))
-            )}
+              ))}
           </AnimatePresence>
 
           {filteredCategories.length === 0 && (

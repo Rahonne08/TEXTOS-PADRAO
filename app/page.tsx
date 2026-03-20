@@ -600,34 +600,34 @@ const NegotiationTable = () => {
   ];
 
   return (
-    <div className="space-y-12 mt-8">
-      <div className="flex items-center gap-3 mb-6">
-        <Info className="w-6 h-6 text-indigo-600 dark:text-blue-400" />
-        <h3 className="text-xl font-bold text-slate-800 dark:text-slate-100">Tabela de Parâmetros de Negociação</h3>
+    <div className="space-y-6 mt-4">
+      <div className="flex items-center gap-2 mb-3">
+        <Info className="w-5 h-5 text-indigo-600 dark:text-blue-400" />
+        <h3 className="text-base font-bold text-slate-800 dark:text-slate-100">Tabela de Parâmetros de Negociação</h3>
       </div>
       
-      <div className="grid grid-cols-1 gap-8">
+      <div className="grid grid-cols-1 gap-4">
         {categories.map((cat, idx) => (
-          <div key={idx} className="bg-white dark:bg-[#0f172a] rounded-3xl border border-slate-200 dark:border-blue-900/50 overflow-hidden shadow-sm transition-colors duration-500">
-            <div className="bg-indigo-600 dark:bg-blue-900 p-6 text-center">
-              <h4 className="text-white font-black text-xl tracking-wider">{cat.title}</h4>
-              <p className="text-indigo-100 dark:text-blue-200 text-xs mt-1 font-medium">{cat.subtitle}</p>
+          <div key={idx} className="bg-white dark:bg-[#0f172a] rounded-2xl border border-slate-200 dark:border-blue-900/50 overflow-hidden shadow-sm transition-colors duration-500">
+            <div className="bg-indigo-600 dark:bg-blue-900 p-3 text-center">
+              <h4 className="text-white font-black text-lg tracking-wider">{cat.title}</h4>
+              <p className="text-indigo-100 dark:text-blue-200 text-[10px] mt-0.5 font-medium">{cat.subtitle}</p>
             </div>
             
             <div className="overflow-x-auto">
               <table className="w-full text-left border-collapse">
                 <thead>
                   <tr className="bg-slate-50 dark:bg-blue-950/50 border-b border-slate-200 dark:border-blue-900/50">
-                    <th className="p-4 text-[10px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest border-r border-slate-200 dark:border-blue-900/50">Perfil</th>
-                    <th className="p-4 text-[10px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest border-r border-slate-200 dark:border-blue-900/50">Qtd Faturas</th>
-                    <th className="p-4 text-[10px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest text-center" colSpan={3}>Parâmetros</th>
+                    <th className="p-2 text-[9px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest border-r border-slate-200 dark:border-blue-900/50">Perfil</th>
+                    <th className="p-2 text-[9px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest border-r border-slate-200 dark:border-blue-900/50">Qtd Faturas</th>
+                    <th className="p-2 text-[9px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest text-center" colSpan={3}>Parâmetros</th>
                   </tr>
                   <tr className="bg-slate-50/50 dark:bg-blue-950/30 border-b border-slate-200 dark:border-blue-900/50">
-                    <th className="p-2 border-r border-slate-200 dark:border-blue-900/50"></th>
-                    <th className="p-2 border-r border-slate-200 dark:border-blue-900/50"></th>
-                    <th className="p-2 text-[9px] font-bold text-slate-400 dark:text-slate-500 uppercase text-center border-r border-slate-200 dark:border-blue-900/50">Entrada Mínima</th>
-                    <th className="p-2 text-[9px] font-bold text-slate-400 dark:text-slate-500 uppercase text-center border-r border-slate-200 dark:border-blue-900/50">Nº Máx Parcelas</th>
-                    <th className="p-2 text-[9px] font-bold text-slate-400 dark:text-slate-500 uppercase text-center">Dívida Máxima</th>
+                    <th className="p-1.5 border-r border-slate-200 dark:border-blue-900/50"></th>
+                    <th className="p-1.5 border-r border-slate-200 dark:border-blue-900/50"></th>
+                    <th className="p-1.5 text-[8px] font-bold text-slate-400 dark:text-slate-500 uppercase text-center border-r border-slate-200 dark:border-blue-900/50">Entrada Mínima</th>
+                    <th className="p-1.5 text-[8px] font-bold text-slate-400 dark:text-slate-500 uppercase text-center border-r border-slate-200 dark:border-blue-900/50">Nº Máx Parcelas</th>
+                    <th className="p-1.5 text-[8px] font-bold text-slate-400 dark:text-slate-500 uppercase text-center">Dívida Máxima</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -636,17 +636,17 @@ const NegotiationTable = () => {
                       {profile.rows.map((row, rowIdx) => (
                         <tr key={rowIdx} className="border-b border-slate-100 dark:border-blue-900/30 hover:bg-slate-50/50 dark:hover:bg-blue-900/10 transition-colors">
                           {rowIdx === 0 && (
-                            <td className="p-4 text-[11px] font-bold text-slate-700 dark:text-slate-300 border-r border-slate-200 dark:border-blue-900/50 bg-slate-50/30 dark:bg-blue-950/20" rowSpan={profile.rows.length}>
-                              <div className="flex items-center gap-2">
-                                <span className="w-5 h-5 rounded-full bg-indigo-100 dark:bg-blue-900/50 text-indigo-600 dark:text-blue-400 flex items-center justify-center text-[10px] shrink-0">{profile.id}</span>
+                            <td className="p-2 text-[10px] font-bold text-slate-700 dark:text-slate-300 border-r border-slate-200 dark:border-blue-900/50 bg-slate-50/30 dark:bg-blue-950/20" rowSpan={profile.rows.length}>
+                              <div className="flex items-center gap-1.5">
+                                <span className="w-4 h-4 rounded-full bg-indigo-100 dark:bg-blue-900/50 text-indigo-600 dark:text-blue-400 flex items-center justify-center text-[9px] shrink-0">{profile.id}</span>
                                 <span className="leading-tight">{profile.name}</span>
                               </div>
                             </td>
                           )}
-                          <td className="p-4 text-[11px] font-medium text-slate-600 dark:text-slate-400 border-r border-slate-200 dark:border-blue-900/50 text-center">{row.qty}</td>
-                          <td className="p-4 text-[11px] font-bold text-indigo-600 dark:text-blue-400 text-center border-r border-slate-200 dark:border-blue-900/50">{row.entry}</td>
-                          <td className="p-4 text-[11px] font-bold text-slate-700 dark:text-slate-200 text-center border-r border-slate-200 dark:border-blue-900/50">{row.maxInstallments}</td>
-                          <td className="p-4 text-[11px] font-bold text-emerald-600 dark:text-emerald-400 text-center">{row.maxDebt}</td>
+                          <td className="p-2 text-[10px] font-medium text-slate-600 dark:text-slate-400 border-r border-slate-200 dark:border-blue-900/50 text-center">{row.qty}</td>
+                          <td className="p-2 text-[10px] font-bold text-indigo-600 dark:text-blue-400 text-center border-r border-slate-200 dark:border-blue-900/50">{row.entry}</td>
+                          <td className="p-2 text-[10px] font-bold text-slate-700 dark:text-slate-200 text-center border-r border-slate-200 dark:border-blue-900/50">{row.maxInstallments}</td>
+                          <td className="p-2 text-[10px] font-bold text-emerald-600 dark:text-emerald-400 text-center">{row.maxDebt}</td>
                         </tr>
                       ))}
                     </React.Fragment>

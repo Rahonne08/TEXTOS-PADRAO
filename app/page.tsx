@@ -80,6 +80,7 @@ interface Category {
   icon: React.ReactNode;
   templates: Template[];
   info?: string;
+  showNegotiationTable?: boolean;
 }
 
 const SERVICE_CATEGORIES: Category[] = [
@@ -188,6 +189,7 @@ const SERVICE_CATEGORIES: Category[] = [
     id: 'parcelamento',
     name: 'Parcelamento',
     icon: <Banknote className="w-5 h-5" />,
+    showNegotiationTable: true,
     templates: [
       {
         id: 'parcelamento-debitos',
@@ -475,6 +477,189 @@ const SERVICE_CATEGORIES: Category[] = [
     ]
   }
 ];
+
+const NegotiationTable = () => {
+  const categories = [
+    {
+      title: 'CATEGORIA 1',
+      subtitle: 'CLASSES: Comercial, Industrial e Residencial (com consumo médio* maior que 300kWh).',
+      profiles: [
+        {
+          id: 1,
+          name: 'Atendente, Equipe GSRD ou GERE, Agente de Cobrança e Central de Atendimento ao Cliente',
+          rows: [
+            { qty: '3 a 5', entry: '50%', maxInstallments: 'Até 6X', maxDebt: 'Até R$20MIL' },
+            { qty: '6 a 10', entry: '50%', maxInstallments: 'Até 6X', maxDebt: 'Até R$20MIL' },
+            { qty: 'Acima de 10', entry: '50%', maxInstallments: 'Até 6X', maxDebt: 'Até R$20MIL' },
+          ]
+        },
+        {
+          id: 2,
+          name: 'Supervisor de Agência, Supervisor Comercial, Central de Apoio ao Atendimento Presencial, Assistentes e Analistas da cobrança',
+          rows: [
+            { qty: '3 a 5', entry: '40%', maxInstallments: 'Até 18X', maxDebt: 'Até R$30MIL' },
+            { qty: '6 a 10', entry: '40%', maxInstallments: 'Até 24X', maxDebt: 'Até R$30MIL' },
+            { qty: 'Acima de 10', entry: '40%', maxInstallments: 'Até 30X', maxDebt: 'Até R$30MIL' },
+          ]
+        },
+        {
+          id: 3,
+          name: 'Executivo, Líderes da Cobrança, Coordenador Atendimento e Coordenador Comercial',
+          rows: [{ qty: 'A partir de 2', entry: '0%', maxInstallments: '60X', maxDebt: 'Até R$100MIL' }]
+        },
+        {
+          id: 4,
+          name: 'Gerente Equatorial',
+          rows: [{ qty: 'A partir de 1', entry: '0%', maxInstallments: '80X', maxDebt: 'Até R$200MIL' }]
+        },
+        {
+          id: 5,
+          name: 'Diretor Equatorial',
+          rows: [{ qty: 'A partir de 1', entry: '0%', maxInstallments: 'Ilimitado', maxDebt: 'Ilimitado' }]
+        }
+      ]
+    },
+    {
+      title: 'CATEGORIA 2',
+      subtitle: 'CLASSES: Residencial (com consumo médio* menor que 300kWh) e Rural.',
+      profiles: [
+        {
+          id: 1,
+          name: 'Atendente, Equipe GSRD ou GERE...',
+          rows: [
+            { qty: '3 a 5', entry: '30%', maxInstallments: 'Até 12X', maxDebt: 'Até R$20MIL' },
+            { qty: '6 a 10', entry: '25%', maxInstallments: 'Até 18X', maxDebt: 'Até R$20MIL' },
+            { qty: 'Acima de 10', entry: '20%', maxInstallments: 'Até 18X', maxDebt: 'Até R$20MIL' },
+          ]
+        },
+        {
+          id: 2,
+          name: 'Supervisor de Agência...',
+          rows: [
+            { qty: '3 a 5', entry: '25%', maxInstallments: 'Até 18X', maxDebt: 'Até R$30MIL' },
+            { qty: '6 a 10', entry: '20%', maxInstallments: 'Até 24X', maxDebt: 'Até R$30MIL' },
+            { qty: 'Acima de 10', entry: '15%', maxInstallments: 'Até 30X', maxDebt: 'Até R$30MIL' },
+          ]
+        },
+        {
+          id: 3,
+          name: 'Executivo...',
+          rows: [{ qty: 'A partir de 2', entry: '0%', maxInstallments: '60X', maxDebt: 'Até R$100MIL' }]
+        },
+        {
+          id: 4,
+          name: 'Gerente Equatorial',
+          rows: [{ qty: 'A partir de 1', entry: '0%', maxInstallments: '80X', maxDebt: 'Até R$200MIL' }]
+        },
+        {
+          id: 5,
+          name: 'Diretor Equatorial',
+          rows: [{ qty: 'A partir de 1', entry: '0%', maxInstallments: 'Ilimitado', maxDebt: 'Ilimitado' }]
+        }
+      ]
+    },
+    {
+      title: 'CATEGORIA 3',
+      subtitle: 'CLASSES: Residencial Baixa Renda**',
+      profiles: [
+        {
+          id: 1,
+          name: 'Atendente, Equipe GSRD ou GERE...',
+          rows: [
+            { qty: '3 a 5', entry: '20%', maxInstallments: 'Até 12X', maxDebt: 'Até R$20MIL' },
+            { qty: '6 a 10', entry: '15%', maxInstallments: 'Até 18X', maxDebt: 'Até R$20MIL' },
+            { qty: 'Acima de 10', entry: '15%', maxInstallments: 'Até 18X', maxDebt: 'Até R$20MIL' },
+          ]
+        },
+        {
+          id: 2,
+          name: 'Supervisor de Agência...',
+          rows: [
+            { qty: '3 a 5', entry: '10%', maxInstallments: 'Até 18X', maxDebt: 'Até R$30MIL' },
+            { qty: '6 a 10', entry: '10%', maxInstallments: 'Até 24X', maxDebt: 'Até R$30MIL' },
+            { qty: 'Acima de 10', entry: '10%', maxInstallments: 'Até 30X', maxDebt: 'Até R$30MIL' },
+          ]
+        },
+        {
+          id: 3,
+          name: 'Executivo...',
+          rows: [{ qty: 'A partir de 1', entry: '0%', maxInstallments: '60X', maxDebt: 'Até R$100MIL' }]
+        },
+        {
+          id: 4,
+          name: 'Gerente Equatorial',
+          rows: [{ qty: 'A partir de 1', entry: '0%', maxInstallments: '80X', maxDebt: 'Até R$200MIL' }]
+        },
+        {
+          id: 5,
+          name: 'Diretor Equatorial',
+          rows: [{ qty: 'A partir de 1', entry: '0%', maxInstallments: 'Ilimitado', maxDebt: 'Ilimitado' }]
+        }
+      ]
+    }
+  ];
+
+  return (
+    <div className="space-y-12 mt-8">
+      <div className="flex items-center gap-3 mb-6">
+        <Info className="w-6 h-6 text-indigo-600 dark:text-blue-400" />
+        <h3 className="text-xl font-bold text-slate-800 dark:text-slate-100">Tabela de Parâmetros de Negociação</h3>
+      </div>
+      
+      <div className="grid grid-cols-1 gap-8">
+        {categories.map((cat, idx) => (
+          <div key={idx} className="bg-white dark:bg-[#0f172a] rounded-3xl border border-slate-200 dark:border-blue-900/50 overflow-hidden shadow-sm transition-colors duration-500">
+            <div className="bg-indigo-600 dark:bg-blue-900 p-6 text-center">
+              <h4 className="text-white font-black text-xl tracking-wider">{cat.title}</h4>
+              <p className="text-indigo-100 dark:text-blue-200 text-xs mt-1 font-medium">{cat.subtitle}</p>
+            </div>
+            
+            <div className="overflow-x-auto">
+              <table className="w-full text-left border-collapse">
+                <thead>
+                  <tr className="bg-slate-50 dark:bg-blue-950/50 border-b border-slate-200 dark:border-blue-900/50">
+                    <th className="p-4 text-[10px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest border-r border-slate-200 dark:border-blue-900/50">Perfil</th>
+                    <th className="p-4 text-[10px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest border-r border-slate-200 dark:border-blue-900/50">Qtd Faturas</th>
+                    <th className="p-4 text-[10px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest text-center" colSpan={3}>Parâmetros</th>
+                  </tr>
+                  <tr className="bg-slate-50/50 dark:bg-blue-950/30 border-b border-slate-200 dark:border-blue-900/50">
+                    <th className="p-2 border-r border-slate-200 dark:border-blue-900/50"></th>
+                    <th className="p-2 border-r border-slate-200 dark:border-blue-900/50"></th>
+                    <th className="p-2 text-[9px] font-bold text-slate-400 dark:text-slate-500 uppercase text-center border-r border-slate-200 dark:border-blue-900/50">Entrada Mínima</th>
+                    <th className="p-2 text-[9px] font-bold text-slate-400 dark:text-slate-500 uppercase text-center border-r border-slate-200 dark:border-blue-900/50">Nº Máx Parcelas</th>
+                    <th className="p-2 text-[9px] font-bold text-slate-400 dark:text-slate-500 uppercase text-center">Dívida Máxima</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {cat.profiles.map((profile) => (
+                    <React.Fragment key={profile.id}>
+                      {profile.rows.map((row, rowIdx) => (
+                        <tr key={rowIdx} className="border-b border-slate-100 dark:border-blue-900/30 hover:bg-slate-50/50 dark:hover:bg-blue-900/10 transition-colors">
+                          {rowIdx === 0 && (
+                            <td className="p-4 text-[11px] font-bold text-slate-700 dark:text-slate-300 border-r border-slate-200 dark:border-blue-900/50 bg-slate-50/30 dark:bg-blue-950/20" rowSpan={profile.rows.length}>
+                              <div className="flex items-center gap-2">
+                                <span className="w-5 h-5 rounded-full bg-indigo-100 dark:bg-blue-900/50 text-indigo-600 dark:text-blue-400 flex items-center justify-center text-[10px] shrink-0">{profile.id}</span>
+                                <span className="leading-tight">{profile.name}</span>
+                              </div>
+                            </td>
+                          )}
+                          <td className="p-4 text-[11px] font-medium text-slate-600 dark:text-slate-400 border-r border-slate-200 dark:border-blue-900/50 text-center">{row.qty}</td>
+                          <td className="p-4 text-[11px] font-bold text-indigo-600 dark:text-blue-400 text-center border-r border-slate-200 dark:border-blue-900/50">{row.entry}</td>
+                          <td className="p-4 text-[11px] font-bold text-slate-700 dark:text-slate-200 text-center border-r border-slate-200 dark:border-blue-900/50">{row.maxInstallments}</td>
+                          <td className="p-4 text-[11px] font-bold text-emerald-600 dark:text-emerald-400 text-center">{row.maxDebt}</td>
+                        </tr>
+                      ))}
+                    </React.Fragment>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
 
 export default function TemplateGenerator() {
   const [searchQuery, setSearchQuery] = useState('');
@@ -873,6 +1058,8 @@ export default function TemplateGenerator() {
                       )}
                     </div>
                   )}
+
+                  {category.showNegotiationTable && <NegotiationTable />}
 
                   <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
                     {category.templates.map((template) => (

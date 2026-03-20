@@ -1059,7 +1059,6 @@ export default function TemplateGenerator() {
                     </div>
                   )}
 
-                  {category.showNegotiationTable && <NegotiationTable />}
 
                   <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
                     {category.templates.map((template) => (
@@ -1133,6 +1132,8 @@ export default function TemplateGenerator() {
                       </motion.div>
                     ))}
                   </div>
+
+                  {category.showNegotiationTable && <NegotiationTable />}
                 </motion.section>
               ))}
           </AnimatePresence>

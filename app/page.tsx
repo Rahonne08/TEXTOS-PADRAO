@@ -919,7 +919,7 @@ export default function TemplateGenerator() {
             </div>
             <div className="text-center py-2 border-t border-slate-100 dark:border-blue-900/50">
               <p className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest">
-                DESENVOLVIDO POR PABLO RAHONNE
+                DESENVOLVIDO POR <a href="https://github.com/Rahonne08" target="_blank" rel="noopener noreferrer" className="hover:text-indigo-600 dark:hover:text-blue-400 transition-colors underline underline-offset-2">PABLO RAHONNE</a>
               </p>
             </div>
           </div>

@@ -670,6 +670,7 @@ export default function TemplateGenerator() {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [copiedId, setCopiedId] = useState<string | null>(null);
+  const [copyErrorId, setCopyErrorId] = useState<string | null>(null);
   const [favorites, setFavorites] = useState<string[]>([]);
   const [pinnedCategories, setPinnedCategories] = useState<string[]>([]);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -805,6 +806,7 @@ export default function TemplateGenerator() {
 
   const handleCopy = async (text: string, id: string) => {
     let success = false;
+    setCopyErrorId(null);
     try {
       if (navigator.clipboard && window.isSecureContext) {
         await navigator.clipboard.writeText(text);
@@ -831,9 +833,14 @@ export default function TemplateGenerator() {
       if (success) {
         setCopiedId(id);
         setTimeout(() => setCopiedId(null), 2000);
+      } else {
+        setCopyErrorId(id);
+        setTimeout(() => setCopyErrorId(null), 3000);
       }
     } catch (err) {
       console.error('Failed to copy: ', err);
+      setCopyErrorId(id);
+      setTimeout(() => setCopyErrorId(null), 3000);
     }
   };
 
@@ -1055,12 +1062,22 @@ export default function TemplateGenerator() {
                         <div className="flex flex-col items-end gap-2">
                           <button
                             onClick={() => handleCopy('naoinformado@equatorialenergia.com.br', 'email-copy')}
-                            className="flex items-center gap-2 px-3 py-1.5 bg-indigo-100 dark:bg-blue-800/40 text-indigo-700 dark:text-blue-300 rounded-lg text-xs font-bold hover:bg-indigo-200 dark:hover:bg-blue-700/60 transition-all shadow-sm border border-indigo-200 dark:border-blue-800/50 w-fit"
+                            className={cn(
+                              "flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-bold transition-all shadow-sm border w-fit",
+                              copyErrorId === 'email-copy' 
+                                ? "bg-rose-50 dark:bg-rose-900/20 text-rose-600 dark:text-rose-400 border-rose-200 dark:border-rose-900/50" 
+                                : "bg-indigo-100 dark:bg-blue-800/40 text-indigo-700 dark:text-blue-300 border-indigo-200 dark:border-blue-800/50 hover:bg-indigo-200 dark:hover:bg-blue-700/60"
+                            )}
                           >
                             {copiedId === 'email-copy' ? (
                               <>
                                 <Check className="w-3.5 h-3.5" />
                                 Email Copiado!
+                              </>
+                            ) : copyErrorId === 'email-copy' ? (
+                              <>
+                                <AlertTriangle className="w-3.5 h-3.5" />
+                                Erro ao Copiar
                               </>
                             ) : (
                               <>
@@ -1072,12 +1089,22 @@ export default function TemplateGenerator() {
                           {category.info.includes('Carta de Deferimento assinada_CC XXXX') && (
                             <button
                               onClick={() => handleCopy('Carta de Deferimento assinada_CC XXXX', 'title-copy')}
-                              className="flex items-center gap-2 px-3 py-1.5 bg-indigo-100 dark:bg-blue-800/40 text-indigo-700 dark:text-blue-300 rounded-lg text-xs font-bold hover:bg-indigo-200 dark:hover:bg-blue-700/60 transition-all shadow-sm border border-indigo-200 dark:border-blue-800/50 w-fit"
+                              className={cn(
+                                "flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-bold transition-all shadow-sm border w-fit",
+                                copyErrorId === 'title-copy' 
+                                  ? "bg-rose-50 dark:bg-rose-900/20 text-rose-600 dark:text-rose-400 border-rose-200 dark:border-rose-900/50" 
+                                  : "bg-indigo-100 dark:bg-blue-800/40 text-indigo-700 dark:text-blue-300 border-indigo-200 dark:border-blue-800/50 hover:bg-indigo-200 dark:hover:bg-blue-700/60"
+                              )}
                             >
                               {copiedId === 'title-copy' ? (
                                 <>
                                   <Check className="w-3.5 h-3.5" />
                                   Título Copiado!
+                                </>
+                              ) : copyErrorId === 'title-copy' ? (
+                                <>
+                                  <AlertTriangle className="w-3.5 h-3.5" />
+                                  Erro ao Copiar
                                 </>
                               ) : (
                                 <>
@@ -1121,17 +1148,19 @@ export default function TemplateGenerator() {
                                 <Heart className={cn("w-5 h-5", favorites.includes(template.id) && "fill-current")} />
                               </button>
                             </Tooltip>
-                            <Tooltip text={copiedId === template.id ? "Copiado!" : "Copiar Template"}>
+                            <Tooltip text={copiedId === template.id ? "Copiado!" : copyErrorId === template.id ? "Erro ao Copiar" : "Copiar Template"}>
                               <button
                                 onClick={() => handleCopy(template.content, template.id)}
                                 className={cn(
                                   "shrink-0 p-3 rounded-2xl transition-all shadow-sm",
                                   copiedId === template.id 
                                     ? "bg-emerald-500 text-white scale-110" 
-                                    : "bg-slate-50 dark:bg-blue-900/50 text-slate-400 dark:text-slate-500 group-hover:bg-indigo-600 dark:group-hover:bg-blue-600 group-hover:text-white"
+                                    : copyErrorId === template.id
+                                      ? "bg-rose-500 text-white scale-110"
+                                      : "bg-slate-50 dark:bg-blue-900/50 text-slate-400 dark:text-slate-500 group-hover:bg-indigo-600 dark:group-hover:bg-blue-600 group-hover:text-white"
                                 )}
                               >
-                                {copiedId === template.id ? <Check className="w-5 h-5" /> : <Copy className="w-5 h-5" />}
+                                {copiedId === template.id ? <Check className="w-5 h-5" /> : copyErrorId === template.id ? <AlertTriangle className="w-5 h-5" /> : <Copy className="w-5 h-5" />}
                               </button>
                             </Tooltip>
                           </div>

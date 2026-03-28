@@ -671,11 +671,18 @@ export default function TemplateGenerator() {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [copiedId, setCopiedId] = useState<string | null>(null);
   const [copyErrorId, setCopyErrorId] = useState<string | null>(null);
+  const [expandedTemplates, setExpandedTemplates] = useState<string[]>([]);
   const [favorites, setFavorites] = useState<string[]>([]);
   const [pinnedCategories, setPinnedCategories] = useState<string[]>([]);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [theme, setTheme] = useState<'light' | 'dark'>('light');
   const [mounted, setMounted] = useState(false);
+
+  const toggleExpanded = (id: string) => {
+    setExpandedTemplates(prev => 
+      prev.includes(id) ? prev.filter(t => t !== id) : [...prev, id]
+    );
+  };
 
   // Load theme and favorites from localStorage on mount
   useEffect(() => {
@@ -1129,7 +1136,10 @@ export default function TemplateGenerator() {
                       >
                         <div className="flex items-start justify-between mb-6">
                           <div className="space-y-1">
-                            <h3 className="font-bold text-slate-800 dark:text-slate-100 leading-tight group-hover:text-indigo-600 dark:group-hover:text-blue-400 transition-colors">
+                            <h3 
+                              onClick={() => toggleExpanded(template.id)}
+                              className="cursor-pointer font-bold text-slate-800 dark:text-slate-100 leading-tight group-hover:text-indigo-600 dark:group-hover:text-blue-400 transition-colors"
+                            >
                               {template.title}
                             </h3>
                             <span className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest">ID: {template.id}</span>
@@ -1166,16 +1176,27 @@ export default function TemplateGenerator() {
                           </div>
                         </div>
                         
-                        <div className="relative flex-1 group/pre">
-                          <div className="absolute top-3 right-3 opacity-0 group-hover/pre:opacity-100 transition-opacity">
-                            <div className="bg-white/80 dark:bg-blue-900/80 backdrop-blur px-2 py-1 rounded-md text-[10px] font-bold text-slate-500 dark:text-slate-400 border border-slate-200 dark:border-blue-800">
-                              Conteúdo do Template
-                            </div>
-                          </div>
-                          <pre className="text-[11px] text-slate-500 dark:text-slate-400 bg-slate-50/80 dark:bg-blue-900/30 p-5 rounded-2xl font-mono whitespace-pre-wrap leading-relaxed border border-slate-100 dark:border-blue-900/50 max-h-48 overflow-y-auto scrollbar-thin scrollbar-thumb-slate-200 dark:scrollbar-thumb-blue-800 transition-colors duration-500">
-                            {template.content}
-                          </pre>
-                        </div>
+                        <AnimatePresence>
+                          {expandedTemplates.includes(template.id) && (
+                            <motion.div
+                              initial={{ height: 0, opacity: 0 }}
+                              animate={{ height: 'auto', opacity: 1 }}
+                              exit={{ height: 0, opacity: 0 }}
+                              className="overflow-hidden"
+                            >
+                              <div className="relative flex-1 group/pre mt-4">
+                                <div className="absolute top-3 right-3 opacity-0 group-hover/pre:opacity-100 transition-opacity">
+                                  <div className="bg-white/80 dark:bg-blue-900/80 backdrop-blur px-2 py-1 rounded-md text-[10px] font-bold text-slate-500 dark:text-slate-400 border border-slate-200 dark:border-blue-800">
+                                    Conteúdo do Template
+                                  </div>
+                                </div>
+                                <pre className="text-[11px] text-slate-500 dark:text-slate-400 bg-slate-50/80 dark:bg-blue-900/30 p-5 rounded-2xl font-mono whitespace-pre-wrap leading-relaxed border border-slate-100 dark:border-blue-900/50 max-h-48 overflow-y-auto scrollbar-thin scrollbar-thumb-slate-200 dark:scrollbar-thumb-blue-800 transition-colors duration-500">
+                                  {template.content}
+                                </pre>
+                              </div>
+                            </motion.div>
+                          )}
+                        </AnimatePresence>
 
                         <div className="mt-6 pt-6 border-t border-slate-50 dark:border-blue-900/50 flex items-center justify-between">
                           <div className="flex -space-x-2">

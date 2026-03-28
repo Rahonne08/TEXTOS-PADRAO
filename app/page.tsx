@@ -1067,48 +1067,22 @@ export default function TemplateGenerator() {
                       </div>
                       {category.info.includes('naoinformado@equatorialenergia.com.br') && (
                         <div className="flex flex-col items-end gap-2">
-                          <button
-                            onClick={() => handleCopy('naoinformado@equatorialenergia.com.br', 'email-copy')}
-                            className={cn(
-                              "flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-bold transition-all shadow-sm border w-fit",
-                              copyErrorId === 'email-copy' 
-                                ? "bg-rose-50 dark:bg-rose-900/20 text-rose-600 dark:text-rose-400 border-rose-200 dark:border-rose-900/50" 
-                                : "bg-indigo-100 dark:bg-blue-800/40 text-indigo-700 dark:text-blue-300 border-indigo-200 dark:border-blue-800/50 hover:bg-indigo-200 dark:hover:bg-blue-700/60"
-                            )}
-                          >
-                            {copiedId === 'email-copy' ? (
-                              <>
-                                <Check className="w-3.5 h-3.5" />
-                                Email Copiado!
-                              </>
-                            ) : copyErrorId === 'email-copy' ? (
-                              <>
-                                <AlertTriangle className="w-3.5 h-3.5" />
-                                Erro ao Copiar
-                              </>
-                            ) : (
-                              <>
-                                <Copy className="w-3.5 h-3.5" />
-                                Copiar Email
-                              </>
-                            )}
-                          </button>
-                          {category.info.includes('Carta de Deferimento assinada_CC XXXX') && (
+                          <Tooltip text={copiedId === 'email-copy' ? "Email Copiado!" : copyErrorId === 'email-copy' ? "Erro ao Copiar" : "Copiar endereço de email"}>
                             <button
-                              onClick={() => handleCopy('Carta de Deferimento assinada_CC XXXX', 'title-copy')}
+                              onClick={() => handleCopy('naoinformado@equatorialenergia.com.br', 'email-copy')}
                               className={cn(
                                 "flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-bold transition-all shadow-sm border w-fit",
-                                copyErrorId === 'title-copy' 
+                                copyErrorId === 'email-copy' 
                                   ? "bg-rose-50 dark:bg-rose-900/20 text-rose-600 dark:text-rose-400 border-rose-200 dark:border-rose-900/50" 
                                   : "bg-indigo-100 dark:bg-blue-800/40 text-indigo-700 dark:text-blue-300 border-indigo-200 dark:border-blue-800/50 hover:bg-indigo-200 dark:hover:bg-blue-700/60"
                               )}
                             >
-                              {copiedId === 'title-copy' ? (
+                              {copiedId === 'email-copy' ? (
                                 <>
                                   <Check className="w-3.5 h-3.5" />
-                                  Título Copiado!
+                                  Email Copiado!
                                 </>
-                              ) : copyErrorId === 'title-copy' ? (
+                              ) : copyErrorId === 'email-copy' ? (
                                 <>
                                   <AlertTriangle className="w-3.5 h-3.5" />
                                   Erro ao Copiar
@@ -1116,10 +1090,40 @@ export default function TemplateGenerator() {
                               ) : (
                                 <>
                                   <Copy className="w-3.5 h-3.5" />
-                                  Copiar Título da Carta
+                                  Copiar Email
                                 </>
                               )}
                             </button>
+                          </Tooltip>
+                          {category.info.includes('Carta de Deferimento assinada_CC XXXX') && (
+                            <Tooltip text={copiedId === 'title-copy' ? "Título Copiado!" : copyErrorId === 'title-copy' ? "Erro ao Copiar" : "Copiar título da carta"}>
+                              <button
+                                onClick={() => handleCopy('Carta de Deferimento assinada_CC XXXX', 'title-copy')}
+                                className={cn(
+                                  "flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-bold transition-all shadow-sm border w-fit",
+                                  copyErrorId === 'title-copy' 
+                                    ? "bg-rose-50 dark:bg-rose-900/20 text-rose-600 dark:text-rose-400 border-rose-200 dark:border-rose-900/50" 
+                                    : "bg-indigo-100 dark:bg-blue-800/40 text-indigo-700 dark:text-blue-300 border-indigo-200 dark:border-blue-800/50 hover:bg-indigo-200 dark:hover:bg-blue-700/60"
+                                )}
+                              >
+                                {copiedId === 'title-copy' ? (
+                                  <>
+                                    <Check className="w-3.5 h-3.5" />
+                                    Título Copiado!
+                                  </>
+                                ) : copyErrorId === 'title-copy' ? (
+                                  <>
+                                    <AlertTriangle className="w-3.5 h-3.5" />
+                                    Erro ao Copiar
+                                  </>
+                                ) : (
+                                  <>
+                                    <Copy className="w-3.5 h-3.5" />
+                                    Copiar Título da Carta
+                                  </>
+                                )}
+                              </button>
+                            </Tooltip>
                           )}
                         </div>
                       )}
@@ -1205,13 +1209,15 @@ export default function TemplateGenerator() {
                               <div key={i} className="w-6 h-6 rounded-full bg-slate-100 dark:bg-blue-900/50 border-2 border-white dark:border-blue-950" />
                             ))}
                           </div>
-                          <button 
-                            onClick={() => handleCopy(template.content, template.id)}
-                            className="text-xs font-bold text-indigo-600 dark:text-blue-400 flex items-center gap-1 hover:gap-2 transition-all"
-                          >
-                            Copiar Agora
-                            <ChevronRight className="w-4 h-4" />
-                          </button>
+                          <Tooltip text={copiedId === template.id ? "Copiado!" : copyErrorId === template.id ? "Erro ao Copiar" : "Copiar todo o conteúdo do template"}>
+                            <button 
+                              onClick={() => handleCopy(template.content, template.id)}
+                              className="text-xs font-bold text-indigo-600 dark:text-blue-400 flex items-center gap-1 hover:gap-2 transition-all"
+                            >
+                              Copiar Agora
+                              <ChevronRight className="w-4 h-4" />
+                            </button>
+                          </Tooltip>
                         </div>
                       </motion.div>
                     ))}

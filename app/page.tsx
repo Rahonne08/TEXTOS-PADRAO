@@ -677,6 +677,7 @@ export default function TemplateGenerator() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [theme, setTheme] = useState<'light' | 'dark'>('light');
   const [mounted, setMounted] = useState(false);
+  const [toast, setToast] = useState<{ message: string, type: 'success' | 'error' } | null>(null);
 
   const toggleExpanded = (id: string) => {
     setExpandedTemplates(prev => 
@@ -839,20 +840,46 @@ export default function TemplateGenerator() {
       
       if (success) {
         setCopiedId(id);
+        setToast({ message: 'Texto copiado para a área de transferência', type: 'success' });
         setTimeout(() => setCopiedId(null), 2000);
+        setTimeout(() => setToast(null), 3000);
       } else {
         setCopyErrorId(id);
+        setToast({ message: 'Erro ao copiar texto.', type: 'error' });
         setTimeout(() => setCopyErrorId(null), 3000);
+        setTimeout(() => setToast(null), 3000);
       }
     } catch (err) {
       console.error('Failed to copy: ', err);
       setCopyErrorId(id);
+      setToast({ message: 'Erro ao copiar texto.', type: 'error' });
       setTimeout(() => setCopyErrorId(null), 3000);
+      setTimeout(() => setToast(null), 3000);
     }
   };
 
   return (
     <div className="h-screen bg-[#F1F5F9] dark:bg-[#020617] text-slate-900 dark:text-slate-100 font-sans selection:bg-indigo-100 dark:selection:bg-indigo-900 flex overflow-hidden transition-colors duration-500">
+      {/* Toast Notification */}
+      <AnimatePresence>
+        {toast && (
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            className="fixed top-6 left-1/2 -translate-x-1/2 z-[100] flex items-center gap-2 px-4 py-3 rounded-2xl shadow-2xl border backdrop-blur-md"
+            style={{
+              backgroundColor: toast.type === 'success' ? 'rgba(16, 185, 129, 0.9)' : 'rgba(244, 63, 94, 0.9)',
+              borderColor: toast.type === 'success' ? 'rgba(5, 150, 105, 0.2)' : 'rgba(225, 29, 72, 0.2)',
+              color: 'white'
+            }}
+          >
+            {toast.type === 'success' ? <Check className="w-5 h-5" /> : <AlertTriangle className="w-5 h-5" />}
+            <span className="text-sm font-bold tracking-wide">{toast.message}</span>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       {/* Sidebar Navigation */}
       <aside className={cn(
         "fixed inset-y-0 left-0 z-50 w-72 bg-white dark:bg-[#0f172a] border-r border-slate-200 dark:border-blue-900/50 transition-all duration-300 ease-in-out lg:relative lg:translate-x-0 flex flex-col h-full",

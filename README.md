@@ -1,67 +1,70 @@
 📄 Textos Padrão
 
-🔗 https://textos-padrao.vercel.app
+Aplicação web desenvolvida para otimizar o atendimento ao cliente por meio de mensagens rápidas, organizadas e reutilizáveis.
 
-Aplicação web focada em ganho de produtividade e padronização de atendimento, desenvolvida para resolver um problema real de operações com alto volume de interações.
+🔗 Acesse: https://textos-padrao.vercel.app
 
-🧠 Contexto do Projeto
+🚀 Sobre o Projeto
 
-Durante minha atuação com atendimento ao cliente, identifiquei um gargalo crítico:
+O Textos Padrão é uma ferramenta criada para aumentar a produtividade no atendimento, permitindo o uso de mensagens previamente cadastradas para respostas rápidas e padronizadas.
 
-Tempo elevado para responder mensagens repetitivas
-Falta de padronização nas respostas
-Erros manuais frequentes
-
-O Textos Padrão foi desenvolvido como solução direta para esse problema, trazendo agilidade, consistência e escalabilidade ao atendimento.
+Ideal para equipes de suporte, atendimento ao cliente e profissionais que lidam com alto volume de interações diárias.
 
 🎯 Objetivo
 
-Criar uma ferramenta simples, rápida e acessível que permita:
+Reduzir o tempo de resposta, evitar erros de digitação e garantir consistência na comunicação com clientes.
 
-Reduzir o tempo médio de atendimento (TMA)
-Padronizar a comunicação
-Aumentar a eficiência operacional
-⚙️ Principais Funcionalidades
-Cadastro e gerenciamento de mensagens padrão
-Sistema de busca otimizado por palavras-chave
-Cópia rápida com um clique
-Interface minimalista focada em performance
-Acesso 100% web (sem necessidade de instalação)
-🛠️ Stack Tecnológica
-Frontend: HTML, CSS, JavaScript
-Deploy: Vercel
-Arquitetura: Aplicação leve, client-side, com foco em baixa latência
-🚀 Diferenciais Técnicos
-Interface pensada para uso contínuo (UX voltada para produtividade)
-Baixíssimo tempo de carregamento
-Código enxuto e de fácil manutenção
-Estrutura preparada para evolução (escala e integrações futuras)
-📊 Impacto Gerado
-Redução significativa no tempo de resposta
-Diminuição de erros humanos em mensagens
-Aumento da consistência no atendimento
-Melhoria na experiência do cliente final
-💡 Visão de Produto
+✨ Funcionalidades
+📌 Cadastro de textos padrão
+🔍 Busca rápida por palavras-chave
+📋 Copiar texto com apenas um clique
+🗂️ Organização de mensagens
+⚡ Interface simples e rápida
+🌐 Acesso via navegador (sem instalação)
+🛠️ Tecnologias Utilizadas
+HTML5
+CSS3
+JavaScript
+Vercel (deploy)
+💡 Casos de Uso
+Atendimento via WhatsApp
+Suporte técnico
+SAC
+Call centers
+Atendimento comercial
+📈 Benefícios
+⏱️ Aumento de produtividade
+📉 Redução de erros
+📢 Padronização da comunicação
+😊 Melhor experiência do cliente
+🔐 Segurança
 
-O projeto foi concebido não apenas como uma ferramenta simples, mas como base para evolução em um produto maior, incluindo:
+O app foi desenvolvido com foco em simplicidade e eficiência, garantindo uma experiência rápida e segura para o usuário.
 
-Autenticação de usuários
-Persistência em banco de dados
+📦 Como Usar
+Acesse o site
+Busque ou selecione um texto
+Clique para copiar
+Cole no atendimento desejado
+🧠 Inspiração
+
+Esse projeto surgiu da necessidade real de agilizar o atendimento e reduzir o retrabalho em operações com grande volume de mensagens.
+
+📌 Futuras Melhorias
+Sistema de login
+Sincronização em nuvem
+Categorias personalizadas
+Favoritos ⭐
 Integração com APIs (WhatsApp, CRM)
-Personalização por equipe
-🧩 Aprendizados Aplicados
-Transformação de dor real em solução digital
-Foco em experiência do usuário (UX)
-Desenvolvimento orientado à eficiência
-Pensamento de produto e escalabilidade
-👨‍💻 Sobre o Desenvolvimento
+🤝 Contribuição
 
-Este projeto demonstra minha capacidade de:
+Sugestões e melhorias são sempre bem-vindas!
 
-Identificar problemas reais no ambiente de trabalho
-Projetar soluções práticas e eficientes
-Desenvolver aplicações funcionais com foco em resultado
-Pensar além do código, considerando impacto no negócio
-📌 Conclusão
+📄 Licença
 
-O Textos Padrão é um exemplo de como tecnologia simples, quando bem aplicada, pode gerar alto impacto operacional.
+Este projeto está sob a licença MIT.
+
+👨‍💻 Autor
+
+Desenvolvido por Pablo Rahonne 🚀
+Focado em soluções reais para problemas do dia a dia.

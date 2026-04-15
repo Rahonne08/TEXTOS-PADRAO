@@ -1,70 +1,20 @@
-📄 Textos Padrão
+<div align="center">
+<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
+</div>
 
-Aplicação web desenvolvida para otimizar o atendimento ao cliente por meio de mensagens rápidas, organizadas e reutilizáveis.
+# Run and deploy your AI Studio app
 
-🔗 Acesse: https://textos-padrao.vercel.app
+This contains everything you need to run your app locally.
 
-🚀 Sobre o Projeto
+View your app in AI Studio: https://ai.studio/apps/532cc70d-fbe6-4e89-bcad-c372b7980a1d
 
-O Textos Padrão é uma ferramenta criada para aumentar a produtividade no atendimento, permitindo o uso de mensagens previamente cadastradas para respostas rápidas e padronizadas.
+## Run Locally
 
-Ideal para equipes de suporte, atendimento ao cliente e profissionais que lidam com alto volume de interações diárias.
+**Prerequisites:**  Node.js
 
-🎯 Objetivo
 
-Reduzir o tempo de resposta, evitar erros de digitação e garantir consistência na comunicação com clientes.
-
-✨ Funcionalidades
-📌 Cadastro de textos padrão
-🔍 Busca rápida por palavras-chave
-📋 Copiar texto com apenas um clique
-🗂️ Organização de mensagens
-⚡ Interface simples e rápida
-🌐 Acesso via navegador (sem instalação)
-🛠️ Tecnologias Utilizadas
-HTML5
-CSS3
-JavaScript
-Vercel (deploy)
-💡 Casos de Uso
-Atendimento via WhatsApp
-Suporte técnico
-SAC
-Call centers
-Atendimento comercial
-📈 Benefícios
-⏱️ Aumento de produtividade
-📉 Redução de erros
-📢 Padronização da comunicação
-😊 Melhor experiência do cliente
-🔐 Segurança
-
-O app foi desenvolvido com foco em simplicidade e eficiência, garantindo uma experiência rápida e segura para o usuário.
-
-📦 Como Usar
-Acesse o site
-Busque ou selecione um texto
-Clique para copiar
-Cole no atendimento desejado
-🧠 Inspiração
-
-Esse projeto surgiu da necessidade real de agilizar o atendimento e reduzir o retrabalho em operações com grande volume de mensagens.
-
-📌 Futuras Melhorias
-Sistema de login
-Sincronização em nuvem
-Categorias personalizadas
-Favoritos ⭐
-Integração com APIs (WhatsApp, CRM)
-🤝 Contribuição
-
-Sugestões e melhorias são sempre bem-vindas!
-
-📄 Licença
-
-Este projeto está sob a licença MIT.
-
-👨‍💻 Autor
-
-Desenvolvido por Pablo Rahonne 🚀
-Focado em soluções reais para problemas do dia a dia.
+1. Install dependencies:
+   `npm install`
+2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
+3. Run the app:
+   `npm run dev`

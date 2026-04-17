@@ -269,7 +269,7 @@ const SERVICE_CATEGORIES: Category[] = [
       {
         id: 'script-reclamacao',
         title: 'Script da Reclamação',
-        content: 'Script da Reclamação:\n DESCRIÇÃO DA RECLAMAÇÃO:\n SOLUÇÃO PRETENDIDA:\n ANÁLISE DO ATENDENTE:\n MEIO DE RESPOSTA DA RECLAMAÇÃO: TELEFONE ( ) CARTA ( ) E-MAIL ( )\n ACEITA RECEBER RESPOSTA / FATURA VIA WHATSAPP: SIM ( ) NÃO ( )\n TELEFONE PARA CONTATO: (DDD) XXXXX\n MELHOR HORÁRIO PARA CONTATO: MANHÃ ( ) TARDE ( )\n E-MAIL: XXXX (quando o cliente não possui e-mail, sinalizar com o texto "não informado")\n AUTORIZA TERCEIROS: SIM ( ) NÃO ( )\n INFORMAÇÕES COMPLEMENTARES:'
+        content: 'Script da Reclamação:\nDESCRIÇÃO DA RECLAMAÇÃO:\nSOLUÇÃO PRETENDIDA:\nANÁLISE DO ATENDENTE:\nMEIO DE RESPOSTA DA RECLAMAÇÃO: TELEFONE ( ) CARTA ( ) E-MAIL ( )\nACEITA RECEBER RESPOSTA / FATURA VIA WHATSAPP: SIM ( ) NÃO ( )\nTELEFONE PARA CONTATO: (DDD) XXXXX\nMELHOR HORÁRIO PARA CONTATO: MANHÃ ( ) TARDE ( )\nE-MAIL: XXXX (quando o cliente não possui e-mail, sinalizar com o texto "não informado")\nAUTORIZA TERCEIROS: SIM ( ) NÃO ( )\nINFORMAÇÕES COMPLEMENTARES:'
       }
     ]
   },

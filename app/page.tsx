@@ -110,7 +110,7 @@ const SERVICE_CATEGORIES: Category[] = [
     id: 'ligacao-nova',
     name: 'Ligação Nova',
     icon: <Zap className="w-5 h-5" />,
-    info: 'Na aba “ Meios de comunicação: Caso cliente não tenha e-mail ou não queira informar, como campo é obrigatório, preencher campo de e-mail com: naoinformado@equatorialenergia.com.br\n\nIMPORTANTE: Salvar arquivo como “Carta de Deferimento assinada_CC XXXX”',
+    info: 'Na aba “ Meios de comunicação: Caso cliente não tenha e-mail ou não queira informar, como campo é obrigatório, preencher campo de e-mail com: naoinformado@equatorialenergia.com.br\n\nIMPORTANTE: Salvar arquivo como “Carta de Deferimento assinada_UC XXXX”',
     templates: [
       {
         id: 'padrao-completo',

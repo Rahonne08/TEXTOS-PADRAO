@@ -52,4 +52,5 @@ Ideal para:
 Caso queira conversar sobre o projeto ou oportunidades:
 
 LinkedIn: [www.linkedin.com/in/pablo-rahonne-ba0b01181](https://www.linkedin.com/in/pablo-rahonne-ba0b01181) 
+
 GitHub: [https://github.com/Rahonne08](https://github.com/Rahonne08)

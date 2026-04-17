@@ -1,20 +1,55 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
+# 📄 Textos Padrão
 
-# Run and deploy your AI Studio app
+Aplicação web desenvolvida para otimizar o envio de mensagens repetitivas, permitindo armazenar, organizar e reutilizar textos de forma rápida e eficiente.
 
-This contains everything you need to run your app locally.
+🔗 Acesse: https://textos-padrao.vercel.app
 
-View your app in AI Studio: https://ai.studio/apps/532cc70d-fbe6-4e89-bcad-c372b7980a1d
+🚀 Sobre o Projeto
 
-## Run Locally
+O Textos Padrão foi criado com o objetivo de aumentar a produtividade de profissionais que lidam diariamente com atendimento ao cliente, suporte ou comunicação recorrente.
 
-**Prerequisites:**  Node.js
+A aplicação permite cadastrar mensagens prontas e utilizá-las com poucos cliques, reduzindo tempo de digitação e padronizando a comunicação.
 
+💡 Principais Funcionalidades
+📌 Cadastro de textos personalizados
+⚡ Copiar mensagens com um clique
+🗂️ Organização simples e intuitiva
+🔍 Facilidade de busca e acesso rápido
+💻 Interface leve e responsiva
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+🛠️ Tecnologias Utilizadas
+- HTML5
+- CSS3
+- JavaScript
+- Vercel (deploy e hospedagem)
+
+🎯 Objetivo do Projeto
+
+Este projeto foi desenvolvido com foco em:
+- Praticar desenvolvimento front-end
+- Criar uma solução real para problemas do dia a dia
+- Demonstrar habilidades em UI/UX simples e funcional
+- Compor portfólio profissional
+
+👨‍💻 Aplicação Prática
+
+Ideal para:
+- Atendentes de suporte
+- Empresas de serviços
+- Social media
+- Vendas e SAC
+- Qualquer profissional que utiliza mensagens repetitivas
+
+📈 Melhorias Futuras
+🔐 Sistema de login (usuários)
+☁️ Armazenamento em nuvem
+🏷️ Categorias de mensagens
+📱 Versão mobile aprimorada
+📊 Histórico de uso
+
+🤝 Contato
+
+Caso queira conversar sobre o projeto ou oportunidades:
+
+LinkedIn: [www.linkedin.com/in/pablo-rahonne-ba0b01181](https://www.linkedin.com/in/pablo-rahonne-ba0b01181) 
+GitHub: [https://github.com/Rahonne08](https://github.com/Rahonne08)

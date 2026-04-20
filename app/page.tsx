@@ -171,7 +171,7 @@ const SERVICE_CATEGORIES: Category[] = [
       {
         id: 'sem-debito',
         title: 'Sem Débito',
-        content: `CLIENTE: XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX\nRG: XXX\nCPF: XXXXXXXXXXX\nSOLICITAÇÃO: TROCA DE TITULARIDADE DA INSTALAÇÃO XXXXX, ATUALMENTE EM NOME DE XXXXXXXXXXXXXXX\nMOTIVO DA TROCA:\nDATA DE OCUPAÇÃO: 00/00/0000\nDÉBITOS NA INSTALAÇÃO: ( ) SIM – VALOR: ( ) NÃO\nOBSERVAÇÕES:\nTROCA DE TITULARIDADE REALIZADA SEM DOCUMENTO DE POSSE OU PROPRIEDADE, SOMENTE\nEM CASOS QUE NÃO TEM DEBITOS NA CC\nCONFORME PREVISTO NO INFORMATIVO 029/2025`
+        content: `CLIENTE: XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX\nRG: XXX\nCPF: XXXXXXXXXXX\nSOLICITAÇÃO: TROCA DE TITULARIDADE DA INSTALAÇÃO XXXXX, ATUALMENTE EM NOME DE XXXXXXXXXXXXXXX\nMOTIVO DA TROCA:\nDATA DE OCUPAÇÃO: 00/00/0000\nDÉBITOS NA INSTALAÇÃO: ( ) SIM – VALOR: ( ) NÃO\nOBSERVAÇÕES:\nTROCA DE TITULARIDADE REALIZADA SEM DOCUMENTO DE POSSE OU PROPRIEDADE, SOMENTE\nEM CASOS QUE NÃO TEM DEBITOS NA UC\nCONFORME PREVISTO NO INFORMATIVO 029/2025`
       },
       {
         id: 'analise-troca',
@@ -181,7 +181,7 @@ const SERVICE_CATEGORIES: Category[] = [
       {
         id: 'com-transferencia-debitos',
         title: 'Com Transferência de Débitos',
-        content: 'REALIZADA A TROCA DE TITULARIDADE COM TRANSFERÊNCIA E PARCELAMENTO DOS DÉBITOS DA UC XXXXXXXXXXXX QUE SE ENCONTRA EM NOME DE JOSE MAMEDE RODRIGUES FERREIRA PARA O NOME DO NOVO TITULAR AILTON SILVA ARAÚJO RG XXX CPF XXX AUTORIZADO PELO SOLICITANTE MEDIANTE ASSINATURA DOS TERMOS DTT, TATD, TCD E ADITIVO DE PARCELAMENTO ANEXO DENTRO DA NOTA.\nSIMULAÇÃO DE PARCELAMENTO:\nENTRADA:\nPARCELAS: 18'
+        content: 'REALIZADA A TROCA DE TITULARIDADE COM TRANSFERÊNCIA E PARCELAMENTO DOS DÉBITOS DA UC 3007995368 QUE SE ENCONTRA EM NOME DE JOSE MAMEDE RODRIGUES FERREIRA PARA O NOME DO NOVO TITULAR AILTON SILVA ARAÚJO RG XXX CPF XXX AUTORIZADO PELO SOLICITANTE MEDIANTE ASSINATURA DOS TERMOS DTT, TATD, TCD E ADITIVO DE PARCELAMENTO ANEXO DENTRO DA NOTA.\nSIMULAÇÃO DE PARCELAMENTO:\nENTRADA:\nPARCELAS: 18'
       },
       {
         id: 'troca-direta-com-debitos',
@@ -221,7 +221,7 @@ const SERVICE_CATEGORIES: Category[] = [
       {
         id: 'desligamento-servico',
         title: 'Desligamento de Conta',
-        content: 'REFERÊNCIA: XXXXX ,\nMOTIVO:\nIMOVEL DESOCUPADO FATURAMENTO FINAL: CONSUMO ESTIMADO ( )\nLEITURA DO CLIENTE ( ) LEITURA: xxxx\nCLIENTE TITULAR COMPARECEU NA AGENCIA (CIDADE) PARA SOLICITAR O DESLIGAMENTO DE SUA UC XXXXX, CLIENTE CIENTE QUE CASO HAJA DEBITO PENDENTES DEVERA QUITA-LOS PARA QUE SEU NOME NÃO SEJA NEGATIVADO, CIENTE DO PRAZO DE ATÉ 30 DIAS PARA DESLIGAMENTO EM CAMPO.'
+        content: 'REFERÊNCIA: XXXXX ,\nMOTIVO:\nIMOVEL DESOCUPADO FATURAMENTO FINAL: CONSUMO ESTIMADO ( )\nLEITURA DO CLIENTE ( ) LEITURA: xxxx\nCLIENTE TITULAR COMPARECEU NA AGENCIA (CIDADE) PARA SOLICITAR O DESLIGAMENTO DE SUA CONTA CONTRATO XXXXX, CLIENTE CIENTE QUE CASO HAJA DEBITO PENDENTES DEVERA QUITA-LOS PARA QUE SEU NOME NÃO SEJA NEGATIVADO, CIENTE DO PRAZO DE ATÉ 30 DIAS PARA DESLIGAMENTO EM CAMPO.'
       }
     ]
   },
@@ -269,7 +269,7 @@ const SERVICE_CATEGORIES: Category[] = [
       {
         id: 'script-reclamacao',
         title: 'Script da Reclamação',
-        content: 'Script da Reclamação:\nDESCRIÇÃO DA RECLAMAÇÃO:\nSOLUÇÃO PRETENDIDA:\nANÁLISE DO ATENDENTE:\nMEIO DE RESPOSTA DA RECLAMAÇÃO: TELEFONE ( ) CARTA ( ) E-MAIL ( )\nACEITA RECEBER RESPOSTA / FATURA VIA WHATSAPP: SIM ( ) NÃO ( )\nTELEFONE PARA CONTATO: (DDD) XXXXX\nMELHOR HORÁRIO PARA CONTATO: MANHÃ ( ) TARDE ( )\nE-MAIL: XXXX (quando o cliente não possui e-mail, sinalizar com o texto "não informado")\nAUTORIZA TERCEIROS: SIM ( ) NÃO ( )\nINFORMAÇÕES COMPLEMENTARES:'
+        content: 'Script da Reclamação:\n* DESCRIÇÃO DA RECLAMAÇÃO:\n* SOLUÇÃO PRETENDIDA:\n* ANÁLISE DO ATENDENTE:\n* MEIO DE RESPOSTA DA RECLAMAÇÃO: TELEFONE ( ) CARTA ( ) E-MAIL ( )\n* ACEITA RECEBER RESPOSTA / FATURA VIA WHATSAPP: SIM ( ) NÃO ( )\n* TELEFONE PARA CONTATO: (DDD) XXXXX\n* MELHOR HORÁRIO PARA CONTATO: MANHÃ ( ) TARDE ( )\n* E-MAIL: XXXX (quando o cliente não possui e-mail, sinalizar com o texto "não informado")\n* AUTORIZA TERCEIROS: SIM ( ) NÃO ( )\n* INFORMAÇÕES COMPLEMENTARES:'
       }
     ]
   },
@@ -1117,10 +1117,10 @@ export default function TemplateGenerator() {
                               )}
                             </button>
                           </Tooltip>
-                          {category.info.includes('Carta de Deferimento assinada_CC XXXX') && (
+                          {category.info.includes('Carta de Deferimento assinada_UC XXXX') && (
                             <Tooltip text={copiedId === 'title-copy' ? "Título Copiado!" : copyErrorId === 'title-copy' ? "Erro ao Copiar" : "Copiar título da carta"}>
                               <button
-                                onClick={() => handleCopy('Carta de Deferimento assinada_CC XXXX', 'title-copy')}
+                                onClick={() => handleCopy('Carta de Deferimento assinada_UC XXXX', 'title-copy')}
                                 className={cn(
                                   "flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-bold transition-all shadow-sm border w-fit",
                                   copyErrorId === 'title-copy' 

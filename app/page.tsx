@@ -602,31 +602,31 @@ const NegotiationTable = () => {
   return (
     <div className="space-y-6 mt-4">
       <div className="flex items-center gap-2 mb-3">
-        <Info className="w-5 h-5 text-indigo-600 dark:text-blue-400" />
+        <Info className="w-5 h-5 text-indigo-600 dark:text-indigo-400" />
         <h3 className="text-base font-bold text-slate-800 dark:text-slate-100">Tabela de Parâmetros de Negociação</h3>
       </div>
       
       <div className="grid grid-cols-1 gap-4">
         {categories.map((cat, idx) => (
-          <div key={idx} className="bg-white dark:bg-[#0f172a] rounded-2xl border border-slate-200 dark:border-blue-900/50 overflow-hidden shadow-sm transition-colors duration-500">
-            <div className="bg-indigo-600 dark:bg-blue-900 p-3 text-center">
+          <div key={idx} className="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200/60 dark:border-slate-800/60 overflow-hidden shadow-sm transition-colors duration-500">
+            <div className="bg-indigo-600 dark:bg-slate-800 p-3 text-center">
               <h4 className="text-white font-black text-lg tracking-wider">{cat.title}</h4>
-              <p className="text-indigo-100 dark:text-blue-200 text-[10px] mt-0.5 font-medium">{cat.subtitle}</p>
+              <p className="text-indigo-100 dark:text-indigo-200 text-[10px] mt-0.5 font-medium">{cat.subtitle}</p>
             </div>
             
             <div className="overflow-x-auto">
               <table className="w-full text-left border-collapse">
                 <thead>
-                  <tr className="bg-slate-50 dark:bg-blue-950/50 border-b border-slate-200 dark:border-blue-900/50">
-                    <th className="p-2 text-[9px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest border-r border-slate-200 dark:border-blue-900/50">Perfil</th>
-                    <th className="p-2 text-[9px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest border-r border-slate-200 dark:border-blue-900/50">Qtd Faturas</th>
+                  <tr className="bg-slate-50 dark:bg-slate-900/50 border-b border-slate-200 dark:border-slate-800/50">
+                    <th className="p-2 text-[9px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest border-r border-slate-200 dark:border-slate-800/50">Perfil</th>
+                    <th className="p-2 text-[9px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest border-r border-slate-200 dark:border-slate-800/50">Qtd Faturas</th>
                     <th className="p-2 text-[9px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest text-center" colSpan={3}>Parâmetros</th>
                   </tr>
-                  <tr className="bg-slate-50/50 dark:bg-blue-950/30 border-b border-slate-200 dark:border-blue-900/50">
-                    <th className="p-1.5 border-r border-slate-200 dark:border-blue-900/50"></th>
-                    <th className="p-1.5 border-r border-slate-200 dark:border-blue-900/50"></th>
-                    <th className="p-1.5 text-[8px] font-bold text-slate-400 dark:text-slate-500 uppercase text-center border-r border-slate-200 dark:border-blue-900/50">Entrada Mínima</th>
-                    <th className="p-1.5 text-[8px] font-bold text-slate-400 dark:text-slate-500 uppercase text-center border-r border-slate-200 dark:border-blue-900/50">Nº Máx Parcelas</th>
+                  <tr className="bg-slate-50/50 dark:bg-slate-900/30 border-b border-slate-200 dark:border-slate-800/50">
+                    <th className="p-1.5 border-r border-slate-200 dark:border-slate-800/50"></th>
+                    <th className="p-1.5 border-r border-slate-200 dark:border-slate-800/50"></th>
+                    <th className="p-1.5 text-[8px] font-bold text-slate-400 dark:text-slate-500 uppercase text-center border-r border-slate-200 dark:border-slate-800/50">Entrada Mínima</th>
+                    <th className="p-1.5 text-[8px] font-bold text-slate-400 dark:text-slate-500 uppercase text-center border-r border-slate-200 dark:border-slate-800/50">Nº Máx Parcelas</th>
                     <th className="p-1.5 text-[8px] font-bold text-slate-400 dark:text-slate-500 uppercase text-center">Dívida Máxima</th>
                   </tr>
                 </thead>
@@ -634,18 +634,18 @@ const NegotiationTable = () => {
                   {cat.profiles.map((profile) => (
                     <React.Fragment key={profile.id}>
                       {profile.rows.map((row, rowIdx) => (
-                        <tr key={rowIdx} className="border-b border-slate-100 dark:border-blue-900/30 hover:bg-slate-50/50 dark:hover:bg-blue-900/10 transition-colors">
+                        <tr key={rowIdx} className="border-b border-slate-100 dark:border-slate-800/30 hover:bg-slate-50/50 dark:hover:bg-slate-800/20 transition-colors">
                           {rowIdx === 0 && (
-                            <td className="p-2 text-[10px] font-bold text-slate-700 dark:text-slate-300 border-r border-slate-200 dark:border-blue-900/50 bg-slate-50/30 dark:bg-blue-950/20" rowSpan={profile.rows.length}>
+                            <td className="p-2 text-[10px] font-bold text-slate-700 dark:text-slate-300 border-r border-slate-200 dark:border-slate-800/50 bg-slate-50/30 dark:bg-slate-900/20" rowSpan={profile.rows.length}>
                               <div className="flex items-center gap-1.5">
-                                <span className="w-4 h-4 rounded-full bg-indigo-100 dark:bg-blue-900/50 text-indigo-600 dark:text-blue-400 flex items-center justify-center text-[9px] shrink-0">{profile.id}</span>
+                                <span className="w-4 h-4 rounded-full bg-indigo-100 dark:bg-slate-800 text-indigo-600 dark:text-indigo-400 flex items-center justify-center text-[9px] shrink-0 border border-indigo-200/50 dark:border-slate-700/50">{profile.id}</span>
                                 <span className="leading-tight">{profile.name}</span>
                               </div>
                             </td>
                           )}
-                          <td className="p-2 text-[10px] font-medium text-slate-600 dark:text-slate-400 border-r border-slate-200 dark:border-blue-900/50 text-center">{row.qty}</td>
-                          <td className="p-2 text-[10px] font-bold text-indigo-600 dark:text-blue-400 text-center border-r border-slate-200 dark:border-blue-900/50">{row.entry}</td>
-                          <td className="p-2 text-[10px] font-bold text-slate-700 dark:text-slate-200 text-center border-r border-slate-200 dark:border-blue-900/50">{row.maxInstallments}</td>
+                          <td className="p-2 text-[10px] font-medium text-slate-600 dark:text-slate-400 border-r border-slate-200 dark:border-slate-800/50 text-center">{row.qty}</td>
+                          <td className="p-2 text-[10px] font-bold text-indigo-600 dark:text-indigo-400 text-center border-r border-slate-200 dark:border-slate-800/50">{row.entry}</td>
+                          <td className="p-2 text-[10px] font-bold text-slate-700 dark:text-slate-200 text-center border-r border-slate-200 dark:border-slate-800/50">{row.maxInstallments}</td>
                           <td className="p-2 text-[10px] font-bold text-emerald-600 dark:text-emerald-400 text-center">{row.maxDebt}</td>
                         </tr>
                       ))}
@@ -854,7 +854,12 @@ export default function TemplateGenerator() {
   };
 
   return (
-    <div className="h-screen bg-[#F1F5F9] dark:bg-[#020617] text-slate-900 dark:text-slate-100 font-sans selection:bg-indigo-100 dark:selection:bg-indigo-900 flex overflow-hidden transition-colors duration-500">
+    <div className="h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 font-sans selection:bg-indigo-100 dark:selection:bg-indigo-900 flex overflow-hidden transition-colors duration-500 relative">
+      <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none hidden lg:block">
+        <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] rounded-full bg-indigo-400/10 dark:bg-indigo-600/10 blur-3xl opacity-50 dark:opacity-20"></div>
+        <div className="absolute bottom-[-10%] right-[-5%] w-[40%] h-[40%] rounded-full bg-purple-400/10 dark:bg-purple-600/10 blur-3xl opacity-50 dark:opacity-20 animate-pulse-slow"></div>
+      </div>
+      
       {/* Toast Notification */}
       <AnimatePresence>
         {toast && (
@@ -877,11 +882,11 @@ export default function TemplateGenerator() {
 
       {/* Sidebar Navigation */}
       <aside className={cn(
-        "fixed inset-y-0 left-0 z-50 w-72 bg-white dark:bg-[#0f172a] border-r border-slate-200 dark:border-blue-900/50 transition-all duration-300 ease-in-out lg:relative lg:translate-x-0 flex flex-col h-full",
+        "fixed inset-y-0 left-0 z-50 w-72 bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border-r border-slate-200/50 dark:border-slate-800/50 transition-all duration-300 ease-in-out lg:relative lg:translate-x-0 flex flex-col h-full shadow-[4px_0_24px_-10px_rgba(0,0,0,0.05)] dark:shadow-none",
         isSidebarOpen ? "translate-x-0" : "-translate-x-full"
       )}>
-        <div className="flex flex-col h-full">
-          <div className="p-6 border-b border-slate-100 dark:border-blue-900/50 flex items-center justify-between shrink-0">
+        <div className="flex flex-col h-full relative z-10">
+          <div className="p-6 border-b border-slate-200/50 dark:border-slate-800/50 flex items-center justify-between shrink-0">
             <div className="flex items-center gap-3">
               <div className="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center text-white shadow-lg shadow-indigo-200 dark:shadow-indigo-900/20">
                 <ClipboardList className="w-5 h-5" />
@@ -895,14 +900,14 @@ export default function TemplateGenerator() {
             </Tooltip>
           </div>
 
-          <div className="flex-1 overflow-y-auto p-4 space-y-1 scrollbar-thin scrollbar-thumb-slate-300 dark:scrollbar-thumb-blue-800 scrollbar-track-transparent hover:scrollbar-thumb-slate-400 dark:hover:scrollbar-thumb-blue-700 transition-colors">
+          <div className="flex-1 overflow-y-auto p-4 space-y-1.5 scrollbar-thin scrollbar-thumb-slate-300 dark:scrollbar-thumb-slate-700 scrollbar-track-transparent hover:scrollbar-thumb-slate-400 dark:hover:scrollbar-thumb-slate-600 transition-colors">
             <button
               onClick={() => handleCategorySelect(null)}
               className={cn(
-                "w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold transition-all",
+                "w-full flex items-center gap-3 px-4 py-3 rounded-2xl text-sm font-semibold transition-all",
                 selectedCategory === null 
-                  ? "bg-indigo-50 dark:bg-blue-800/40 text-indigo-600 dark:text-blue-300" 
-                  : "text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-blue-800/30 hover:text-slate-700 dark:hover:text-slate-200"
+                  ? "bg-indigo-50/80 dark:bg-indigo-500/10 text-indigo-700 dark:text-indigo-300 shadow-sm shadow-indigo-100/50 dark:shadow-none" 
+                  : "text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800/50 hover:text-slate-700 dark:hover:text-slate-200"
               )}
             >
               <FileText className="w-4 h-4" />
@@ -912,10 +917,10 @@ export default function TemplateGenerator() {
             <button
               onClick={() => handleCategorySelect('favorites')}
               className={cn(
-                "w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold transition-all",
+                "w-full flex items-center gap-3 px-4 py-3 rounded-2xl text-sm font-semibold transition-all",
                 selectedCategory === 'favorites' 
-                  ? "bg-rose-50 dark:bg-rose-900/20 text-rose-600 dark:text-rose-400" 
-                  : "text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-blue-800/30 hover:text-slate-700 dark:hover:text-slate-200"
+                  ? "bg-rose-50/80 dark:bg-rose-900/20 text-rose-600 dark:text-rose-400 shadow-sm shadow-rose-100/50 dark:shadow-none" 
+                  : "text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800/50 hover:text-slate-700 dark:hover:text-slate-200"
               )}
             >
               <Heart className={cn("w-4 h-4", selectedCategory === 'favorites' && "fill-current")} />
@@ -937,17 +942,17 @@ export default function TemplateGenerator() {
                 <button
                   onClick={() => handleCategorySelect(cat.id)}
                   className={cn(
-                    "w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold transition-all",
+                    "w-full flex items-center gap-3 px-4 py-3 rounded-2xl text-sm font-semibold transition-all",
                     selectedCategory === cat.id 
-                      ? "bg-indigo-50 dark:bg-blue-800/40 text-indigo-600 dark:text-blue-300" 
-                      : "text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-blue-800/30 hover:text-slate-700 dark:hover:text-slate-200"
+                      ? "bg-indigo-50/80 dark:bg-indigo-500/10 text-indigo-700 dark:text-indigo-300 shadow-sm shadow-indigo-100/50 dark:shadow-none" 
+                      : "text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800/50 hover:text-slate-700 dark:hover:text-slate-200"
                   )}
                 >
                   <div className={cn(
-                    "p-1.5 rounded-lg transition-colors",
+                    "p-1.5 rounded-xl transition-colors",
                     selectedCategory === cat.id 
-                      ? "bg-indigo-100 dark:bg-blue-700/40" 
-                      : "bg-slate-100 dark:bg-blue-900/50"
+                      ? "bg-white dark:bg-indigo-500/20 shadow-sm dark:shadow-none" 
+                      : "bg-slate-100 dark:bg-slate-800/50"
                   )}>
                     {cat.icon}
                   </div>
@@ -971,8 +976,8 @@ export default function TemplateGenerator() {
             ))}
           </div>
 
-          <div className="p-4 border-t border-slate-100 dark:border-blue-900/50 shrink-0">
-            <div className="bg-slate-50 dark:bg-blue-900/30 rounded-xl p-4 mb-4">
+          <div className="p-4 border-t border-slate-200/50 dark:border-slate-800/50 shrink-0">
+            <div className="bg-slate-50 dark:bg-slate-800/50 rounded-2xl p-4 mb-4">
               <div className="flex items-center gap-2 mb-2">
                 <Info className="w-4 h-4 text-indigo-500" />
                 <span className="text-xs font-bold text-slate-700 dark:text-slate-300">Dica</span>
@@ -981,9 +986,9 @@ export default function TemplateGenerator() {
                 Use a busca no topo para encontrar templates específicos por palavras-chave.
               </p>
             </div>
-            <div className="text-center py-2 border-t border-slate-100 dark:border-blue-900/50">
+            <div className="text-center py-2 border-t border-slate-200/50 dark:border-slate-800/50">
               <p className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest">
-                DESENVOLVIDO POR <a href="https://github.com/Rahonne08" target="_blank" rel="noopener noreferrer" className="hover:text-indigo-600 dark:hover:text-blue-400 transition-colors underline underline-offset-2">PABLO RAHONNE</a>
+                DESENVOLVIDO POR <a href="https://github.com/Rahonne08" target="_blank" rel="noopener noreferrer" className="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors underline underline-offset-2">PABLO RAHONNE</a>
               </p>
             </div>
           </div>
@@ -993,24 +998,24 @@ export default function TemplateGenerator() {
       {/* Main Content */}
       <div className="flex-1 flex flex-col min-w-0">
         {/* Header */}
-        <header className="sticky top-0 z-40 bg-white/80 dark:bg-[#020617]/80 backdrop-blur-md border-b border-slate-200 dark:border-blue-900/50 transition-colors duration-500">
+        <header className="sticky top-0 z-40 bg-white/60 dark:bg-slate-950/60 backdrop-blur-xl border-b border-slate-200/50 dark:border-slate-800/50 transition-colors duration-500">
           <div className="px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
             <div className="flex items-center gap-2">
               <Tooltip text="Abrir Menu" position="right">
                 <button 
                   onClick={() => setIsSidebarOpen(true)}
-                  className="lg:hidden p-2 text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-blue-900/50 rounded-lg"
+                  className="lg:hidden p-2 text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800/50 rounded-lg"
                 >
                   <Menu className="w-6 h-6" />
                 </button>
               </Tooltip>
               
-              <div className="relative flex-1 min-w-[300px] max-w-8xl">
-                <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
+              <div className="relative flex-1 min-w-[300px] max-w-8xl group">
+                <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400 group-focus-within:text-indigo-500 transition-colors" />
                 <input 
                   type="text"
                   placeholder="Buscar em todos os templates..."
-                  className="w-full pl-12 pr-4 py-2.5 bg-slate-100 dark:bg-blue-900/40 border-transparent focus:bg-white dark:focus:bg-blue-800/60 focus:ring-2 focus:ring-indigo-500 rounded-xl text-base transition-all outline-none dark:text-slate-200"
+                  className="w-full pl-12 pr-4 py-2.5 bg-white/80 dark:bg-slate-900/50 backdrop-blur-sm border border-slate-200/80 dark:border-slate-800/80 focus:bg-white dark:focus:bg-slate-900 focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 rounded-full text-base transition-all outline-none dark:text-slate-200 shadow-sm"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                 />
@@ -1021,7 +1026,7 @@ export default function TemplateGenerator() {
               <Tooltip text={theme === 'light' ? 'Ativar Modo Escuro' : 'Ativar Modo Claro'} position="bottom">
                 <button
                   onClick={toggleTheme}
-                  className="p-2.5 rounded-xl bg-slate-100 dark:bg-blue-900/50 text-slate-500 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-blue-800 transition-all"
+                  className="p-2.5 rounded-full bg-white dark:bg-slate-800 border border-slate-200/80 dark:border-slate-700/80 text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-700 shadow-sm transition-all"
                 >
                   {theme === 'light' ? (
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
@@ -1036,7 +1041,7 @@ export default function TemplateGenerator() {
                   <span className="text-xs font-bold text-slate-800 dark:text-slate-200">TEXTOS PADRÕES ATENDIMENTO LESTE</span>
                   <span className="text-[10px] text-slate-400 dark:text-slate-500 font-medium uppercase tracking-wider">Base de Templates</span>
                 </div>
-                <div className="w-8 h-8 rounded-full bg-slate-200 dark:bg-blue-900/50 border-2 border-white dark:border-blue-800 shadow-sm flex items-center justify-center text-slate-500 dark:text-slate-400">
+                <div className="w-9 h-9 rounded-full bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm flex items-center justify-center text-slate-500 dark:text-slate-400">
                   <Activity className="w-4 h-4" />
                 </div>
               </div>
@@ -1044,7 +1049,7 @@ export default function TemplateGenerator() {
           </div>
         </header>
 
-        <main className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8 space-y-10 scrollbar-thin scrollbar-thumb-slate-200 dark:scrollbar-thumb-blue-900 transition-colors duration-500">
+        <main className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8 space-y-10 scrollbar-thin scrollbar-thumb-slate-200 dark:scrollbar-thumb-slate-800 transition-colors duration-500 relative z-10">
           <div className="bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-900/50 rounded-2xl p-6 mb-8">
             <div className="flex items-center gap-3 mb-3">
               <AlertTriangle className="w-6 h-6 text-amber-600 dark:text-amber-400" />
@@ -1070,7 +1075,7 @@ export default function TemplateGenerator() {
                   className="space-y-6"
                 >
                   <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 bg-white dark:bg-[#0f172a] rounded-2xl flex items-center justify-center text-indigo-600 dark:text-blue-400 shadow-sm border border-slate-200 dark:border-blue-900/50 transition-colors duration-500">
+                    <div className="w-12 h-12 bg-white dark:bg-slate-900 rounded-2xl flex items-center justify-center text-indigo-600 dark:text-indigo-400 shadow-sm border border-slate-200/60 dark:border-slate-800/60 transition-colors duration-500">
                       {category.icon}
                     </div>
                     <div>
@@ -1080,10 +1085,10 @@ export default function TemplateGenerator() {
                   </div>
 
                   {category.info && (
-                    <div className="bg-indigo-50 dark:bg-blue-900/20 border border-indigo-100 dark:border-blue-900/50 rounded-2xl p-4 flex flex-col gap-3">
+                    <div className="bg-indigo-50/80 dark:bg-indigo-500/10 border border-indigo-100 dark:border-indigo-500/20 rounded-3xl p-5 flex flex-col gap-4 shadow-sm shadow-indigo-100/50 dark:shadow-none">
                       <div className="flex items-start gap-3">
-                        <Info className="w-5 h-5 text-indigo-600 dark:text-blue-400 shrink-0 mt-0.5" />
-                        <p className="text-sm text-indigo-800 dark:text-blue-200 leading-relaxed whitespace-pre-wrap flex-1">
+                        <Info className="w-5 h-5 text-indigo-600 dark:text-indigo-400 shrink-0 mt-0.5" />
+                        <p className="text-sm text-indigo-900 dark:text-indigo-200 leading-relaxed whitespace-pre-wrap flex-1">
                           {category.info}
                         </p>
                       </div>
@@ -1158,13 +1163,13 @@ export default function TemplateGenerator() {
                       <motion.div
                         key={template.id}
                         layoutId={template.id}
-                        className="group bg-white dark:bg-[#0f172a] border border-slate-200 dark:border-blue-900/50 rounded-3xl p-6 hover:border-indigo-300 dark:hover:border-blue-500 hover:shadow-2xl hover:shadow-indigo-100/50 dark:hover:shadow-blue-900/20 transition-all duration-300 flex flex-col"
+                        className="group bg-white/70 dark:bg-slate-900/70 backdrop-blur-xl border border-slate-200/60 dark:border-slate-800/60 rounded-3xl p-6 hover:bg-white dark:hover:bg-slate-900 hover:border-indigo-300/50 dark:hover:border-indigo-500/50 hover:shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:hover:shadow-[0_8px_30px_rgba(99,102,241,0.05)] transition-all duration-300 flex flex-col"
                       >
                         <div className="flex items-start justify-between mb-6">
                           <div className="space-y-1">
                             <h3 
                               onClick={() => toggleExpanded(template.id)}
-                              className="cursor-pointer font-bold text-slate-800 dark:text-slate-100 leading-tight group-hover:text-indigo-600 dark:group-hover:text-blue-400 transition-colors"
+                              className="cursor-pointer font-bold text-slate-800 dark:text-slate-100 leading-tight group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors"
                             >
                               {template.title}
                             </h3>
@@ -1175,10 +1180,10 @@ export default function TemplateGenerator() {
                               <button
                                 onClick={(e) => toggleFavorite(template.id, e)}
                                 className={cn(
-                                  "p-3 rounded-2xl transition-all shadow-sm",
+                                  "p-3 rounded-full transition-all shadow-sm",
                                   favorites.includes(template.id)
-                                    ? "bg-rose-50 dark:bg-rose-900/30 text-rose-500"
-                                    : "bg-slate-50 dark:bg-blue-900/50 text-slate-400 dark:text-slate-500 hover:bg-rose-50 dark:hover:bg-rose-900/20 hover:text-rose-400"
+                                    ? "bg-rose-50 dark:bg-rose-900/30 text-rose-500 border border-rose-100 dark:border-rose-900/50"
+                                    : "bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700/50 text-slate-400 dark:text-slate-500 hover:bg-rose-50 dark:hover:bg-rose-900/20 hover:text-rose-400 hover:border-rose-200 dark:hover:border-rose-900/50"
                                 )}
                               >
                                 <Heart className={cn("w-5 h-5", favorites.includes(template.id) && "fill-current")} />
@@ -1188,12 +1193,12 @@ export default function TemplateGenerator() {
                               <button
                                 onClick={() => handleCopy(template.content, template.id)}
                                 className={cn(
-                                  "shrink-0 p-3 rounded-2xl transition-all shadow-sm",
+                                  "shrink-0 p-3 rounded-full transition-all shadow-sm border",
                                   copiedId === template.id 
-                                    ? "bg-emerald-500 text-white scale-110" 
+                                    ? "bg-emerald-500 border-emerald-500 text-white scale-110" 
                                     : copyErrorId === template.id
-                                      ? "bg-rose-500 text-white scale-110"
-                                      : "bg-slate-50 dark:bg-blue-900/50 text-slate-400 dark:text-slate-500 group-hover:bg-indigo-600 dark:group-hover:bg-blue-600 group-hover:text-white"
+                                      ? "bg-rose-500 border-rose-500 text-white scale-110"
+                                      : "bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700/50 text-slate-400 dark:text-slate-500 group-hover:bg-indigo-600 dark:group-hover:bg-indigo-500 group-hover:border-indigo-600 dark:group-hover:border-indigo-500 group-hover:text-white"
                                 )}
                               >
                                 {copiedId === template.id ? <Check className="w-5 h-5" /> : copyErrorId === template.id ? <AlertTriangle className="w-5 h-5" /> : <Copy className="w-5 h-5" />}
@@ -1213,11 +1218,11 @@ export default function TemplateGenerator() {
                             >
                               <div className="relative flex-1 group/pre mt-4">
                                 <div className="absolute top-3 right-3 opacity-0 group-hover/pre:opacity-100 transition-opacity">
-                                  <div className="bg-white/80 dark:bg-blue-900/80 backdrop-blur px-2 py-1 rounded-md text-[10px] font-bold text-slate-500 dark:text-slate-400 border border-slate-200 dark:border-blue-800">
+                                  <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur px-2 py-1 rounded-md text-[10px] font-bold text-slate-500 dark:text-slate-400 border border-slate-200/50 dark:border-slate-700/50 shadow-sm">
                                     Conteúdo do Template
                                   </div>
                                 </div>
-                                <pre className="text-[11px] text-slate-500 dark:text-slate-400 bg-slate-50/80 dark:bg-blue-900/30 p-5 rounded-2xl font-mono whitespace-pre-wrap leading-relaxed border border-slate-100 dark:border-blue-900/50 max-h-48 overflow-y-auto scrollbar-thin scrollbar-thumb-slate-200 dark:scrollbar-thumb-blue-800 transition-colors duration-500">
+                                <pre className="text-[11px] text-slate-600 dark:text-slate-400 bg-white dark:bg-slate-950/50 p-5 rounded-2xl font-mono whitespace-pre-wrap leading-relaxed border border-slate-200/60 dark:border-slate-800/60 max-h-48 overflow-y-auto scrollbar-thin scrollbar-thumb-slate-200 dark:scrollbar-thumb-slate-700 shadow-inner transition-colors duration-500">
                                   {template.content}
                                 </pre>
                               </div>
@@ -1225,16 +1230,16 @@ export default function TemplateGenerator() {
                           )}
                         </AnimatePresence>
 
-                        <div className="mt-6 pt-6 border-t border-slate-50 dark:border-blue-900/50 flex items-center justify-between">
+                        <div className="mt-6 pt-6 border-t border-slate-200/50 dark:border-slate-800/50 flex items-center justify-between">
                           <div className="flex -space-x-2">
                             {[1, 2, 3].map(i => (
-                              <div key={i} className="w-6 h-6 rounded-full bg-slate-100 dark:bg-blue-900/50 border-2 border-white dark:border-blue-950" />
+                              <div key={i} className="w-6 h-6 rounded-full bg-slate-100 dark:bg-slate-800 border-2 border-white dark:border-slate-900" />
                             ))}
                           </div>
                           <Tooltip text={copiedId === template.id ? "Copiado!" : copyErrorId === template.id ? "Erro ao Copiar" : "Copiar todo o conteúdo do template"}>
                             <button 
                               onClick={() => handleCopy(template.content, template.id)}
-                              className="text-xs font-bold text-indigo-600 dark:text-blue-400 flex items-center gap-1 hover:gap-2 transition-all"
+                              className="text-xs font-bold text-indigo-600 dark:text-indigo-400 flex items-center gap-1 hover:gap-2 transition-all"
                             >
                               Copiar Agora
                               <ChevronRight className="w-4 h-4" />
@@ -1252,14 +1257,14 @@ export default function TemplateGenerator() {
 
           {filteredCategories.length === 0 && (
             <div className="flex flex-col items-center justify-center py-32 text-center">
-              <div className="w-24 h-24 bg-white dark:bg-[#0f172a] rounded-3xl shadow-sm border border-slate-200 dark:border-blue-900/50 flex items-center justify-center text-slate-300 dark:text-slate-700 mb-6 transition-colors duration-500">
+              <div className="w-24 h-24 bg-white dark:bg-slate-900 rounded-full shadow-sm border border-slate-200 dark:border-slate-800 flex items-center justify-center text-slate-400 dark:text-slate-600 mb-6 transition-colors duration-500">
                 <Search className="w-10 h-10" />
               </div>
               <h3 className="text-xl font-bold text-slate-800 dark:text-slate-200">Nenhum template encontrado</h3>
               <p className="text-slate-500 dark:text-slate-400 max-w-sm mt-2">Não encontramos nenhum serviço ou conteúdo correspondente a &quot;{searchQuery}&quot;. Tente buscar por termos mais genéricos.</p>
               <button 
                 onClick={() => setSearchQuery('')}
-                className="mt-8 px-6 py-3 bg-indigo-600 text-white rounded-2xl font-bold shadow-lg shadow-indigo-200 dark:shadow-blue-900/20 hover:bg-indigo-700 transition-all"
+                className="mt-8 px-6 py-3 bg-indigo-600 text-white rounded-full font-bold shadow-lg shadow-indigo-200 dark:shadow-indigo-900/20 hover:bg-indigo-700 transition-all hover:scale-105 active:scale-95"
               >
                 Limpar busca
               </button>
@@ -1275,14 +1280,14 @@ export default function TemplateGenerator() {
             initial={{ opacity: 0, y: 50, x: "-50%", scale: 0.9 }}
             animate={{ opacity: 1, y: 0, x: "-50%", scale: 1 }}
             exit={{ opacity: 0, y: 20, x: "-50%", scale: 0.9 }}
-            className="fixed bottom-10 left-1/2 z-[100] bg-slate-900 dark:bg-blue-600 text-white px-8 py-4 rounded-3xl shadow-2xl flex items-center gap-4 border border-white/10"
+            className="fixed bottom-10 left-1/2 z-[100] bg-slate-900 dark:bg-slate-800 text-white px-8 py-4 rounded-3xl shadow-2xl flex items-center gap-4 border border-white/10"
           >
             <div className="w-8 h-8 bg-emerald-500 rounded-xl flex items-center justify-center shadow-lg shadow-emerald-500/20">
               <Check className="w-5 h-5" />
             </div>
             <div>
               <p className="text-sm font-bold">Copiado com sucesso!</p>
-              <p className="text-[10px] text-slate-400 dark:text-blue-100 font-medium uppercase tracking-wider">Pronto para colar no sistema</p>
+              <p className="text-[10px] text-slate-400 dark:text-slate-400 font-medium uppercase tracking-wider">Pronto para colar no sistema</p>
             </div>
           </motion.div>
         )}

@@ -884,7 +884,7 @@ export default function TemplateGenerator() {
   const [appStarted, setAppStarted] = useState(false);
 
   return (
-    <div className="h-screen bg-white dark:bg-gradient-to-br dark:from-green-900 dark:via-yellow-800 dark:to-blue-900 text-slate-900 dark:text-yellow-50 font-sans selection:bg-green-200/50 dark:selection:bg-green-600/30 flex overflow-hidden transition-colors duration-500 relative">
+    <div className="h-screen bg-white dark:bg-gradient-to-br dark:from-green-900 dark:to-blue-900 text-slate-900 dark:text-yellow-50 font-sans selection:bg-green-200/50 dark:selection:bg-green-600/30 flex overflow-hidden transition-colors duration-500 relative">
       <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none flex items-center justify-center opacity-10 dark:opacity-20 mix-blend-multiply dark:mix-blend-overlay">
         <img src="https://images.vexels.com/media/users/3/152348/isolated/preview/e292f8cec7eae5f8f4f25bcc36cfe5f5-logo-da-selecao-brasileira-de-futebol.png" alt="Brazil CBF Logo" referrerPolicy="no-referrer" className="w-[120vw] md:w-[70vw] object-cover sm:object-contain drop-shadow-2xl blur-[2px]" />
       </div>

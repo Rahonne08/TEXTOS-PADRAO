@@ -1,5 +1,6 @@
 {
-  "name": "TEXTOS PADRÕES ATENDIMENTO LESTE",
-  "description": "Aplicação para consulta e cópia rápida de templates de registros de atendimento para serviços de energia elétrica.",
-  "requestFramePermissions": []
+  "name": "Textos Campeões",
+  "description": "Gere mensagens, textos e conteúdos com a criatividade de um campeão.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }

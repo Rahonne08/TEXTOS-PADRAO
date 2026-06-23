@@ -877,9 +877,9 @@ export default function TemplateGenerator() {
   const [appStarted, setAppStarted] = useState(false);
 
   return (
-    <div className="h-screen bg-gradient-to-br from-green-400 via-yellow-300 to-blue-500 dark:from-green-900 dark:via-yellow-800 dark:to-blue-900 text-slate-900 dark:text-yellow-50 font-sans selection:bg-green-200/50 dark:selection:bg-green-600/30 flex overflow-hidden transition-colors duration-500 relative">
-      <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none flex items-center justify-center opacity-40 dark:opacity-20 mix-blend-multiply dark:mix-blend-overlay">
-        <img src="https://images.vexels.com/media/users/3/152348/isolated/preview/e292f8cec7eae5f8f4f25bcc36cfe5f5-logo-da-selecao-brasileira-de-futebol.png" alt="Brazil CBF Logo" className="w-[120vw] md:w-[70vw] object-cover sm:object-contain drop-shadow-2xl blur-[2px]" />
+    <div className="h-screen bg-white dark:bg-gradient-to-br dark:from-green-900 dark:via-yellow-800 dark:to-blue-900 text-slate-900 dark:text-yellow-50 font-sans selection:bg-green-200/50 dark:selection:bg-green-600/30 flex overflow-hidden transition-colors duration-500 relative">
+      <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none flex items-center justify-center opacity-10 dark:opacity-20 mix-blend-multiply dark:mix-blend-overlay">
+        <img src="https://images.vexels.com/media/users/3/152348/isolated/preview/e292f8cec7eae5f8f4f25bcc36cfe5f5-logo-da-selecao-brasileira-de-futebol.png" alt="Brazil CBF Logo" referrerPolicy="no-referrer" className="w-[120vw] md:w-[70vw] object-cover sm:object-contain drop-shadow-2xl blur-[2px]" />
       </div>
       <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#00000010_1px,transparent_1px),linear-gradient(to_bottom,#00000010_1px,transparent_1px)] bg-[size:24px_24px] dark:bg-[linear-gradient(to_right,#ffffff10_1px,transparent_1px),linear-gradient(to_bottom,#ffffff10_1px,transparent_1px)]"></div>
@@ -896,37 +896,38 @@ export default function TemplateGenerator() {
           >
             <motion.img 
               initial={{ y: -20, rotate: -5 }}
-              animate={{ y: [0, -15, 0], rotate: [0, 8, -8, 0], scale: [1, 1.05, 1] }}
+              animate={{ y: [0, -15, 0], rotate: [0, 8, 0], scale: [1, 1.05, 1] }}
               transition={{ repeat: Infinity, duration: 6, ease: "easeInOut" }}
               src="https://images.vexels.com/media/users/3/152348/isolated/preview/e292f8cec7eae5f8f4f25bcc36cfe5f5-logo-da-selecao-brasileira-de-futebol.png" 
               alt="Brazil Logo" 
-              className="w-32 h-32 md:w-48 md:h-48 drop-shadow-[0_0_20px_rgba(255,223,0,0.5)] mb-8"
+              referrerPolicy="no-referrer"
+              className="w-32 h-32 md:w-48 md:h-48 drop-shadow-[0_0_20px_rgba(34,197,94,0.3)] dark:drop-shadow-[0_0_20px_rgba(255,223,0,0.5)] mb-8"
             />
-            <h1 className="text-5xl md:text-7xl font-black text-white drop-shadow-[0_4px_10px_rgba(0,39,118,0.5)] mb-6 tracking-tight uppercase">
+            <h1 className="text-5xl md:text-7xl font-black text-green-700 dark:text-white drop-shadow-md dark:drop-shadow-[0_4px_10px_rgba(0,39,118,0.5)] mb-6 tracking-tight uppercase">
               Textos Campeões
             </h1>
-            <p className="text-xl md:text-3xl font-medium text-yellow-300 drop-shadow-md mb-12 max-w-2xl">
+            <p className="text-xl md:text-3xl font-medium text-slate-600 dark:text-yellow-300 drop-shadow-sm dark:drop-shadow-md mb-12 max-w-2xl">
               Gere mensagens, textos e conteúdos com a criatividade de um campeão.
             </p>
             <div className="flex flex-col sm:flex-row gap-5 w-full justify-center">
               <button 
                 onClick={() => setAppStarted(true)}
-                className="group relative px-8 py-4 bg-gradient-to-r from-green-500 to-yellow-400 text-[#002776] text-xl font-bold rounded-2xl shadow-[0_0_30px_rgba(255,223,0,0.4)] hover:shadow-[0_0_40px_rgba(255,223,0,0.6)] transition-all hover:scale-105 active:scale-95 overflow-hidden"
+                className="group relative px-8 py-4 bg-gradient-to-r from-green-500 to-yellow-400 text-white dark:text-[#002776] text-xl font-bold rounded-2xl shadow-[0_4px_20px_rgba(34,197,94,0.4)] dark:shadow-[0_0_30px_rgba(255,223,0,0.4)] hover:shadow-[0_6px_25px_rgba(34,197,94,0.5)] dark:hover:shadow-[0_0_40px_rgba(255,223,0,0.6)] transition-all hover:scale-105 active:scale-95 overflow-hidden"
               >
-                <div className="absolute inset-0 bg-white/20 w-full h-full -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-in-out"></div>
+                <span className="absolute inset-0 bg-white/20 w-full h-full -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-in-out"></span>
                 Começar Agora
               </button>
               <button 
                 onClick={() => setAppStarted(true)}
-                className="px-8 py-4 bg-white/10 hover:bg-white/20 border border-white/30 text-white text-xl font-bold rounded-2xl backdrop-blur-sm transition-all hover:scale-105 active:scale-95"
+                className="px-8 py-4 bg-green-50 dark:bg-white/10 hover:bg-green-100 dark:hover:bg-white/20 border border-green-200 dark:border-white/30 text-green-800 dark:text-white text-xl font-bold rounded-2xl backdrop-blur-sm transition-all hover:scale-105 active:scale-95"
               >
                 Explorar Recursos
               </button>
             </div>
           </motion.div>
           <div className="absolute bottom-8 flex flex-col items-center">
-            <p className="text-white/80 font-medium tracking-wide">🏆 Inspirado na paixão do futebol brasileiro</p>
-            <p className="text-yellow-400 font-bold mt-1">🇧🇷 Brasil rumo ao Hexa</p>
+            <p className="text-green-800/80 dark:text-white/80 font-medium tracking-wide">🏆 Inspirado na paixão do futebol brasileiro</p>
+            <p className="text-blue-700 dark:text-yellow-400 font-bold mt-1">🇧🇷 Brasil rumo ao Hexa</p>
           </div>
         </div>
       )}
@@ -960,7 +961,7 @@ export default function TemplateGenerator() {
         <div className="flex flex-col h-full relative z-10">
           <div className="p-6 border-b border-slate-200/50 dark:border-green-900/30 flex items-center justify-between shrink-0">
             <div className="flex items-center gap-3">
-              <img src="https://images.vexels.com/media/users/3/152348/isolated/preview/e292f8cec7eae5f8f4f25bcc36cfe5f5-logo-da-selecao-brasileira-de-futebol.png" alt="Logo CBF" className="w-10 h-10 object-contain drop-shadow-[0_0_10px_rgba(255,223,0,0.4)]" />
+              <img src="https://images.vexels.com/media/users/3/152348/isolated/preview/e292f8cec7eae5f8f4f25bcc36cfe5f5-logo-da-selecao-brasileira-de-futebol.png" alt="Logo CBF" referrerPolicy="no-referrer" className="w-10 h-10 object-contain drop-shadow-[0_0_10px_rgba(255,223,0,0.4)]" />
               <span className="font-black text-lg tracking-tight text-slate-800 dark:text-white uppercase drop-shadow-md">Textos <span className="text-green-600 dark:text-yellow-400">Campeões</span></span>
             </div>
             <Tooltip text="Fechar Menu" position="left">
@@ -1111,7 +1112,7 @@ export default function TemplateGenerator() {
               <div className="hidden sm:flex items-center gap-3">
                 <div className="flex flex-col items-end">
                   <span className="text-[10px] font-black text-slate-800 dark:text-yellow-400 tracking-[0.2em]">REDE LESTE</span>
-                  <span className="text-[9px] text-slate-400 dark:text-green-700 font-mono tracking-widest flex items-center gap-1.5"><div className="w-1.5 h-1.5 rounded-full bg-green-600 animate-pulse"></div> ONLINE</span>
+                  <span className="text-[9px] text-slate-400 dark:text-green-700 font-mono tracking-widest flex items-center gap-1.5"><span className="w-1.5 h-1.5 rounded-full bg-green-600 animate-pulse"></span> ONLINE</span>
                 </div>
               </div>
             </div>
@@ -1344,7 +1345,7 @@ export default function TemplateGenerator() {
           {/* Footer watermark */}
           <div className="mt-8 pt-8 border-t border-slate-200/50 dark:border-green-900/30 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 dark:text-yellow-400/60 font-medium pb-4">
             <div className="flex items-center gap-2">
-              <img src="https://images.vexels.com/media/users/3/152348/isolated/preview/e292f8cec7eae5f8f4f25bcc36cfe5f5-logo-da-selecao-brasileira-de-futebol.png" alt="CBF" className="w-6 h-6 grayscale opacity-80 hover:grayscale-0 hover:opacity-100 transition-all duration-300" />
+              <img src="https://images.vexels.com/media/users/3/152348/isolated/preview/e292f8cec7eae5f8f4f25bcc36cfe5f5-logo-da-selecao-brasileira-de-futebol.png" alt="CBF" referrerPolicy="no-referrer" className="w-6 h-6 grayscale opacity-80 hover:grayscale-0 hover:opacity-100 transition-all duration-300" />
               <span>🏆 Inspirado na paixão do futebol brasileiro</span>
             </div>
             <span>🇧🇷 Brasil rumo ao Hexa</span>

@@ -231,6 +231,11 @@ TELEFONE: XXXXXXXXXXXXXXXXXX`
         id: 'antecipacao-parcelamento',
         title: 'Antecipação de Parcelamento',
         content: '****VEIO AO ATENDIMENTO PORTANDO CPF E RG SOLICITAR ANTECIPAÇÃO DE PARCELAS DA NEGOCIAÇÃO ****.\nCIENTE QUE SERÃO ANTECIPADAS **** PARCELAS DE ****CADA, TOTALIZANDO ****. CIENTE QUE APÓS A ANTECIPAÇÃO NÃO TEM COMO REVERTER E AS PARCELAS SERÃO GERADAS SEPARADAMENTE DA FATURA DE CONSUMO NORMAL\nTIPO DE FATURAS ( ) CNR ( X ) NORMAIS\nTELEFONE: ****'
+      },
+      {
+        id: 'parcelamento-ccs',
+        title: 'Parcelamento CCS',
+        content: 'PARCELAMENTO DE DEBITOS REALIZADO CONFORME ACORDO COM CLIENTE'
       }
     ]
   },
@@ -704,29 +709,25 @@ export default function TemplateGenerator() {
   // Load theme and favorites from localStorage on mount
   useEffect(() => {
     const initData = () => {
-      const savedTheme = localStorage.getItem('theme') as 'light' | 'dark' | null;
-      if (savedTheme) {
-        setTheme(savedTheme);
-      } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-        setTheme('dark');
-      }
+      try {
+        const savedTheme = localStorage.getItem('theme') as 'light' | 'dark' | null;
+        if (savedTheme) {
+          setTheme(savedTheme);
+        } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+          setTheme('dark');
+        }
 
-      const savedFavorites = localStorage.getItem('favorites');
-      if (savedFavorites) {
-        try {
+        const savedFavorites = localStorage.getItem('favorites');
+        if (savedFavorites) {
           setFavorites(JSON.parse(savedFavorites));
-        } catch (e) {
-          console.error('Error parsing favorites', e);
         }
-      }
 
-      const savedPinned = localStorage.getItem('pinnedCategories');
-      if (savedPinned) {
-        try {
+        const savedPinned = localStorage.getItem('pinnedCategories');
+        if (savedPinned) {
           setPinnedCategories(JSON.parse(savedPinned));
-        } catch (e) {
-          console.error('Error parsing pinned categories', e);
         }
+      } catch (e) {
+        console.warn('localStorage access failed. Ensure cookies/storage are allowed if using iframe.', e);
       }
       setMounted(true);
     };
@@ -739,19 +740,25 @@ export default function TemplateGenerator() {
   // Update localStorage when favorites change
   useEffect(() => {
     if (!mounted) return;
-    localStorage.setItem('favorites', JSON.stringify(favorites));
+    try {
+      localStorage.setItem('favorites', JSON.stringify(favorites));
+    } catch (e) {}
   }, [favorites, mounted]);
 
   // Update localStorage when pinned categories change
   useEffect(() => {
     if (!mounted) return;
-    localStorage.setItem('pinnedCategories', JSON.stringify(pinnedCategories));
+    try {
+      localStorage.setItem('pinnedCategories', JSON.stringify(pinnedCategories));
+    } catch (e) {}
   }, [pinnedCategories, mounted]);
 
   // Update localStorage and document class when theme changes
   useEffect(() => {
     if (!mounted) return;
-    localStorage.setItem('theme', theme);
+    try {
+      localStorage.setItem('theme', theme);
+    } catch (e) {}
     if (theme === 'dark') {
       document.documentElement.classList.add('dark');
     } else {
@@ -882,7 +889,6 @@ export default function TemplateGenerator() {
         <img src="https://images.vexels.com/media/users/3/152348/isolated/preview/e292f8cec7eae5f8f4f25bcc36cfe5f5-logo-da-selecao-brasileira-de-futebol.png" alt="Brazil CBF Logo" referrerPolicy="no-referrer" className="w-[120vw] md:w-[70vw] object-cover sm:object-contain drop-shadow-2xl blur-[2px]" />
       </div>
       <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#00000010_1px,transparent_1px),linear-gradient(to_bottom,#00000010_1px,transparent_1px)] bg-[size:24px_24px] dark:bg-[linear-gradient(to_right,#ffffff10_1px,transparent_1px),linear-gradient(to_bottom,#ffffff10_1px,transparent_1px)]"></div>
         <div className="absolute left-0 right-0 top-0 -z-10 m-auto h-[400px] w-[400px] rounded-full bg-blue-500 opacity-30 blur-[120px]"></div>
         <div className="absolute bottom-[-10%] right-[-5%] w-[60%] h-[60%] rounded-full bg-yellow-500 opacity-20 blur-[150px] animate-pulse-slow"></div>
       </div>

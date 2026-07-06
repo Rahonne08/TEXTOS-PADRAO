@@ -32,7 +32,7 @@ import {
   X,
   Info,
   Heart,
-  Star
+  Star, LayoutTemplate
 } from 'lucide-react';
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
@@ -628,32 +628,32 @@ const NegotiationTable = () => {
   return (
     <div className="space-y-6 mt-4">
       <div className="flex items-center gap-2 mb-3">
-        <Info className="w-5 h-5 text-slate-800 dark:text-slate-200 dark:text-white dark:text-slate-200" />
-        <h3 className="text-base font-black text-slate-800 dark:text-slate-200">Tabela de Parâmetros de Negociação</h3>
+        <Info className="w-5 h-5 text-slate-700 dark:text-slate-200 dark:text-white dark:text-slate-200" />
+        <h3 className="text-base font-black text-slate-700 dark:text-slate-200">Tabela de Parâmetros de Negociação</h3>
       </div>
       
       <div className="grid-cols-1 gap-4">
         {categories.map((cat, idx) => (
-          <div key={idx} className="bg-white dark:bg-black rounded-xl border-slate-200/60 dark:border-slate-400 dark:border-slate-600/30 overflow-hidden shadow-[0_0_15px_rgba(34,197,94,0.1)] transition-colors duration-500">
-            <div className="bg-slate-100 dark:bg-slate-900/30 p-3 text-center border-border border-transparent dark:border-slate-700/50">
+          <div key={idx} className="bg-white dark:bg-slate-900 rounded-xl border-slate-200/60 dark:border-indigo-300 dark:border-indigo-700/30 overflow-hidden shadow-[0_0_15px_rgba(34,197,94,0.1)] transition-colors duration-500">
+            <div className="bg-indigo-50 dark:bg-indigo-900/20 p-3 text-center border border-transparent dark:border-slate-700/50">
               <h4 className="text-white dark:text-slate-200 font-black text-lg tracking-wider">{cat.title}</h4>
-              <p className="text-slate-800 dark:text-slate-200 dark:text-white dark:text-slate-200 text-[10px] mt-0.5 font-mono">{cat.subtitle}</p>
+              <p className="text-slate-700 dark:text-slate-200 dark:text-white dark:text-slate-200 text-[10px] mt-0.5 font-mono">{cat.subtitle}</p>
             </div>
             
             <div className="overflow-x-auto">
               <table className="w-full text-left border-collapse">
                 <thead>
                   <tr className="bg-slate-50 dark:bg-slate-900/50 border-b border-slate-200 dark:border-slate-800/50">
-                    <th className="p-2 text-[9px] font-black text-slate-800 dark:text-slate-200 uppercase tracking-widest border-r border-slate-200 dark:border-slate-800/50">Perfil</th>
-                    <th className="p-2 text-[9px] font-black text-slate-800 dark:text-slate-200 uppercase tracking-widest border-r border-slate-200 dark:border-slate-800/50">Qtd Faturas</th>
-                    <th className="p-2 text-[9px] font-black text-slate-800 dark:text-slate-200 uppercase tracking-widest text-center" colSpan={3}>Parâmetros</th>
+                    <th className="p-2 text-[9px] font-black text-slate-700 dark:text-slate-200 uppercase tracking-widest border-r border-slate-200 dark:border-slate-800/50">Perfil</th>
+                    <th className="p-2 text-[9px] font-black text-slate-700 dark:text-slate-200 uppercase tracking-widest border-r border-slate-200 dark:border-slate-800/50">Qtd Faturas</th>
+                    <th className="p-2 text-[9px] font-black text-slate-700 dark:text-slate-200 uppercase tracking-widest text-center" colSpan={3}>Parâmetros</th>
                   </tr>
                   <tr className="bg-slate-50/50 dark:bg-slate-900/30 border-b border-slate-200 dark:border-slate-800/50">
                     <th className="p-1.5 border-r border-slate-200 dark:border-slate-800/50"></th>
                     <th className="p-1.5 border-r border-slate-200 dark:border-slate-800/50"></th>
-                    <th className="p-1.5 text-[8px] font-bold text-slate-800 dark:text-slate-200 uppercase text-center border-r border-slate-200 dark:border-slate-800/50">Entrada Mínima</th>
-                    <th className="p-1.5 text-[8px] font-bold text-slate-800 dark:text-slate-200 uppercase text-center border-r border-slate-200 dark:border-slate-800/50">Nº Máx Parcelas</th>
-                    <th className="p-1.5 text-[8px] font-bold text-slate-800 dark:text-slate-200 uppercase text-center">Dívida Máxima</th>
+                    <th className="p-1.5 text-[8px] font-bold text-slate-700 dark:text-slate-200 uppercase text-center border-r border-slate-200 dark:border-slate-800/50">Entrada Mínima</th>
+                    <th className="p-1.5 text-[8px] font-bold text-slate-700 dark:text-slate-200 uppercase text-center border-r border-slate-200 dark:border-slate-800/50">Nº Máx Parcelas</th>
+                    <th className="p-1.5 text-[8px] font-bold text-slate-700 dark:text-slate-200 uppercase text-center">Dívida Máxima</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -662,17 +662,17 @@ const NegotiationTable = () => {
                       {profile.rows.map((row, rowIdx) => (
                         <tr key={rowIdx} className="border-b border-slate-100 dark:border-slate-800/30 hover:bg-slate-50/50 dark:hover:bg-slate-800/20 transition-colors">
                           {rowIdx === 0 && (
-                            <td className="p-2 text-[10px] font-bold text-slate-800 dark:text-slate-200 border-r border-slate-200 dark:border-slate-700/30 bg-slate-50/30 dark:bg-slate-800/10" rowSpan={profile.rows.length}>
+                            <td className="p-2 text-[10px] font-bold text-slate-700 dark:text-slate-200 border-r border-slate-200 dark:border-slate-700/30 bg-slate-50/30 dark:bg-slate-800/10" rowSpan={profile.rows.length}>
                               <div className="flex items-center gap-1.5">
-                                <span className="w-4 h-4 rounded-full bg-slate-100 dark:bg-slate-900/50 text-slate-800 dark:text-slate-200 dark:text-white dark:text-slate-200 flex items-center justify-center text-[9px] shrink-0 border-slate-300 dark:border-slate-700/50 dark:border-slate-400 dark:border-slate-600/50">{profile.id}</span>
+                                <span className="w-4 h-4 rounded-full bg-slate-100 dark:bg-slate-900/50 text-slate-700 dark:text-slate-200 dark:text-white dark:text-slate-200 flex items-center justify-center text-[9px] shrink-0 border-indigo-200 dark:border-indigo-800/50 dark:border-indigo-300 dark:border-indigo-700/50">{profile.id}</span>
                                 <span className="leading-tight">{profile.name}</span>
                               </div>
                             </td>
                           )}
-                          <td className="p-2 text-[10px] font-medium text-slate-800 dark:text-slate-200 border-r border-slate-200 dark:border-slate-700/30 text-center">{row.qty}</td>
-                          <td className="p-2 text-[10px] font-bold text-slate-800 dark:text-slate-200 dark:text-white dark:text-slate-200 text-center border-r border-slate-200 dark:border-slate-700/30">{row.entry}</td>
-                          <td className="p-2 text-[10px] font-bold text-slate-800 dark:text-slate-200 text-center border-r border-slate-200 dark:border-slate-700/30">{row.maxInstallments}</td>
-                          <td className="p-2 text-[10px] font-bold text-slate-800 dark:text-slate-200 dark:text-white dark:text-slate-200 text-center">{row.maxDebt}</td>
+                          <td className="p-2 text-[10px] font-medium text-slate-700 dark:text-slate-200 border-r border-slate-200 dark:border-slate-700/30 text-center">{row.qty}</td>
+                          <td className="p-2 text-[10px] font-bold text-slate-700 dark:text-slate-200 dark:text-white dark:text-slate-200 text-center border-r border-slate-200 dark:border-slate-700/30">{row.entry}</td>
+                          <td className="p-2 text-[10px] font-bold text-slate-700 dark:text-slate-200 text-center border-r border-slate-200 dark:border-slate-700/30">{row.maxInstallments}</td>
+                          <td className="p-2 text-[10px] font-bold text-slate-700 dark:text-slate-200 dark:text-white dark:text-slate-200 text-center">{row.maxDebt}</td>
                         </tr>
                       ))}
                     </React.Fragment>
@@ -882,7 +882,13 @@ export default function TemplateGenerator() {
   };
 
   return (
-    <div className="h-screen bg-white dark:bg-black text-black dark:text-white font-sans flex overflow-hidden transition-colors duration-500 relative">
+    <div className="h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 font-sans flex overflow-hidden transition-colors duration-500 relative">
+      <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
+        <div className="absolute left-[-10%] top-[-10%] w-[40%] h-[40%] rounded-full bg-violet-400/20 dark:bg-violet-600/10 blur-[120px] mix-blend-multiply dark:mix-blend-lighten"></div>
+        <div className="absolute right-[-5%] bottom-[-10%] w-[50%] h-[50%] rounded-full bg-cyan-400/20 dark:bg-cyan-600/10 blur-[150px] mix-blend-multiply dark:mix-blend-lighten"></div>
+        <div className="absolute top-[20%] left-[60%] w-[30%] h-[30%] rounded-full bg-indigo-400/20 dark:bg-indigo-600/10 blur-[100px] mix-blend-multiply dark:mix-blend-lighten"></div>
+      </div>
+      
       {/* Toast Notification */}
       <AnimatePresence>
         {toast && (
@@ -898,7 +904,7 @@ export default function TemplateGenerator() {
               boxShadow: toast.type === 'success' ? '0 20px rgba(6, 182, 212, 0.2)' : '0 20px rgba(239, 68, 68, 0.2)'
             }}
           >
-            {toast.type === 'success' ? <Check className="w-5 h-5" /> : <AlertTriangle className="w-5 h-5" />}
+            {toast.type === 'success' ? <Check className="w-5 h-5 text-indigo-600 dark:text-indigo-400" /> : <AlertTriangle className="w-5 h-5" />}
             <span className="text-sm font-bold tracking-wide">{toast.message}</span>
           </motion.div>
         )}
@@ -906,17 +912,19 @@ export default function TemplateGenerator() {
 
       {/* Sidebar Navigation */}
       <aside className={cn(
-        "fixed inset-y-0 left-0 z-50 w-72 bg-white/80 dark:bg-black/80 backdrop-blur-xl border-r border-slate-200/50 dark:border-slate-700/30 transition-all duration-300 ease-in-out lg:relative lg:translate-x-0 flex flex-col h-full shadow-[4px_0_24px_-10px_rgba(34,197,94,0.1)] dark:shadow-[4px_0_24px_-10px_rgba(34,197,94,0.05)]",
+        "fixed inset-y-0 left-0 z-50 w-72 bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border-r border-slate-200/50 dark:border-slate-700/30 transition-all duration-300 ease-in-out lg:relative lg:translate-x-0 flex flex-col h-full shadow-[4px_0_24px_-10px_rgba(34,197,94,0.1)] dark:shadow-[4px_0_24px_-10px_rgba(34,197,94,0.05)]",
         isSidebarOpen ? "translate-x-0" : "-translate-x-full"
       )}>
         <div className="flex flex-col h-full relative z-10">
           <div className="p-6 border-b border-slate-200/50 dark:border-slate-700/30 flex items-center justify-between shrink-0">
             <div className="flex items-center gap-3">
-              
-              <span className="font-black text-lg tracking-tight text-slate-800 dark:text-slate-200 dark:text-white uppercase drop-shadow-md">Textos <span className="text-slate-800 dark:text-slate-200 dark:text-white dark:text-slate-200">Campeões</span></span>
+              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-indigo-500 to-violet-500 flex items-center justify-center text-white shadow-lg shadow-indigo-500/30">
+                <LayoutTemplate className="w-5 h-5" />
+              </div>
+              <span className="font-black text-lg tracking-tight text-slate-800 dark:text-white uppercase drop-shadow-sm">Textos <span className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-500 to-violet-500">Campeões</span></span>
             </div>
             <Tooltip text="Fechar Menu" position="left">
-              <button onClick={() => setIsSidebarOpen(false)} className="lg:hidden p-2 text-slate-800 dark:text-slate-200 hover:text-slate-800 dark:text-slate-200 dark:hover:text-slate-800 dark:text-slate-200">
+              <button onClick={() => setIsSidebarOpen(false)} className="lg:hidden p-2 text-slate-700 dark:text-slate-200 hover:text-slate-700 dark:text-slate-200 dark:hover:text-slate-700 dark:text-slate-200">
                 <X className="w-5 h-5" />
               </button>
             </Tooltip>
@@ -928,8 +936,8 @@ export default function TemplateGenerator() {
               className={cn(
                 "w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold transition-all border border-transparent",
                 selectedCategory === null 
-                  ? "bg-gradient-to-r from-slate-100 dark:from-slate-900/10 to-slate-300 dark:to-slate-800/10 dark:from-slate-100 dark:from-slate-900/40 dark:to-slate-300 dark:to-slate-800/40 text-slate-800 dark:text-slate-200 dark:text-white dark:text-slate-200 border-slate-300 dark:border-slate-700/50 dark:border-slate-400 dark:border-slate-600/50 shadow-[0_0_15px_rgba(0,156,59,0.1)]" 
-                  : "text-slate-800 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-100 dark:bg-slate-900/20 hover:text-slate-800 dark:text-slate-200 dark:hover:text-slate-800 dark:text-slate-200 dark:hover:border-slate-400 dark:border-slate-600/20"
+                  ? "bg-gradient-to-r from-slate-100 dark:from-slate-900/10 to-slate-300 dark:to-slate-800/10 dark:from-slate-100 dark:from-slate-900/40 dark:to-slate-300 dark:to-slate-800/40 text-slate-700 dark:text-slate-200 dark:text-white dark:text-slate-200 border-indigo-200 dark:border-indigo-800/50 dark:border-indigo-300 dark:border-indigo-700/50 shadow-[0_0_15px_rgba(0,156,59,0.1)]" 
+                  : "text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-100 dark:bg-slate-900/20 hover:text-slate-700 dark:text-slate-200 dark:hover:text-slate-700 dark:text-slate-200 dark:hover:border-indigo-300 dark:border-indigo-700/20"
               )}
             >
               <FileText className="w-4 h-4" />
@@ -941,8 +949,8 @@ export default function TemplateGenerator() {
               className={cn(
                 "w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold transition-all border border-transparent",
                 selectedCategory === 'favorites' 
-                  ? "bg-slate-200 dark:bg-slate-800/10 text-slate-800 dark:text-slate-200 dark:border-slate-400 dark:border-slate-600/30 shadow-[0_0_10px_rgba(234,179,8,0.1)]" 
-                  : "text-slate-800 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-100 dark:bg-slate-900/20 hover:text-slate-800 dark:text-slate-200 dark:hover:text-slate-800 dark:text-slate-200 dark:hover:border-slate-400 dark:border-slate-600/20"
+                  ? "bg-slate-200 dark:bg-slate-800/10 text-slate-700 dark:text-slate-200 dark:border-indigo-300 dark:border-indigo-700/30 shadow-[0_0_10px_rgba(234,179,8,0.1)]" 
+                  : "text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-100 dark:bg-slate-900/20 hover:text-slate-700 dark:text-slate-200 dark:hover:text-slate-700 dark:text-slate-200 dark:hover:border-indigo-300 dark:border-indigo-700/20"
               )}
             >
               <Heart className={cn("w-4 h-4", selectedCategory === 'favorites' && "fill-current")} />
@@ -950,7 +958,7 @@ export default function TemplateGenerator() {
             </button>
             
             <div className="pt-4 pb-2 px-4">
-              <span className="text-[10px] font-black text-slate-800 dark:text-slate-200 dark:text-white uppercase tracking-[0.2em]">Serviços</span>
+              <span className="text-[10px] font-black text-slate-700 dark:text-slate-200 dark:text-white uppercase tracking-[0.2em]">Serviços</span>
             </div>
 
             {[...SERVICE_CATEGORIES].sort((a, b) => {
@@ -966,15 +974,15 @@ export default function TemplateGenerator() {
                   className={cn(
                     "w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold transition-all border border-transparent",
                     selectedCategory === cat.id 
-                      ? "bg-gradient-to-r from-slate-100 dark:from-slate-900/10 to-slate-300 dark:to-slate-800/10 dark:from-slate-100 dark:from-slate-900/40 dark:to-slate-300 dark:to-slate-800/40 text-slate-800 dark:text-slate-200 dark:text-white dark:text-slate-200 border-slate-300 dark:border-slate-700/50 dark:border-slate-400 dark:border-slate-600/50 shadow-[0_0_15px_rgba(0,156,59,0.1)]" 
-                      : "text-slate-800 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-100 dark:bg-slate-900/20 hover:text-slate-800 dark:text-slate-200 dark:hover:text-slate-800 dark:text-slate-200 dark:hover:border-slate-400 dark:border-slate-600/20"
+                      ? "bg-gradient-to-r from-slate-100 dark:from-slate-900/10 to-slate-300 dark:to-slate-800/10 dark:from-slate-100 dark:from-slate-900/40 dark:to-slate-300 dark:to-slate-800/40 text-slate-700 dark:text-slate-200 dark:text-white dark:text-slate-200 border-indigo-200 dark:border-indigo-800/50 dark:border-indigo-300 dark:border-indigo-700/50 shadow-[0_0_15px_rgba(0,156,59,0.1)]" 
+                      : "text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-100 dark:bg-slate-900/20 hover:text-slate-700 dark:text-slate-200 dark:hover:text-slate-700 dark:text-slate-200 dark:hover:border-indigo-300 dark:border-indigo-700/20"
                   )}
                 >
                   <div className={cn(
                     "p-1.5 rounded-lg transition-colors border",
                     selectedCategory === cat.id 
-                      ? "bg-white dark:bg-slate-900/20 border-slate-300 dark:border-slate-700 dark:border-slate-400 dark:border-slate-600/30 text-slate-800 dark:text-slate-200 dark:text-white dark:text-slate-200" 
-                      : "bg-slate-100 dark:bg-slate-900/50 border border-transparent dark:border-slate-800/80 text-slate-800 dark:text-slate-200 group-hover:text-slate-800 dark:text-slate-200"
+                      ? "bg-white dark:bg-slate-800 border-indigo-200 dark:border-indigo-800 dark:border-indigo-300 dark:border-indigo-700/30 text-slate-700 dark:text-slate-200 dark:text-white dark:text-slate-200" 
+                      : "bg-slate-100 dark:bg-slate-900/50 border border-transparent dark:border-slate-800/80 text-slate-700 dark:text-slate-200 group-hover:text-slate-700 dark:text-slate-200"
                   )}>
                     {cat.icon}
                   </div>
@@ -987,7 +995,7 @@ export default function TemplateGenerator() {
                       onClick={(e) => togglePin(cat.id, e)}
                       className={cn(
                         "p-1.5 rounded-lg transition-all opacity-0 group-hover:opacity-100 hover:bg-slate-200 dark:hover:bg-slate-100 dark:bg-slate-900/50",
-                        pinnedCategories.includes(cat.id) && "opacity-100 text-slate-800 dark:text-slate-200"
+                        pinnedCategories.includes(cat.id) && "opacity-100 text-slate-700 dark:text-slate-200"
                       )}
                     >
                       <Pin className={cn("w-3.5 h-3.5", pinnedCategories.includes(cat.id) && "fill-current")} />
@@ -999,12 +1007,12 @@ export default function TemplateGenerator() {
           </div>
 
           <div className="p-4 border-t border-slate-200/50 dark:border-slate-700/30 shrink-0 relative">
-            <div className="bg-slate-100 dark:bg-slate-800/10 border border-transparent dark:border-slate-700/50 rounded-xl p-4 mb-4">
+            <div className="bg-indigo-50 dark:bg-indigo-950/20 border border-transparent dark:border-slate-700/50 rounded-xl p-4 mb-4">
               <div className="flex items-center gap-2 mb-2">
-                <Activity className="w-4 h-4 text-slate-800 dark:text-slate-200 animate-pulse" />
-                <span className="text-[10px] font-black text-slate-800 dark:text-slate-200 uppercase tracking-widest">Status do Sistema</span>
+                <Activity className="w-4 h-4 text-slate-700 dark:text-slate-200 animate-pulse" />
+                <span className="text-[10px] font-black text-slate-700 dark:text-slate-200 uppercase tracking-widest">Status do Sistema</span>
               </div>
-              <p className="text-[10px] text-slate-800 dark:text-slate-200 leading-relaxed font-mono">
+              <p className="text-[10px] text-slate-700 dark:text-slate-200 leading-relaxed font-mono">
                 &gt; Módulos ativos.<br />
                 &gt; Banco de dados sincronizado.<br />
                 &gt; Prontos para uso.
@@ -1012,7 +1020,7 @@ export default function TemplateGenerator() {
             </div>
             <div className="text-center py-2 border-t border-slate-200/50 dark:border-slate-700/30">
               <p className="text-[9px] font-mono text-slate-800 dark:text-white/70 uppercase tracking-widest">
-                SYS.DEV // <a href="https://github.com/Rahonne08" target="_blank" rel="noopener noreferrer" className="hover:text-slate-800 dark:text-slate-200 dark:text-white dark:hover:text-slate-300 dark:text-slate-200 transition-colors underline-offset-2">PABLO RAHONNE</a>
+                SYS.DEV // <a href="https://github.com/Rahonne08" target="_blank" rel="noopener noreferrer" className="hover:text-slate-700 dark:text-slate-200 dark:text-white dark:hover:text-slate-300 dark:text-slate-200 transition-colors underline-offset-2">PABLO RAHONNE</a>
               </p>
             </div>
           </div>
@@ -1022,24 +1030,24 @@ export default function TemplateGenerator() {
       {/* Main Content */}
       <div className="flex-1 flex flex-col min-w-0 h-full">
         {/* Header */}
-        <header className="sticky top-0 z-40 bg-white/60 dark:bg-black/60 backdrop-blur-xl border-b border-slate-200/50 dark:border-slate-700/30 transition-colors duration-500">
+        <header className="sticky top-0 z-40 bg-white/60 dark:bg-slate-900/60 backdrop-blur-xl border-b border-slate-200/50 dark:border-slate-700/30 transition-colors duration-500">
           <div className="px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
             <div className="flex items-center gap-2">
               <Tooltip text="Abrir Menu" position="right">
                 <button 
                   onClick={() => setIsSidebarOpen(true)}
-                  className="lg:hidden p-2 text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800/50 border border-transparent dark:border-slate-700/50 rounded-lg"
+                  className="lg:hidden p-2 text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800/50 border border-transparent dark:border-slate-700/50 rounded-lg"
                 >
                   <Menu className="w-6 h-6" />
                 </button>
               </Tooltip>
               
               <div className="relative flex-1 min-w-[300px] max-w-8xl group">
-                <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-800 dark:text-slate-200 group-focus-within:text-slate-800 dark:text-slate-200 transition-colors" />
+                <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400 dark:text-slate-500 group-focus-within:text-indigo-500 dark:group-focus-within:text-indigo-400 transition-colors" />
                 <input 
                   type="text"
                   placeholder="CONSULTAR BASE DE DADOS..."
-                  className="w-full pl-12 pr-4 py-2.5 bg-white/80 dark:bg-black/80 backdrop-blur-sm border-slate-200/80 dark:border-slate-700/50 focus:bg-white dark:focus:bg-black focus:ring-1 focus:ring-slate-400 dark:ring-slate-600 focus:border-slate-400 dark:border-slate-600 rounded-lg text-sm font-mono tracking-wide transition-all outline-none dark:text-slate-200 shadow-sm dark:shadow-[0_0_10px_rgba(34,197,94,0.05)] placeholder-slate-400 dark:placeholder-slate-600"
+                  className="w-full pl-12 pr-4 py-2.5 bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm border-slate-200/80 dark:border-slate-700/50 focus:bg-white dark:focus:bg-black focus:ring-1 focus:ring-indigo-500/50 dark:ring-indigo-400/50 focus:border-indigo-300 dark:border-indigo-700 rounded-lg text-sm font-mono tracking-wide transition-all outline-none dark:text-slate-200 shadow-sm dark:shadow-[0_0_10px_rgba(34,197,94,0.05)] placeholder-slate-400 dark:placeholder-slate-600"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                 />
@@ -1050,7 +1058,7 @@ export default function TemplateGenerator() {
               <Tooltip text={theme === 'light' ? 'Ativar Modo Noturno' : 'Ativar Modo Claro'} position="bottom">
                 <button
                   onClick={toggleTheme}
-                  className="p-2.5 rounded-lg bg-white dark:bg-black border-slate-200/80 dark:border-slate-700/50 text-slate-800 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-100 dark:bg-slate-900/20 shadow-sm transition-all"
+                  className="p-2.5 rounded-lg bg-white dark:bg-slate-900 border-slate-200/80 dark:border-slate-700/50 text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-100 dark:bg-slate-900/20 shadow-sm transition-all"
                 >
                   {theme === 'light' ? (
                     <Zap className="w-5 h-5" />
@@ -1062,8 +1070,8 @@ export default function TemplateGenerator() {
 
               <div className="hidden sm:flex items-center gap-3">
                 <div className="flex-col items-end">
-                  <span className="text-[10px] font-black text-slate-800 dark:text-slate-200 tracking-[0.2em]">REDE LESTE</span>
-                  <span className="text-[9px] text-slate-800 dark:text-slate-200 dark:text-white font-mono tracking-widest flex items-center gap-1.5"><span className="w-1.5 h-1.5 rounded-full bg-slate-100 dark:bg-slate-900 animate-pulse"></span> ONLINE</span>
+                  <span className="text-[10px] font-black text-slate-700 dark:text-slate-200 tracking-[0.2em]">REDE LESTE</span>
+                  <span className="text-[9px] text-slate-700 dark:text-slate-200 dark:text-white font-mono tracking-widest flex items-center gap-1.5"><span className="w-1.5 h-1.5 rounded-full bg-slate-100 dark:bg-slate-900 animate-pulse"></span> ONLINE</span>
                 </div>
               </div>
             </div>
@@ -1071,10 +1079,10 @@ export default function TemplateGenerator() {
         </header>
 
         <main className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8 space-y-10 scrollbar-thin scrollbar-thumb-slate-200 dark:scrollbar-thumb-slate-800 transition-colors duration-500 relative z-10">
-          <div className="bg-amber-50 dark:bg-amber-900/20 border-amber-200 dark:border-amber-900/50 rounded-2xl p-6 mb-8">
+          <div className="bg-indigo-50 dark:bg-indigo-900/20 border-indigo-200 dark:border-indigo-900/50 rounded-2xl p-6 mb-8">
             <div className="flex items-center gap-3 mb-3">
-              <AlertTriangle className="w-6 h-6 text-amber-600 dark:text-amber-400" />
-              <h2 className="text-lg font-bold text-amber-800 dark:text-amber-200 uppercase tracking-tight">REGISTROS DE ATENDIMENTO APRENDE +</h2>
+              <AlertTriangle className="w-6 h-6 text-indigo-600 dark:text-indigo-400" />
+              <h2 className="text-lg font-bold text-indigo-800 dark:text-indigo-200 uppercase tracking-tight">REGISTROS DE ATENDIMENTO APRENDE +</h2>
             </div>
             <div className="space-y-2">
               <p className="text-sm font-bold text-amber-900 dark:text-amber-100 italic">ATENÇÃO:</p>
@@ -1096,20 +1104,20 @@ export default function TemplateGenerator() {
                   className="space-y-6"
                 >
                   <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 bg-white dark:bg-black rounded-xl flex items-center justify-center text-slate-800 dark:text-slate-200 shadow-[0_0_15px_rgba(34,197,94,0.1)] border-slate-200/60 dark:border-slate-400 dark:border-slate-600/30 transition-colors duration-500">
+                    <div className="w-12 h-12 bg-gradient-to-br from-indigo-500/10 to-violet-500/10 dark:from-indigo-500/20 dark:to-violet-500/20 rounded-xl flex items-center justify-center text-indigo-600 dark:text-indigo-400 shadow-sm border border-indigo-200/50 dark:border-indigo-500/20 transition-colors duration-500">
                       {category.icon}
                     </div>
                     <div>
-                      <h2 className="text-2xl font-black text-slate-800 dark:text-slate-200 tracking-tight">{category.name}</h2>
-                      <p className="text-sm font-mono text-slate-800 dark:text-slate-200 dark:text-white/80">{category.templates.length} templates carregados</p>
+                      <h2 className="text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-slate-800 to-indigo-600 dark:from-white dark:to-indigo-400 tracking-tight">{category.name}</h2>
+                      <p className="text-sm font-mono text-slate-700 dark:text-slate-200 dark:text-white/80">{category.templates.length} templates carregados</p>
                     </div>
                   </div>
 
                   {category.info && (
-                    <div className="bg-slate-100 dark:bg-slate-900/80 dark:bg-slate-800/10 border-slate-300 dark:border-slate-700 dark:border-slate-700/50 rounded-xl p-5 flex-col gap-4 shadow-sm dark:shadow-[0_0_10px_rgba(34,197,94,0.05)]">
+                    <div className="bg-slate-100 dark:bg-slate-900/80 dark:bg-slate-800/10 border-indigo-200 dark:border-indigo-800 dark:border-slate-700/50 rounded-xl p-5 flex-col gap-4 shadow-sm dark:shadow-[0_0_10px_rgba(34,197,94,0.05)]">
                       <div className="flex items-start gap-3">
-                        <Info className="w-5 h-5 text-slate-800 dark:text-slate-200 dark:text-white dark:text-slate-200 shrink-0 mt-0.5" />
-                        <p className="text-sm text-slate-800 dark:text-slate-200 dark:text-white dark:text-slate-200 dark:text-white leading-relaxed font-mono">
+                        <Info className="w-5 h-5 text-slate-700 dark:text-slate-200 dark:text-white dark:text-slate-200 shrink-0 mt-0.5" />
+                        <p className="text-sm text-slate-700 dark:text-slate-200 dark:text-white dark:text-slate-200 dark:text-white leading-relaxed font-mono">
                           {category.info}
                         </p>
                       </div>
@@ -1122,7 +1130,7 @@ export default function TemplateGenerator() {
                                 "flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-bold transition-all shadow-[0_0_10px_rgba(34,197,94,0.1)] border w-fit font-mono",
                                 copyErrorId === 'email-copy' 
                                   ? "bg-rose-50 dark:bg-rose-900/20 text-rose-600 dark:text-rose-400 border-rose-200 dark:border-rose-900/50" 
-                                  : "bg-slate-100 dark:bg-slate-900/40 text-slate-800 dark:text-slate-200 dark:text-white dark:text-slate-200 border-slate-300 dark:border-slate-700 dark:border-slate-400 dark:border-slate-600/30 hover:bg-slate-100 dark:bg-slate-900 dark:hover:bg-slate-100 dark:bg-slate-900/60 dark:hover:border-slate-400 dark:border-slate-600/50"
+                                  : "bg-slate-100 dark:bg-slate-900/40 text-slate-700 dark:text-slate-200 dark:text-white dark:text-slate-200 border-indigo-200 dark:border-indigo-800 dark:border-indigo-300 dark:border-indigo-700/30 hover:bg-slate-100 dark:bg-slate-900 dark:hover:bg-slate-100 dark:bg-slate-900/60 dark:hover:border-indigo-300 dark:border-indigo-700/50"
                               )}
                             >
                               {copiedId === 'email-copy' ? (
@@ -1151,7 +1159,7 @@ export default function TemplateGenerator() {
                                   "flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-bold transition-all shadow-[0_0_10px_rgba(34,197,94,0.1)] border w-fit font-mono",
                                   copyErrorId === 'title-copy' 
                                     ? "bg-rose-50 dark:bg-rose-900/20 text-rose-600 dark:text-rose-400 border-rose-200 dark:border-rose-900/50" 
-                                    : "bg-slate-100 dark:bg-slate-900/40 text-slate-800 dark:text-slate-200 dark:text-white dark:text-slate-200 border-slate-300 dark:border-slate-700 dark:border-slate-400 dark:border-slate-600/30 hover:bg-slate-100 dark:bg-slate-900 dark:hover:bg-slate-100 dark:bg-slate-900/60 dark:hover:border-slate-400 dark:border-slate-600/50"
+                                    : "bg-slate-100 dark:bg-slate-900/40 text-slate-700 dark:text-slate-200 dark:text-white dark:text-slate-200 border-indigo-200 dark:border-indigo-800 dark:border-indigo-300 dark:border-indigo-700/30 hover:bg-slate-100 dark:bg-slate-900 dark:hover:bg-slate-100 dark:bg-slate-900/60 dark:hover:border-indigo-300 dark:border-indigo-700/50"
                                 )}
                               >
                                 {copiedId === 'title-copy' ? (
@@ -1184,18 +1192,18 @@ export default function TemplateGenerator() {
                       <motion.div
                         key={template.id}
                         layoutId={template.id}
-                        className="group bg-white/70 dark:bg-slate-900/40 backdrop-blur-xl border-slate-300 dark:border-slate-700/20 dark:border-slate-400 dark:border-slate-600/30 rounded-2xl p-6 hover:bg-white dark:hover:bg-slate-900/60 hover:border-slate-300 dark:border-slate-700 dark:hover:border-slate-400 dark:border-slate-600/80 hover:shadow-[0_8px_30px_rgba(255,223,0,0.15)] dark:hover:shadow-[0_8px_30px_rgba(255,223,0,0.2)] transition-all duration-300 flex-col relative overflow-hidden"
+                        className="group bg-white/70 dark:bg-slate-900/40 backdrop-blur-xl border-indigo-200 dark:border-indigo-800/20 dark:border-indigo-300 dark:border-indigo-700/30 rounded-2xl p-6 hover:bg-white dark:hover:bg-slate-900/60 hover:border-indigo-200 dark:border-indigo-800 dark:hover:border-indigo-300 dark:border-indigo-700/80 hover:shadow-[0_8px_30px_rgba(255,223,0,0.15)] dark:hover:shadow-[0_8px_30px_rgba(255,223,0,0.2)] transition-all duration-300 flex-col relative overflow-hidden"
                       >
-                        <div className="absolute top-0 right-0 w-32 h-32 bg-slate-100 dark:bg-slate-800/10 dark:bg-slate-900/5 rounded-full blur-[40px] pointer-events-none group-hover:bg-slate-100 dark:bg-slate-900/20 transition-colors duration-500"></div>
+                        <div className="absolute top-0 right-0 w-32 h-32 bg-indigo-50 dark:bg-indigo-950/20 dark:bg-slate-900/5 rounded-full blur-[40px] pointer-events-none group-hover:bg-slate-100 dark:bg-slate-900/20 transition-colors duration-500"></div>
                         <div className="flex items-start justify-between mb-6 relative z-10">
                           <div className="space-y-1">
                             <h3 
                               onClick={() => toggleExpanded(template.id)}
-                              className="cursor-pointer font-bold text-slate-800 dark:text-slate-200 leading-tight group-hover:text-slate-800 dark:text-slate-200 dark:text-white dark:group-hover:text-slate-800 dark:text-slate-200 transition-colors"
+                              className="cursor-pointer font-bold text-slate-700 dark:text-slate-200 leading-tight group-hover:text-slate-700 dark:text-slate-200 dark:text-white dark:group-hover:text-slate-700 dark:text-slate-200 transition-colors"
                             >
                               {template.title}
                             </h3>
-                            <span className="text-[10px] font-mono text-slate-800 dark:text-slate-200 dark:text-white uppercase tracking-widest block mt-1">SYS.ID: {template.id}</span>
+                            <span className="text-[10px] font-mono text-slate-700 dark:text-slate-200 dark:text-white uppercase tracking-widest block mt-1">SYS.ID: {template.id}</span>
                           </div>
                           <div className="flex items-center gap-2">
                             <Tooltip text={favorites.includes(template.id) ? "Remover dos Favoritos" : "Adicionar aos Favoritos"}>
@@ -1205,7 +1213,7 @@ export default function TemplateGenerator() {
                                   "p-3 rounded-full transition-all shadow-sm",
                                   favorites.includes(template.id)
                                     ? "bg-rose-50 dark:bg-rose-900/30 text-rose-500 border-rose-100 dark:border-rose-900/50"
-                                    : "bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-700/50 text-slate-800 dark:text-slate-200 hover:bg-rose-50 dark:hover:bg-rose-900/20 hover:text-rose-400 hover:border-rose-200 dark:hover:border-rose-900/50"
+                                    : "bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-700/50 text-slate-700 dark:text-slate-200 hover:bg-rose-50 dark:hover:bg-rose-900/20 hover:text-rose-400 hover:border-rose-200 dark:hover:border-rose-900/50"
                                 )}
                               >
                                 <Heart className={cn("w-5 h-5", favorites.includes(template.id) && "fill-current")} />
@@ -1217,13 +1225,13 @@ export default function TemplateGenerator() {
                                 className={cn(
                                   "shrink-0 p-3 rounded-full transition-all shadow-sm border",
                                   copiedId === template.id 
-                                    ? "bg-slate-100 dark:bg-slate-900 border-slate-400 dark:border-slate-600 text-white scale-110" 
+                                    ? "bg-indigo-100 dark:bg-indigo-900/40 border-indigo-300 dark:border-indigo-500/50 text-indigo-700 dark:text-indigo-400 scale-110 shadow-[0_0_15px_rgba(99,102,241,0.2)]" 
                                     : copyErrorId === template.id
                                       ? "bg-rose-500 border-rose-500 text-white scale-110"
-                                      : "bg-white/80 dark:bg-slate-900/50 border-slate-200 dark:border-slate-400 dark:border-slate-600/30 text-slate-800 dark:text-slate-200 dark:text-white group-hover:bg-gradient-to-r group-hover:from-slate-100 dark:from-slate-900 group-hover:to-slate-300 dark:to-slate-800 group-hover:border-slate-400 dark:border-slate-600 dark:group-hover:border-slate-400 dark:border-slate-600 group-hover:text-white dark:group-hover:text-[#002776]"
+                                      : "bg-white/80 dark:bg-slate-900/50 border-slate-200 dark:border-indigo-300 dark:border-indigo-700/30 text-slate-700 dark:text-slate-200 dark:text-white group-hover:bg-gradient-to-r group-hover:from-slate-100 dark:from-slate-900 group-hover:to-slate-300 dark:to-slate-800 group-hover:border-indigo-300 dark:border-indigo-700 dark:group-hover:border-indigo-300 dark:border-indigo-700 group-hover:text-white dark:group-hover:text-[#002776]"
                                 )}
                               >
-                                {copiedId === template.id ? <Check className="w-5 h-5" /> : copyErrorId === template.id ? <AlertTriangle className="w-5 h-5" /> : <Copy className="w-5 h-5" />}
+                                {copiedId === template.id ? <Check className="w-5 h-5 text-indigo-600 dark:text-indigo-400" /> : copyErrorId === template.id ? <AlertTriangle className="w-5 h-5" /> : <Copy className="w-5 h-5" />}
                               </button>
                             </Tooltip>
                           </div>
@@ -1240,11 +1248,11 @@ export default function TemplateGenerator() {
                             >
                               <div className="relative flex-1 group/pre mt-4">
                                 <div className="absolute top-3 right-3 opacity-0 group-hover/pre:opacity-100 transition-opacity">
-                                  <div className="bg-white/80 dark:bg-slate-900/80 backdrop-blur px-2 py-1 rounded-md text-[10px] font-black text-slate-800 dark:text-slate-200 border-slate-200/50 dark:border-slate-400 dark:border-slate-600/30 shadow-sm tracking-wide">
+                                  <div className="bg-white/80 dark:bg-slate-900/80 backdrop-blur px-2 py-1 rounded-md text-[10px] font-black text-slate-700 dark:text-slate-200 border-slate-200/50 dark:border-indigo-300 dark:border-indigo-700/30 shadow-sm tracking-wide">
                                     CONTEÚDO TERMINAL
                                   </div>
                                 </div>
-                                <pre className="text-[11px] text-slate-800 dark:text-slate-200 bg-slate-50 dark:bg-black p-5 rounded-xl font-mono whitespace-pre-wrap leading-relaxed border-slate-200/60 dark:border-slate-400 dark:border-slate-600/30 max-h-48 overflow-y-auto scrollbar-thin scrollbar-thumb-slate-200 dark:scrollbar-thumb-green-800 shadow-inner transition-colors duration-500 relative">
+                                <pre className="text-[11px] text-slate-700 dark:text-slate-200 bg-slate-50 dark:bg-slate-950 p-5 rounded-xl font-mono whitespace-pre-wrap leading-relaxed border-slate-200/60 dark:border-indigo-300 dark:border-indigo-700/30 max-h-48 overflow-y-auto scrollbar-thin scrollbar-thumb-slate-200 dark:scrollbar-thumb-green-800 shadow-inner transition-colors duration-500 relative">
                                   {template.content}
                                 </pre>
                               </div>
@@ -1255,16 +1263,16 @@ export default function TemplateGenerator() {
                         <div className="mt-6 pt-6 border-t border-slate-200/50 dark:border-slate-700/50 flex items-center justify-between">
                           <div className="flex -space-x-2 opacity-50">
                             {[1, 2, 3].map(i => (
-                              <div key={i} className="w-6 h-6 rounded-full bg-slate-100 dark:bg-slate-900 border-2 border-white dark:border-slate-300 dark:border-slate-700" />
+                              <div key={i} className="w-6 h-6 rounded-full bg-slate-100 dark:bg-slate-900 border-2 border-white dark:border-indigo-200 dark:border-indigo-800" />
                             ))}
                           </div>
                           <Tooltip text={copiedId === template.id ? "Copiado!" : copyErrorId === template.id ? "Erro ao Copiar" : "Copiar todo o conteúdo template"}>
                             <button 
                               onClick={() => handleCopy(template.content, template.id)}
-                              className="text-xs font-black text-slate-800 dark:text-slate-200 dark:text-white dark:text-slate-200 flex items-center gap-1 hover:gap-2 transition-all uppercase tracking-widest"
+                              className="text-xs font-black text-slate-700 dark:text-slate-200 dark:text-white dark:text-slate-200 flex items-center gap-1 hover:gap-2 transition-all uppercase tracking-widest"
                             >
                               Copiar Terminal
-                              <ChevronRight className="w-4 h-4 text-slate-800 dark:text-slate-200" />
+                              <ChevronRight className="w-4 h-4 text-slate-700 dark:text-slate-200" />
                             </button>
                           </Tooltip>
                         </div>
@@ -1280,21 +1288,21 @@ export default function TemplateGenerator() {
           {filteredCategories.length === 0 && (
             <div className="flex-col items-center justify-center py-32 text-center relative">
               <div className="absolute inset-0 bg-slate-100 dark:bg-slate-900/5 dark:bg-slate-800/10 blur-[100px] rounded-full w-64 h-64 mx-auto -z-10" />
-              <div className="w-24 h-24 bg-white dark:bg-slate-900 rounded-xl shadow-[0_0_20px_rgba(34,197,94,0.1)] border-slate-200 dark:border-slate-400 dark:border-slate-600/30 flex items-center justify-center text-slate-800 dark:text-slate-200 dark:text-white mb-6 transition-colors duration-500">
+              <div className="w-24 h-24 bg-white dark:bg-slate-900 rounded-xl shadow-[0_0_20px_rgba(34,197,94,0.1)] border-slate-200 dark:border-indigo-300 dark:border-indigo-700/30 flex items-center justify-center text-indigo-400 dark:text-indigo-500 mb-6 transition-colors duration-500">
                 <Search className="w-10 h-10 animate-pulse" />
               </div>
-              <h3 className="text-xl font-bold text-slate-800 dark:text-slate-200 uppercase tracking-widest">Nenhum registro encontrado</h3>
+              <h3 className="text-xl font-bold text-slate-700 dark:text-slate-200 uppercase tracking-widest">Nenhum registro encontrado</h3>
               <p className="text-slate-800 dark:text-white/70 max-w-sm mt-3 font-mono text-sm leading-relaxed">SISTEMA: Não encontramos referências no banco de dados sobre &quot;{searchQuery}&quot;. Tente recalibrar os parâmetros de busca.</p>
               <button 
                 onClick={() => setSearchQuery('')}
-                className="mt-8 px-8 py-3.5 bg-slate-100 dark:bg-slate-900 text-slate-800 dark:text-slate-200 rounded-lg font-black uppercase tracking-widest shadow-[0_0_20px_rgba(34,197,94,0.3)] hover:bg-slate-200 dark:bg-slate-900 transition-all hover:scale-105 active:scale-95 border-slate-400 dark:border-slate-600"
+                className="mt-8 px-8 py-3.5 bg-slate-100 dark:bg-slate-900 text-slate-700 dark:text-slate-200 rounded-lg font-black uppercase tracking-widest shadow-[0_0_20px_rgba(34,197,94,0.3)] hover:bg-slate-200 dark:bg-slate-900 transition-all hover:scale-105 active:scale-95 border-indigo-300 dark:border-indigo-700"
               >
                 Resetar Parâmetros
               </button>
             </div>
           )}
           {/* Footer watermark */}
-          <div className="mt-8 pt-8 border-t border-slate-200/50 dark:border-slate-700/30 flex-col sm:flex-row items-center justify-between text-xs text-slate-800 dark:text-slate-200/60 font-medium pb-4">
+          <div className="mt-8 pt-8 border-t border-slate-200/50 dark:border-slate-700/30 flex-col sm:flex-row items-center justify-between text-xs text-slate-700 dark:text-slate-200/60 font-medium pb-4">
             <div className="flex items-center gap-2">
               
               <span>Textos e Templates</span>
@@ -1311,14 +1319,14 @@ export default function TemplateGenerator() {
             initial={{ opacity: 0, y: 50, x: "-50%", scale: 0.9 }}
             animate={{ opacity: 1, y: 0, x: "-50%", scale: 1 }}
             exit={{ opacity: 0, y: 20, x: "-50%", scale: 0.9 }}
-            className="fixed bottom-10 left-1/2 z-[100] bg-slate-900 dark:bg-black text-white px-8 py-4 rounded-xl shadow-[0_0_30px_rgba(34,197,94,0.2)] flex items-center gap-4 border-slate-400 dark:border-slate-600/30 backdrop-blur-xl"
+            className="fixed bottom-10 left-1/2 z-[100] bg-slate-900 dark:bg-slate-950 text-white px-8 py-4 rounded-xl shadow-[0_0_30px_rgba(34,197,94,0.2)] flex items-center gap-4 border-indigo-300 dark:border-indigo-700/30 backdrop-blur-xl"
           >
-            <div className="w-8 h-8 bg-slate-100 dark:bg-slate-900/20 border-slate-400 dark:border-slate-600/50 rounded-lg flex items-center justify-center shadow-[0_0_15px_rgba(34,197,94,0.4)] text-slate-800 dark:text-slate-200">
-              <Check className="w-5 h-5" />
+            <div className="w-8 h-8 bg-slate-100 dark:bg-slate-900/20 border-indigo-300 dark:border-indigo-700/50 rounded-lg flex items-center justify-center shadow-[0_0_15px_rgba(34,197,94,0.4)] text-slate-700 dark:text-slate-200">
+              <Check className="w-5 h-5 text-indigo-600 dark:text-indigo-400" />
             </div>
             <div>
-              <p className="text-sm font-black tracking-widest text-slate-800 dark:text-slate-200">TRANSFERÊNCIA CONCLUÍDA!</p>
-              <p className="text-[10px] text-slate-800 dark:text-slate-200/70 font-mono tracking-widest mt-1">Dados validados na área de transferência.</p>
+              <p className="text-sm font-black tracking-widest text-slate-700 dark:text-slate-200">TRANSFERÊNCIA CONCLUÍDA!</p>
+              <p className="text-[10px] text-slate-700 dark:text-slate-200/70 font-mono tracking-widest mt-1">Dados validados na área de transferência.</p>
             </div>
           </motion.div>
         )}
@@ -1327,7 +1335,7 @@ export default function TemplateGenerator() {
       {/* Mobile Overlay */}
       {isSidebarOpen && (
         <div 
-          className="fixed inset-0 bg-slate-900/20 dark:bg-black/40 backdrop-blur-sm z-40 lg:hidden"
+          className="fixed inset-0 bg-slate-900/20 dark:bg-slate-950/40 backdrop-blur-sm z-40 lg:hidden"
           onClick={() => setIsSidebarOpen(false)}
         />
       )}

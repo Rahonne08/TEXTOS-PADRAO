@@ -906,10 +906,10 @@ export default function TemplateGenerator() {
 
       {/* Sidebar Navigation */}
       <aside className={cn(
-        "fixed inset-y-0 left-0 z-50 w-72 bg-white/80 dark:bg-black/80 backdrop-blur-xl border-r border-slate-200/50 dark:border-slate-700/30 transition-all duration-300 ease-in-out lg:relative lg:translate-x-0 flex-col h-full shadow-[4px_0_24px_-10px_rgba(34,197,94,0.1)] dark:shadow-[4px_0_24px_-10px_rgba(34,197,94,0.05)]",
+        "fixed inset-y-0 left-0 z-50 w-72 bg-white/80 dark:bg-black/80 backdrop-blur-xl border-r border-slate-200/50 dark:border-slate-700/30 transition-all duration-300 ease-in-out lg:relative lg:translate-x-0 flex flex-col h-full shadow-[4px_0_24px_-10px_rgba(34,197,94,0.1)] dark:shadow-[4px_0_24px_-10px_rgba(34,197,94,0.05)]",
         isSidebarOpen ? "translate-x-0" : "-translate-x-full"
       )}>
-        <div className="flex-col h-full relative z-10">
+        <div className="flex flex-col h-full relative z-10">
           <div className="p-6 border-b border-slate-200/50 dark:border-slate-700/30 flex items-center justify-between shrink-0">
             <div className="flex items-center gap-3">
               
@@ -922,7 +922,7 @@ export default function TemplateGenerator() {
             </Tooltip>
           </div>
 
-          <div className="flex-1 overflow-y-auto p-4 space-y-1.5 scrollbar-thin scrollbar-thumb-green-200 dark:scrollbar-thumb-green-900/50 scrollbar-track-transparent">
+          <div className="flex-1 overflow-y-auto p-4 space-y-1.5 scrollbar-thin scrollbar-thumb-slate-200 dark:scrollbar-thumb-slate-800/50 scrollbar-track-transparent">
             <button
               onClick={() => handleCategorySelect(null)}
               className={cn(
@@ -1020,7 +1020,7 @@ export default function TemplateGenerator() {
       </aside>
 
       {/* Main Content */}
-      <div className="flex-1 flex-col min-w-0">
+      <div className="flex-1 flex flex-col min-w-0 h-full">
         {/* Header */}
         <header className="sticky top-0 z-40 bg-white/60 dark:bg-black/60 backdrop-blur-xl border-b border-slate-200/50 dark:border-slate-700/30 transition-colors duration-500">
           <div className="px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
@@ -1244,7 +1244,7 @@ export default function TemplateGenerator() {
                                     CONTEÚDO TERMINAL
                                   </div>
                                 </div>
-                                <pre className="text-[11px] text-slate-800 dark:text-slate-200 bg-slate-50 dark:bg-black p-5 rounded-xl font-mono whitespace-pre-wrap leading-relaxed border-slate-200/60 dark:border-slate-400 dark:border-slate-600/30 max-h-48 overflow-y-auto scrollbar-thin scrollbar-thumb-green-200 dark:scrollbar-thumb-green-800 shadow-inner transition-colors duration-500 relative">
+                                <pre className="text-[11px] text-slate-800 dark:text-slate-200 bg-slate-50 dark:bg-black p-5 rounded-xl font-mono whitespace-pre-wrap leading-relaxed border-slate-200/60 dark:border-slate-400 dark:border-slate-600/30 max-h-48 overflow-y-auto scrollbar-thin scrollbar-thumb-slate-200 dark:scrollbar-thumb-green-800 shadow-inner transition-colors duration-500 relative">
                                   {template.content}
                                 </pre>
                               </div>

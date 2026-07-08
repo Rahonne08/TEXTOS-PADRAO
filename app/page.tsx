@@ -921,7 +921,7 @@ export default function TemplateGenerator() {
               <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-indigo-500 to-violet-500 flex items-center justify-center text-white shadow-lg shadow-indigo-500/30">
                 <LayoutTemplate className="w-5 h-5" />
               </div>
-              <span className="font-black text-lg tracking-tight text-slate-800 dark:text-white uppercase drop-shadow-sm">Textos <span className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-500 to-violet-500">Campeões</span></span>
+              <span className="font-black text-lg tracking-tight text-slate-800 dark:text-white uppercase drop-shadow-sm">TEXTOS PADRÃO <span className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-500 to-violet-500">ATENDIMENTO LESTE</span></span>
             </div>
             <Tooltip text="Fechar Menu" position="left">
               <button onClick={() => setIsSidebarOpen(false)} className="lg:hidden p-2 text-slate-700 dark:text-slate-200 hover:text-slate-700 dark:text-slate-200 dark:hover:text-slate-700 dark:text-slate-200">

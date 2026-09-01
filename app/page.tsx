@@ -32,7 +32,10 @@ import {
   X,
   Info,
   Heart,
-  Star, LayoutTemplate
+  Star,
+  LayoutTemplate,
+  Flame,
+  TrendingUp
 } from 'lucide-react';
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
@@ -700,6 +703,7 @@ export default function TemplateGenerator() {
   const [expandedTemplates, setExpandedTemplates] = useState<string[]>([]);
   const [favorites, setFavorites] = useState<string[]>([]);
   const [pinnedCategories, setPinnedCategories] = useState<string[]>([]);
+  const [usageCounts, setUsageCounts] = useState<Record<string, number>>({});
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [theme, setTheme] = useState<'light' | 'dark'>('light');
   const [mounted, setMounted] = useState(false);
@@ -711,7 +715,7 @@ export default function TemplateGenerator() {
     );
   };
 
-  // Load theme and favorites from localStorage on mount
+  // Load theme, favorites, pinned categories, and usage counts from localStorage on mount
   useEffect(() => {
     const initData = () => {
       try {
@@ -730,6 +734,11 @@ export default function TemplateGenerator() {
         const savedPinned = localStorage.getItem('pinnedCategories');
         if (savedPinned) {
           setPinnedCategories(JSON.parse(savedPinned));
+        }
+
+        const savedUsage = localStorage.getItem('templateUsageCounts');
+        if (savedUsage) {
+          setUsageCounts(JSON.parse(savedUsage));
         }
       } catch (e) {
         console.warn('localStorage access failed. Ensure cookies/storage are allowed if using iframe.', e);
@@ -757,6 +766,14 @@ export default function TemplateGenerator() {
       localStorage.setItem('pinnedCategories', JSON.stringify(pinnedCategories));
     } catch (e) {}
   }, [pinnedCategories, mounted]);
+
+  // Update localStorage when usageCounts change
+  useEffect(() => {
+    if (!mounted) return;
+    try {
+      localStorage.setItem('templateUsageCounts', JSON.stringify(usageCounts));
+    } catch (e) {}
+  }, [usageCounts, mounted]);
 
   // Update localStorage and document class when theme changes
   useEffect(() => {
@@ -815,12 +832,34 @@ export default function TemplateGenerator() {
         id: 'favorites',
         name: 'Meus Favoritos',
         icon: <Heart className="w-5 h-5 fill-rose-500 text-rose-500" />,
+        info: favoriteTemplates.length === 0 ? 'Você ainda não adicionou nenhum template aos favoritos. Clique no ícone de coração em qualquer template para favoritá-lo.' : undefined,
         templates: processTemplates(favoriteTemplates).filter(template => 
           !searchQuery || 
           template.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
           template.content.toLowerCase().includes(searchQuery.toLowerCase())
         )
-      } as Category].filter(cat => cat.templates.length > 0);
+      } as Category];
+    }
+
+    if (selectedCategory === 'most-used') {
+      const allTemplates = SERVICE_CATEGORIES.flatMap(cat => cat.templates);
+      const usedTemplates = allTemplates
+        .filter(t => (usageCounts[t.id] || 0) > 0)
+        .sort((a, b) => (usageCounts[b.id] || 0) - (usageCounts[a.id] || 0));
+
+      return [{
+        id: 'most-used',
+        name: 'Templates Mais Usados',
+        icon: <Flame className="w-5 h-5 text-amber-500 fill-amber-500/20" />,
+        info: usedTemplates.length === 0 
+          ? 'Nenhum template foi utilizado ainda. Copie qualquer template no sistema para contabilizar o uso e ver o ranking aqui.'
+          : `Exibindo ${usedTemplates.length} ${usedTemplates.length === 1 ? 'template utilizado' : 'templates utilizados'} ordenados pela quantidade de cópias.`,
+        templates: processTemplates(usedTemplates).filter(template => 
+          !searchQuery || 
+          template.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          template.content.toLowerCase().includes(searchQuery.toLowerCase())
+        )
+      } as Category];
     }
 
     const categories = SERVICE_CATEGORIES.map(cat => ({
@@ -838,7 +877,7 @@ export default function TemplateGenerator() {
         template.content.toLowerCase().includes(searchQuery.toLowerCase())
       )
     })).filter(category => category.templates.length > 0);
-  }, [searchQuery, favorites, selectedCategory, mounted]);
+  }, [searchQuery, favorites, selectedCategory, usageCounts, mounted]);
 
   const handleCopy = async (text: string, id: string) => {
     let success = false;
@@ -868,6 +907,12 @@ export default function TemplateGenerator() {
       
       if (success) {
         setCopiedId(id);
+        if (id !== 'email-copy' && id !== 'title-copy') {
+          setUsageCounts(prev => ({
+            ...prev,
+            [id]: (prev[id] || 0) + 1
+          }));
+        }
         setToast({ message: 'Texto copiado para a área de transferência', type: 'success' });
         setTimeout(() => setCopiedId(null), 2000);
         setTimeout(() => setToast(null), 3000);
@@ -946,7 +991,25 @@ export default function TemplateGenerator() {
               )}
             >
               <FileText className="w-4 h-4" />
-              Todos os Serviços
+              <span className="flex-1 text-left">Todos os Serviços</span>
+            </button>
+
+            <button
+              onClick={() => handleCategorySelect('most-used')}
+              className={cn(
+                "w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold transition-all border border-transparent",
+                selectedCategory === 'most-used' 
+                  ? "bg-amber-100/80 dark:bg-amber-950/40 text-amber-900 dark:text-amber-200 border-amber-300 dark:border-amber-700/50 shadow-[0_0_15px_rgba(245,158,11,0.15)]" 
+                  : "text-slate-700 dark:text-slate-200 hover:bg-amber-50/60 dark:hover:bg-amber-950/20 hover:text-amber-700 dark:hover:text-amber-300 hover:border-amber-200/40 dark:hover:border-amber-800/30"
+              )}
+            >
+              <Flame className={cn("w-4 h-4 text-amber-500", selectedCategory === 'most-used' && "fill-amber-500/30")} />
+              <span className="flex-1 text-left">Mais Usados</span>
+              {mounted && Object.values(usageCounts).reduce((a, b) => a + b, 0) > 0 && (
+                <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-amber-200/80 dark:bg-amber-900/60 text-amber-900 dark:text-amber-200 border border-amber-300 dark:border-amber-700 font-bold">
+                  {Object.values(usageCounts).reduce((a, b) => a + b, 0)}
+                </span>
+              )}
             </button>
 
             <button
@@ -958,8 +1021,13 @@ export default function TemplateGenerator() {
                   : "text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-100 dark:bg-slate-900/20 hover:text-slate-700 dark:text-slate-200 dark:hover:text-slate-700 dark:text-slate-200 dark:hover:border-indigo-300 dark:border-indigo-700/20"
               )}
             >
-              <Heart className={cn("w-4 h-4", selectedCategory === 'favorites' && "fill-current")} />
-              Meus Favoritos
+              <Heart className={cn("w-4 h-4 text-rose-500", selectedCategory === 'favorites' && "fill-current")} />
+              <span className="flex-1 text-left">Meus Favoritos</span>
+              {mounted && favorites.length > 0 && (
+                <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-rose-100 dark:bg-rose-950/60 text-rose-700 dark:text-rose-300 border border-rose-200 dark:border-rose-800 font-bold">
+                  {favorites.length}
+                </span>
+              )}
             </button>
             
             <div className="pt-4 pb-2 px-4">
@@ -1192,98 +1260,127 @@ export default function TemplateGenerator() {
                   )}
 
 
-                  <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-                    {category.templates.map((template) => (
-                      <motion.div
-                        key={template.id}
-                        layoutId={template.id}
-                        className="group bg-white/70 dark:bg-slate-900/40 backdrop-blur-xl border-indigo-200 dark:border-indigo-800/20 dark:border-indigo-300 dark:border-indigo-700/30 rounded-2xl p-6 hover:bg-white dark:hover:bg-slate-900/60 hover:border-indigo-200 dark:border-indigo-800 dark:hover:border-indigo-300 dark:border-indigo-700/80 hover:shadow-[0_8px_30px_rgba(255,223,0,0.15)] dark:hover:shadow-[0_8px_30px_rgba(255,223,0,0.2)] transition-all duration-300 flex-col relative overflow-hidden"
-                      >
-                        <div className="absolute top-0 right-0 w-32 h-32 bg-indigo-50 dark:bg-indigo-950/20 dark:bg-slate-900/5 rounded-full blur-[40px] pointer-events-none group-hover:bg-slate-100 dark:bg-slate-900/20 transition-colors duration-500"></div>
-                        <div className="flex items-start justify-between mb-6 relative z-10">
-                          <div className="space-y-1">
-                            <h3 
-                              onClick={() => toggleExpanded(template.id)}
-                              className="cursor-pointer font-bold text-slate-700 dark:text-slate-200 leading-tight group-hover:text-slate-700 dark:text-slate-200 dark:text-white dark:group-hover:text-slate-700 dark:text-slate-200 transition-colors"
-                            >
-                              {template.title}
-                            </h3>
-                            <span className="text-[10px] font-mono text-slate-700 dark:text-slate-200 dark:text-white uppercase tracking-widest block mt-1">SYS.ID: {template.id}</span>
-                          </div>
-                          <div className="flex items-center gap-2">
-                            <Tooltip text={favorites.includes(template.id) ? "Remover dos Favoritos" : "Adicionar aos Favoritos"}>
-                              <button
-                                onClick={(e) => toggleFavorite(template.id, e)}
-                                className={cn(
-                                  "p-3 rounded-full transition-all shadow-sm",
-                                  favorites.includes(template.id)
-                                    ? "bg-rose-50 dark:bg-rose-900/30 text-rose-500 border-rose-100 dark:border-rose-900/50"
-                                    : "bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-700/50 text-slate-700 dark:text-slate-200 hover:bg-rose-50 dark:hover:bg-rose-900/20 hover:text-rose-400 hover:border-rose-200 dark:hover:border-rose-900/50"
-                                )}
+                  {category.templates.length === 0 ? (
+                    <div className="bg-white/60 dark:bg-slate-900/30 border border-dashed border-indigo-200 dark:border-indigo-800/40 rounded-2xl p-10 text-center flex flex-col items-center justify-center">
+                      <div className="w-12 h-12 rounded-xl bg-amber-50 dark:bg-amber-950/30 text-amber-500 flex items-center justify-center mb-3">
+                        {category.id === 'favorites' ? <Heart className="w-6 h-6 text-rose-500" /> : <Flame className="w-6 h-6 text-amber-500" />}
+                      </div>
+                      <h3 className="text-base font-bold text-slate-800 dark:text-slate-200">
+                        {category.id === 'favorites' ? 'Nenhum favorito adicionado' : 'Nenhum template utilizado ainda'}
+                      </h3>
+                      <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 max-w-md">
+                        {category.id === 'favorites' 
+                          ? 'Clique no ícone de coração em qualquer template para adicioná-lo aos seus favoritos.'
+                          : 'Conforme você copiar e utilizar os templates no sistema, eles aparecerão ordenados por frequência de uso aqui.'}
+                      </p>
+                    </div>
+                  ) : (
+                    <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+                      {category.templates.map((template) => (
+                        <motion.div
+                          key={template.id}
+                          layoutId={template.id}
+                          className="group bg-white/70 dark:bg-slate-900/40 backdrop-blur-xl border-indigo-200 dark:border-indigo-800/20 dark:border-indigo-300 dark:border-indigo-700/30 rounded-2xl p-6 hover:bg-white dark:hover:bg-slate-900/60 hover:border-indigo-200 dark:border-indigo-800 dark:hover:border-indigo-300 dark:border-indigo-700/80 hover:shadow-[0_8px_30px_rgba(255,223,0,0.15)] dark:hover:shadow-[0_8px_30px_rgba(255,223,0,0.2)] transition-all duration-300 flex-col relative overflow-hidden"
+                        >
+                          <div className="absolute top-0 right-0 w-32 h-32 bg-indigo-50 dark:bg-indigo-950/20 dark:bg-slate-900/5 rounded-full blur-[40px] pointer-events-none group-hover:bg-slate-100 dark:bg-slate-900/20 transition-colors duration-500"></div>
+                          <div className="flex items-start justify-between mb-6 relative z-10">
+                            <div className="space-y-1">
+                              <h3 
+                                onClick={() => toggleExpanded(template.id)}
+                                className="cursor-pointer font-bold text-slate-700 dark:text-slate-200 leading-tight group-hover:text-slate-700 dark:text-slate-200 dark:text-white dark:group-hover:text-slate-700 dark:text-slate-200 transition-colors"
                               >
-                                <Heart className={cn("w-5 h-5", favorites.includes(template.id) && "fill-current")} />
-                              </button>
-                            </Tooltip>
-                            <Tooltip text={copiedId === template.id ? "Copiado!" : copyErrorId === template.id ? "Erro ao Copiar" : "Copiar Template"}>
-                              <button
-                                onClick={() => handleCopy(template.content, template.id)}
-                                className={cn(
-                                  "shrink-0 p-3 rounded-full transition-all shadow-sm border",
-                                  copiedId === template.id 
-                                    ? "bg-indigo-100 dark:bg-indigo-900/40 border-indigo-300 dark:border-indigo-500/50 text-indigo-700 dark:text-indigo-400 scale-110 shadow-[0_0_15px_rgba(99,102,241,0.2)]" 
-                                    : copyErrorId === template.id
-                                      ? "bg-rose-500 border-rose-500 text-white scale-110"
-                                      : "bg-white/80 dark:bg-slate-900/50 border-slate-200 dark:border-indigo-300 dark:border-indigo-700/30 text-slate-700 dark:text-slate-200 dark:text-white group-hover:bg-gradient-to-r group-hover:from-slate-100 dark:from-slate-900 group-hover:to-slate-300 dark:to-slate-800 group-hover:border-indigo-300 dark:border-indigo-700 dark:group-hover:border-indigo-300 dark:border-indigo-700 group-hover:text-white dark:group-hover:text-[#002776]"
-                                )}
-                              >
-                                {copiedId === template.id ? <Check className="w-5 h-5 text-indigo-600 dark:text-indigo-400" /> : copyErrorId === template.id ? <AlertTriangle className="w-5 h-5" /> : <Copy className="w-5 h-5" />}
-                              </button>
-                            </Tooltip>
-                          </div>
-                        </div>
-                        
-                        <AnimatePresence>
-                          {expandedTemplates.includes(template.id) && (
-                            <motion.div
-                              initial={{ height: 0, opacity: 0 }}
-                              animate={{ height: 'auto', opacity: 1 }}
-                              exit={{ height: 0, opacity: 0 }}
-                              transition={{ duration: 0.3, ease: "easeInOut" }}
-                              className="overflow-hidden"
-                            >
-                              <div className="relative flex-1 group/pre mt-4">
-                                <div className="absolute top-3 right-3 opacity-0 group-hover/pre:opacity-100 transition-opacity">
-                                  <div className="bg-white/80 dark:bg-slate-900/80 backdrop-blur px-2 py-1 rounded-md text-[10px] font-black text-slate-700 dark:text-slate-200 border-slate-200/50 dark:border-indigo-300 dark:border-indigo-700/30 shadow-sm tracking-wide">
-                                    CONTEÚDO TERMINAL
-                                  </div>
+                                {template.title}
+                              </h3>
+                              <span className="text-[10px] font-mono text-slate-700 dark:text-slate-200 dark:text-white uppercase tracking-widest block mt-1">SYS.ID: {template.id}</span>
+                            </div>
+                            <div className="flex items-center gap-2">
+                              {/* Contador de Utilizações */}
+                              <Tooltip text={`${usageCounts[template.id] || 0} ${(usageCounts[template.id] || 0) === 1 ? 'uso registrado' : 'usos registrados'}`}>
+                                <div className={cn(
+                                  "flex items-center gap-1 px-2.5 py-1.5 rounded-full text-xs font-mono font-bold transition-all border",
+                                  (usageCounts[template.id] || 0) > 0
+                                    ? "bg-amber-50/80 dark:bg-amber-950/40 text-amber-800 dark:text-amber-300 border-amber-200/80 dark:border-amber-800/60 shadow-xs"
+                                    : "bg-slate-100/60 dark:bg-slate-800/30 text-slate-400 dark:text-slate-500 border-slate-200/50 dark:border-slate-800/50"
+                                )}>
+                                  <Flame className={cn("w-3.5 h-3.5", (usageCounts[template.id] || 0) > 0 ? "text-amber-500 fill-amber-500/30" : "text-slate-400 dark:text-slate-500")} />
+                                  <span>{usageCounts[template.id] || 0}</span>
                                 </div>
-                                <pre className="text-[11px] text-slate-700 dark:text-slate-200 bg-slate-50 dark:bg-slate-950 p-5 rounded-xl font-mono whitespace-pre-wrap leading-relaxed border-slate-200/60 dark:border-indigo-300 dark:border-indigo-700/30 max-h-48 overflow-y-auto scrollbar-thin scrollbar-thumb-slate-200 dark:scrollbar-thumb-green-800 shadow-inner transition-colors duration-500 relative">
-                                  {template.content}
-                                </pre>
-                              </div>
-                            </motion.div>
-                          )}
-                        </AnimatePresence>
+                              </Tooltip>
 
-                        <div className="mt-6 pt-6 border-t border-slate-200/50 dark:border-slate-700/50 flex items-center justify-between">
-                          <div className="flex -space-x-2 opacity-50">
-                            {[1, 2, 3].map(i => (
-                              <div key={i} className="w-6 h-6 rounded-full bg-slate-100 dark:bg-slate-900 border-2 border-white dark:border-indigo-200 dark:border-indigo-800" />
-                            ))}
+                              <Tooltip text={favorites.includes(template.id) ? "Remover dos Favoritos" : "Adicionar aos Favoritos"}>
+                                <button
+                                  onClick={(e) => toggleFavorite(template.id, e)}
+                                  className={cn(
+                                    "p-3 rounded-full transition-all shadow-sm",
+                                    favorites.includes(template.id)
+                                      ? "bg-rose-50 dark:bg-rose-900/30 text-rose-500 border-rose-100 dark:border-rose-900/50"
+                                      : "bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-700/50 text-slate-700 dark:text-slate-200 hover:bg-rose-50 dark:hover:bg-rose-900/20 hover:text-rose-400 hover:border-rose-200 dark:hover:border-rose-900/50"
+                                  )}
+                                >
+                                  <Heart className={cn("w-5 h-5", favorites.includes(template.id) && "fill-current")} />
+                                </button>
+                              </Tooltip>
+                              <Tooltip text={copiedId === template.id ? "Copiado!" : copyErrorId === template.id ? "Erro ao Copiar" : "Copiar Template"}>
+                                <button
+                                  onClick={() => handleCopy(template.content, template.id)}
+                                  className={cn(
+                                    "shrink-0 p-3 rounded-full transition-all shadow-sm border",
+                                    copiedId === template.id 
+                                      ? "bg-indigo-100 dark:bg-indigo-900/40 border-indigo-300 dark:border-indigo-500/50 text-indigo-700 dark:text-indigo-400 scale-110 shadow-[0_0_15px_rgba(99,102,241,0.2)]" 
+                                      : copyErrorId === template.id
+                                        ? "bg-rose-500 border-rose-500 text-white scale-110"
+                                        : "bg-white/80 dark:bg-slate-900/50 border-slate-200 dark:border-indigo-300 dark:border-indigo-700/30 text-slate-700 dark:text-slate-200 dark:text-white group-hover:bg-gradient-to-r group-hover:from-slate-100 dark:from-slate-900 group-hover:to-slate-300 dark:to-slate-800 group-hover:border-indigo-300 dark:border-indigo-700 dark:group-hover:border-indigo-300 dark:border-indigo-700 group-hover:text-white dark:group-hover:text-[#002776]"
+                                  )}
+                                >
+                                  {copiedId === template.id ? <Check className="w-5 h-5 text-indigo-600 dark:text-indigo-400" /> : copyErrorId === template.id ? <AlertTriangle className="w-5 h-5" /> : <Copy className="w-5 h-5" />}
+                                </button>
+                              </Tooltip>
+                            </div>
                           </div>
-                          <Tooltip text={copiedId === template.id ? "Copiado!" : copyErrorId === template.id ? "Erro ao Copiar" : "Copiar todo o conteúdo template"}>
-                            <button 
-                              onClick={() => handleCopy(template.content, template.id)}
-                              className="text-xs font-black text-slate-700 dark:text-slate-200 dark:text-white dark:text-slate-200 flex items-center gap-1 hover:gap-2 transition-all uppercase tracking-widest"
-                            >
-                              Copiar Terminal
-                              <ChevronRight className="w-4 h-4 text-slate-700 dark:text-slate-200" />
-                            </button>
-                          </Tooltip>
-                        </div>
-                      </motion.div>
-                    ))}
-                  </div>
+                          
+                          <AnimatePresence>
+                            {expandedTemplates.includes(template.id) && (
+                              <motion.div
+                                initial={{ height: 0, opacity: 0 }}
+                                animate={{ height: 'auto', opacity: 1 }}
+                                exit={{ height: 0, opacity: 0 }}
+                                transition={{ duration: 0.3, ease: "easeInOut" }}
+                                className="overflow-hidden"
+                              >
+                                <div className="relative flex-1 group/pre mt-4">
+                                  <div className="absolute top-3 right-3 opacity-0 group-hover/pre:opacity-100 transition-opacity">
+                                    <div className="bg-white/80 dark:bg-slate-900/80 backdrop-blur px-2 py-1 rounded-md text-[10px] font-black text-slate-700 dark:text-slate-200 border-slate-200/50 dark:border-indigo-300 dark:border-indigo-700/30 shadow-sm tracking-wide">
+                                      CONTEÚDO TERMINAL
+                                    </div>
+                                  </div>
+                                  <pre className="text-[11px] text-slate-700 dark:text-slate-200 bg-slate-50 dark:bg-slate-950 p-5 rounded-xl font-mono whitespace-pre-wrap leading-relaxed border-slate-200/60 dark:border-indigo-300 dark:border-indigo-700/30 max-h-48 overflow-y-auto scrollbar-thin scrollbar-thumb-slate-200 dark:scrollbar-thumb-green-800 shadow-inner transition-colors duration-500 relative">
+                                    {template.content}
+                                  </pre>
+                                </div>
+                              </motion.div>
+                            )}
+                          </AnimatePresence>
+
+                          <div className="mt-6 pt-6 border-t border-slate-200/50 dark:border-slate-700/50 flex items-center justify-between">
+                            <div className="flex -space-x-2 opacity-50">
+                              {[1, 2, 3].map(i => (
+                                <div key={i} className="w-6 h-6 rounded-full bg-slate-100 dark:bg-slate-900 border-2 border-white dark:border-indigo-200 dark:border-indigo-800" />
+                              ))}
+                            </div>
+                            <Tooltip text={copiedId === template.id ? "Copiado!" : copyErrorId === template.id ? "Erro ao Copiar" : "Copiar todo o conteúdo template"}>
+                              <button 
+                                onClick={() => handleCopy(template.content, template.id)}
+                                className="text-xs font-black text-slate-700 dark:text-slate-200 dark:text-white dark:text-slate-200 flex items-center gap-1 hover:gap-2 transition-all uppercase tracking-widest"
+                              >
+                                Copiar Terminal
+                                <ChevronRight className="w-4 h-4 text-slate-700 dark:text-slate-200" />
+                              </button>
+                            </Tooltip>
+                          </div>
+                        </motion.div>
+                      ))}
+                    </div>
+                  )}
 
                   {category.showNegotiationTable && <NegotiationTable />}
                 </motion.section>

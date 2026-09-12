@@ -35,7 +35,12 @@ import {
   Star,
   LayoutTemplate,
   Flame,
-  TrendingUp
+  TrendingUp,
+  Ribbon,
+  Sun,
+  Sparkles,
+  HeartHandshake,
+  Quote
 } from 'lucide-react';
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
@@ -43,6 +48,17 @@ import { twMerge } from 'tailwind-merge';
 function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
+
+const MOTIVATIONAL_MESSAGES = [
+  "Sua vida tem um valor inestimável. Cuide com carinho do seu coração e da sua mente. 💛",
+  "Você não está sozinho. Falar é a melhor solução • Apoio Emocional: Ligue 188 (CVV).",
+  "Acolher com paciência e empatia transforma o dia de quem atende e de quem é acolhido.",
+  "Cada novo amanhecer traz uma oportunidade de recomeço e esperança. Siga em frente!",
+  "Respire fundo: você é mais forte e resiliente do que imagina. Um passo de cada vez.",
+  "Seja gentil com a sua mente. O seu bem-estar e a sua paz importam todos os dias.",
+  "A sua história tem valor e muitos capítulos iluminados pela frente. Não desista de você!",
+  "Pequenos gestos de gentileza salvam o dia. Valorize a vida em cada contato. ☀️"
+];
 
 const Tooltip = ({ text, children, position = 'top' }: { text: string, children: React.ReactNode, position?: 'top' | 'bottom' | 'left' | 'right' }) => {
   const positionClasses = {
@@ -708,6 +724,19 @@ export default function TemplateGenerator() {
   const [theme, setTheme] = useState<'light' | 'dark'>('light');
   const [mounted, setMounted] = useState(false);
   const [toast, setToast] = useState<{ message: string, type: 'success' | 'error' } | null>(null);
+  const [currentQuoteIndex, setCurrentQuoteIndex] = useState(0);
+
+  const nextQuote = () => {
+    setCurrentQuoteIndex((prev) => (prev + 1) % MOTIVATIONAL_MESSAGES.length);
+  };
+
+  // Rotate motivational quote periodically
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentQuoteIndex((prev) => (prev + 1) % MOTIVATIONAL_MESSAGES.length);
+    }, 14000);
+    return () => clearInterval(timer);
+  }, []);
 
   const toggleExpanded = (id: string) => {
     setExpandedTemplates(prev => 
@@ -933,10 +962,43 @@ export default function TemplateGenerator() {
 
   return (
     <div className="h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 font-sans flex overflow-hidden transition-colors duration-500 relative">
-      <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
-        <div className="absolute left-[-10%] top-[-10%] w-[40%] h-[40%] rounded-full bg-violet-400/20 dark:bg-violet-600/10 blur-[120px] mix-blend-multiply dark:mix-blend-lighten"></div>
-        <div className="absolute right-[-5%] bottom-[-10%] w-[50%] h-[50%] rounded-full bg-cyan-400/20 dark:bg-cyan-600/10 blur-[150px] mix-blend-multiply dark:mix-blend-lighten"></div>
-        <div className="absolute top-[20%] left-[60%] w-[30%] h-[30%] rounded-full bg-indigo-400/20 dark:bg-indigo-600/10 blur-[100px] mix-blend-multiply dark:mix-blend-lighten"></div>
+      {/* Setembro Amarelo Glowing Atmosphere & Background Motivational Messages */}
+      <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none select-none">
+        {/* Warm Golden / Amber Glowing Orbs */}
+        <div className="absolute left-[-10%] top-[-10%] w-[45%] h-[45%] rounded-full bg-amber-400/20 dark:bg-amber-500/10 blur-[130px] mix-blend-multiply dark:mix-blend-lighten" />
+        <div className="absolute right-[-5%] bottom-[-10%] w-[50%] h-[50%] rounded-full bg-yellow-300/20 dark:bg-yellow-500/10 blur-[150px] mix-blend-multiply dark:mix-blend-lighten" />
+        <div className="absolute top-[25%] left-[55%] w-[35%] h-[35%] rounded-full bg-amber-500/15 dark:bg-amber-600/10 blur-[120px] mix-blend-multiply dark:mix-blend-lighten" />
+
+        {/* Ambient Decorative Icons in Background */}
+        <div className="absolute top-16 right-[12%] opacity-[0.08] dark:opacity-[0.05] text-amber-600 dark:text-amber-400 transform rotate-12">
+          <Ribbon className="w-32 h-32 fill-current" />
+        </div>
+        <div className="absolute bottom-20 left-[6%] opacity-[0.08] dark:opacity-[0.04] text-yellow-600 dark:text-yellow-400 transform -rotate-12">
+          <Sun className="w-36 h-36" />
+        </div>
+        <div className="absolute top-[50%] left-[2%] opacity-[0.06] dark:opacity-[0.03] text-amber-500 transform rotate-45">
+          <Ribbon className="w-28 h-28 fill-current" />
+        </div>
+
+        {/* Background Motivational Typography Watermarks */}
+        <div className="absolute top-10 left-8 text-amber-800/[0.07] dark:text-amber-300/[0.05] font-black text-2xl lg:text-4xl uppercase tracking-widest rotate-[-4deg] whitespace-nowrap">
+          💛 SUA VIDA VALE MUITO • CUIDE DE VOCÊ
+        </div>
+        <div className="absolute top-[24%] right-10 text-yellow-800/[0.07] dark:text-yellow-300/[0.05] font-black text-xl lg:text-3xl uppercase tracking-widest rotate-[3deg] whitespace-nowrap">
+          VOCÊ NÃO ESTÁ SOZINHO • FALAR É A MELHOR SOLUÇÃO
+        </div>
+        <div className="absolute top-[46%] left-12 text-amber-800/[0.08] dark:text-amber-300/[0.05] font-black text-2xl lg:text-4xl uppercase tracking-widest rotate-[-2deg] whitespace-nowrap">
+          🎗️ SETEMBRO AMARELO • DISQUE 188 • VALORIZE A VIDA
+        </div>
+        <div className="absolute top-[68%] right-12 text-yellow-800/[0.07] dark:text-yellow-300/[0.05] font-black text-xl lg:text-3xl uppercase tracking-widest rotate-[4deg] whitespace-nowrap">
+          ACOLHER TRANSFORMA • RESPIRE FUNDO E SIGA EM FRENTE
+        </div>
+        <div className="absolute bottom-24 left-16 text-amber-800/[0.07] dark:text-amber-300/[0.05] font-black text-2xl lg:text-4xl uppercase tracking-widest rotate-[-3deg] whitespace-nowrap">
+          CADA NOVO DIA É UMA CHANCE • HÁ SEMPRE ESPERANÇA ☀️
+        </div>
+        <div className="absolute bottom-8 right-20 text-yellow-800/[0.07] dark:text-yellow-300/[0.05] font-black text-xl lg:text-3xl uppercase tracking-widest rotate-[2deg] whitespace-nowrap">
+          SEJA GENTIL CONSIGO MESMO • SUA HISTÓRIA IMPORTA
+        </div>
       </div>
       
       {/* Toast Notification */}
@@ -948,13 +1010,13 @@ export default function TemplateGenerator() {
             exit={{ opacity: 0, y: -20 }}
             className="fixed top-6 left-1/2 -translate-x-1/2 z-[100] flex items-center gap-3 px-5 py-3.5 rounded-xl shadow-[0_0_20px_rgba(0,0,0,0.2)] border backdrop-blur-xl"
             style={{
-              backgroundColor: toast.type === 'success' ? 'rgba(6, 182, 212, 0.15)' : 'rgba(239, 68, 68, 0.15)',
-              borderColor: toast.type === 'success' ? 'rgba(6, 182, 212, 0.5)' : 'rgba(239, 68, 68, 0.5)',
-              color: toast.type === 'success' ? '#22c55e' : '#ef4444',
-              boxShadow: toast.type === 'success' ? '0 20px rgba(6, 182, 212, 0.2)' : '0 20px rgba(239, 68, 68, 0.2)'
+              backgroundColor: toast.type === 'success' ? 'rgba(245, 158, 11, 0.15)' : 'rgba(239, 68, 68, 0.15)',
+              borderColor: toast.type === 'success' ? 'rgba(245, 158, 11, 0.5)' : 'rgba(239, 68, 68, 0.5)',
+              color: toast.type === 'success' ? '#d97706' : '#ef4444',
+              boxShadow: toast.type === 'success' ? '0 20px rgba(245, 158, 11, 0.2)' : '0 20px rgba(239, 68, 68, 0.2)'
             }}
           >
-            {toast.type === 'success' ? <Check className="w-5 h-5 text-indigo-600 dark:text-indigo-400" /> : <AlertTriangle className="w-5 h-5" />}
+            {toast.type === 'success' ? <Check className="w-5 h-5 text-amber-600 dark:text-amber-400" /> : <AlertTriangle className="w-5 h-5" />}
             <span className="text-sm font-bold tracking-wide">{toast.message}</span>
           </motion.div>
         )}
@@ -962,19 +1024,26 @@ export default function TemplateGenerator() {
 
       {/* Sidebar Navigation */}
       <aside className={cn(
-        "fixed inset-y-0 left-0 z-50 w-72 bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border-r border-slate-200/50 dark:border-slate-700/30 transition-all duration-300 ease-in-out lg:relative lg:translate-x-0 flex flex-col h-full shadow-[4px_0_24px_-10px_rgba(34,197,94,0.1)] dark:shadow-[4px_0_24px_-10px_rgba(34,197,94,0.05)]",
+        "fixed inset-y-0 left-0 z-50 w-72 bg-white/85 dark:bg-slate-900/85 backdrop-blur-xl border-r border-amber-200/40 dark:border-amber-900/20 transition-all duration-300 ease-in-out lg:relative lg:translate-x-0 flex flex-col h-full shadow-[4px_0_24px_-10px_rgba(245,158,11,0.08)]",
         isSidebarOpen ? "translate-x-0" : "-translate-x-full"
       )}>
         <div className="flex flex-col h-full relative z-10">
-          <div className="p-6 border-b border-slate-200/50 dark:border-slate-700/30 flex items-center justify-between shrink-0">
+          <div className="p-6 border-b border-amber-200/30 dark:border-amber-900/20 flex items-center justify-between shrink-0">
             <div className="flex items-center gap-3">
-              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-indigo-500 to-violet-500 flex items-center justify-center text-white shadow-lg shadow-indigo-500/30">
-                <LayoutTemplate className="w-5 h-5" />
+              <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-amber-400 to-yellow-500 flex items-center justify-center text-slate-950 shadow-lg shadow-amber-500/30 shrink-0">
+                <Ribbon className="w-5 h-5 fill-slate-950" />
               </div>
-              <span className="font-black text-lg tracking-tight text-slate-800 dark:text-white uppercase drop-shadow-sm">TEXTOS PADRÃO <span className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-500 to-violet-500">ATENDIMENTO LESTE</span></span>
+              <div>
+                <span className="font-black text-lg tracking-tight text-slate-800 dark:text-white uppercase drop-shadow-sm block leading-tight">
+                  TEXTOS PADRÃO <span className="bg-clip-text text-transparent bg-gradient-to-r from-amber-500 to-yellow-500">LESTE</span>
+                </span>
+                <span className="text-[10px] font-bold text-amber-700 dark:text-amber-300 tracking-wider uppercase flex items-center gap-1">
+                  <span>🎗️ Setembro Amarelo</span>
+                </span>
+              </div>
             </div>
             <Tooltip text="Fechar Menu" position="left">
-              <button onClick={() => setIsSidebarOpen(false)} className="lg:hidden p-2 text-slate-700 dark:text-slate-200 hover:text-slate-700 dark:text-slate-200 dark:hover:text-slate-700 dark:text-slate-200">
+              <button onClick={() => setIsSidebarOpen(false)} className="lg:hidden p-2 text-slate-700 dark:text-slate-200 hover:text-slate-900 dark:hover:text-white">
                 <X className="w-5 h-5" />
               </button>
             </Tooltip>
@@ -986,8 +1055,8 @@ export default function TemplateGenerator() {
               className={cn(
                 "w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold transition-all border border-transparent",
                 selectedCategory === null 
-                  ? "bg-gradient-to-r from-slate-100 dark:from-slate-900/10 to-slate-300 dark:to-slate-800/10 dark:from-slate-100 dark:from-slate-900/40 dark:to-slate-300 dark:to-slate-800/40 text-slate-700 dark:text-slate-200 dark:text-white dark:text-slate-200 border-indigo-200 dark:border-indigo-800/50 dark:border-indigo-300 dark:border-indigo-700/50 shadow-[0_0_15px_rgba(0,156,59,0.1)]" 
-                  : "text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-100 dark:bg-slate-900/20 hover:text-slate-700 dark:text-slate-200 dark:hover:text-slate-700 dark:text-slate-200 dark:hover:border-indigo-300 dark:border-indigo-700/20"
+                  ? "bg-gradient-to-r from-amber-100 to-yellow-50 dark:from-amber-950/50 dark:to-yellow-950/30 text-amber-950 dark:text-amber-200 border-amber-300 dark:border-amber-700/60 shadow-[0_0_15px_rgba(245,158,11,0.15)]" 
+                  : "text-slate-700 dark:text-slate-200 hover:bg-amber-50/50 dark:hover:bg-amber-950/20 hover:text-amber-900 dark:hover:text-amber-200"
               )}
             >
               <FileText className="w-4 h-4" />
@@ -999,8 +1068,8 @@ export default function TemplateGenerator() {
               className={cn(
                 "w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold transition-all border border-transparent",
                 selectedCategory === 'most-used' 
-                  ? "bg-amber-100/80 dark:bg-amber-950/40 text-amber-900 dark:text-amber-200 border-amber-300 dark:border-amber-700/50 shadow-[0_0_15px_rgba(245,158,11,0.15)]" 
-                  : "text-slate-700 dark:text-slate-200 hover:bg-amber-50/60 dark:hover:bg-amber-950/20 hover:text-amber-700 dark:hover:text-amber-300 hover:border-amber-200/40 dark:hover:border-amber-800/30"
+                  ? "bg-amber-100/90 dark:bg-amber-950/50 text-amber-950 dark:text-amber-200 border-amber-300 dark:border-amber-700/60 shadow-[0_0_15px_rgba(245,158,11,0.18)]" 
+                  : "text-slate-700 dark:text-slate-200 hover:bg-amber-50/60 dark:hover:bg-amber-950/20 hover:text-amber-800 dark:hover:text-amber-300 hover:border-amber-200/40 dark:hover:border-amber-800/30"
               )}
             >
               <Flame className={cn("w-4 h-4 text-amber-500", selectedCategory === 'most-used' && "fill-amber-500/30")} />
@@ -1017,8 +1086,8 @@ export default function TemplateGenerator() {
               className={cn(
                 "w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold transition-all border border-transparent",
                 selectedCategory === 'favorites' 
-                  ? "bg-slate-200 dark:bg-slate-800/10 text-slate-700 dark:text-slate-200 dark:border-indigo-300 dark:border-indigo-700/30 shadow-[0_0_10px_rgba(234,179,8,0.1)]" 
-                  : "text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-100 dark:bg-slate-900/20 hover:text-slate-700 dark:text-slate-200 dark:hover:text-slate-700 dark:text-slate-200 dark:hover:border-indigo-300 dark:border-indigo-700/20"
+                  ? "bg-rose-50 dark:bg-rose-950/40 text-rose-900 dark:text-rose-200 border-rose-200 dark:border-rose-800/60 shadow-[0_0_10px_rgba(244,63,94,0.15)]" 
+                  : "text-slate-700 dark:text-slate-200 hover:bg-rose-50/50 dark:hover:bg-rose-950/20 hover:text-rose-700 dark:hover:text-rose-300"
               )}
             >
               <Heart className={cn("w-4 h-4 text-rose-500", selectedCategory === 'favorites' && "fill-current")} />
@@ -1047,15 +1116,15 @@ export default function TemplateGenerator() {
                   className={cn(
                     "w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold transition-all border border-transparent",
                     selectedCategory === cat.id 
-                      ? "bg-gradient-to-r from-slate-100 dark:from-slate-900/10 to-slate-300 dark:to-slate-800/10 dark:from-slate-100 dark:from-slate-900/40 dark:to-slate-300 dark:to-slate-800/40 text-slate-700 dark:text-slate-200 dark:text-white dark:text-slate-200 border-indigo-200 dark:border-indigo-800/50 dark:border-indigo-300 dark:border-indigo-700/50 shadow-[0_0_15px_rgba(0,156,59,0.1)]" 
-                      : "text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-100 dark:bg-slate-900/20 hover:text-slate-700 dark:text-slate-200 dark:hover:text-slate-700 dark:text-slate-200 dark:hover:border-indigo-300 dark:border-indigo-700/20"
+                      ? "bg-gradient-to-r from-amber-100 to-yellow-50 dark:from-amber-950/50 dark:to-yellow-950/30 text-amber-950 dark:text-amber-200 border-amber-300 dark:border-amber-700/60 shadow-[0_0_15px_rgba(245,158,11,0.15)]" 
+                      : "text-slate-700 dark:text-slate-200 hover:bg-amber-50/50 dark:hover:bg-amber-950/20 hover:text-amber-900 dark:hover:text-amber-200"
                   )}
                 >
                   <div className={cn(
                     "p-1.5 rounded-lg transition-colors border",
                     selectedCategory === cat.id 
-                      ? "bg-white dark:bg-slate-800 border-indigo-200 dark:border-indigo-800 dark:border-indigo-300 dark:border-indigo-700/30 text-slate-700 dark:text-slate-200 dark:text-white dark:text-slate-200" 
-                      : "bg-slate-100 dark:bg-slate-900/50 border border-transparent dark:border-slate-800/80 text-slate-700 dark:text-slate-200 group-hover:text-slate-700 dark:text-slate-200"
+                      ? "bg-white dark:bg-slate-800 border-amber-300 dark:border-amber-700 text-amber-700 dark:text-amber-400" 
+                      : "bg-slate-100 dark:bg-slate-900/50 border border-transparent dark:border-slate-800/80 text-slate-700 dark:text-slate-200 group-hover:text-amber-700 dark:group-hover:text-amber-300"
                   )}>
                     {cat.icon}
                   </div>
@@ -1067,8 +1136,8 @@ export default function TemplateGenerator() {
                     <button
                       onClick={(e) => togglePin(cat.id, e)}
                       className={cn(
-                        "p-1.5 rounded-lg transition-all opacity-0 group-hover:opacity-100 hover:bg-slate-200 dark:hover:bg-slate-100 dark:bg-slate-900/50",
-                        pinnedCategories.includes(cat.id) && "opacity-100 text-slate-700 dark:text-slate-200"
+                        "p-1.5 rounded-lg transition-all opacity-0 group-hover:opacity-100 hover:bg-amber-100 dark:hover:bg-amber-950/40",
+                        pinnedCategories.includes(cat.id) && "opacity-100 text-amber-600 dark:text-amber-400"
                       )}
                     >
                       <Pin className={cn("w-3.5 h-3.5", pinnedCategories.includes(cat.id) && "fill-current")} />
@@ -1079,16 +1148,16 @@ export default function TemplateGenerator() {
             ))}
           </div>
 
-          <div className="p-4 border-t border-slate-200/50 dark:border-slate-700/30 shrink-0 relative">
-            <div className="bg-indigo-50 dark:bg-indigo-950/20 border border-transparent dark:border-slate-700/50 rounded-xl p-4 mb-4">
+          <div className="p-4 border-t border-amber-200/40 dark:border-amber-900/20 shrink-0 relative">
+            <div className="bg-amber-50/90 dark:bg-amber-950/30 border border-amber-200/80 dark:border-amber-800/50 rounded-xl p-4 mb-4">
               <div className="flex items-center gap-2 mb-2">
-                <Activity className="w-4 h-4 text-slate-700 dark:text-slate-200 animate-pulse" />
-                <span className="text-[10px] font-black text-slate-700 dark:text-slate-200 uppercase tracking-widest">Status do Sistema</span>
+                <Ribbon className="w-4 h-4 text-amber-600 dark:text-amber-400 fill-amber-500 shrink-0" />
+                <span className="text-[10px] font-black text-amber-900 dark:text-amber-200 uppercase tracking-widest">Setembro Amarelo</span>
               </div>
-              <p className="text-[10px] text-slate-700 dark:text-slate-200 leading-relaxed font-mono">
-                &gt; Módulos ativos.<br />
-                &gt; Banco de dados sincronizado.<br />
-                &gt; Prontos para uso.
+              <p className="text-[10px] text-amber-900/80 dark:text-amber-300/80 leading-relaxed font-mono">
+                &gt; Valorize a vida sempre.<br />
+                &gt; Acolhimento em cada contato.<br />
+                &gt; Apoio emocional: CVV 188.
               </p>
             </div>
             <div className="text-center py-2 border-t border-slate-200/50 dark:border-slate-700/30">
@@ -1103,7 +1172,7 @@ export default function TemplateGenerator() {
       {/* Main Content */}
       <div className="flex-1 flex flex-col min-w-0 h-full">
         {/* Header */}
-        <header className="sticky top-0 z-40 bg-white/60 dark:bg-slate-900/60 backdrop-blur-xl border-b border-slate-200/50 dark:border-slate-700/30 transition-colors duration-500">
+        <header className="sticky top-0 z-40 bg-white/75 dark:bg-slate-900/75 backdrop-blur-xl border-b border-amber-200/40 dark:border-amber-900/20 transition-colors duration-500">
           <div className="px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
             <div className="flex items-center gap-2">
               <Tooltip text="Abrir Menu" position="right">
@@ -1116,11 +1185,11 @@ export default function TemplateGenerator() {
               </Tooltip>
               
               <div className="relative flex-1 min-w-[300px] max-w-8xl group">
-                <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400 dark:text-slate-500 group-focus-within:text-indigo-500 dark:group-focus-within:text-indigo-400 transition-colors" />
+                <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400 dark:text-slate-500 group-focus-within:text-amber-500 dark:group-focus-within:text-amber-400 transition-colors" />
                 <input 
                   type="text"
                   placeholder="CONSULTAR BASE DE DADOS..."
-                  className="w-full pl-12 pr-4 py-2.5 bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm border-slate-200/80 dark:border-slate-700/50 focus:bg-white dark:focus:bg-black focus:ring-1 focus:ring-indigo-500/50 dark:ring-indigo-400/50 focus:border-indigo-300 dark:border-indigo-700 rounded-lg text-sm font-mono tracking-wide transition-all outline-none dark:text-slate-200 shadow-sm dark:shadow-[0_0_10px_rgba(34,197,94,0.05)] placeholder-slate-400 dark:placeholder-slate-600"
+                  className="w-full pl-12 pr-4 py-2.5 bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm border-slate-200/80 dark:border-slate-700/50 focus:bg-white dark:focus:bg-black focus:ring-1 focus:ring-amber-500/50 dark:ring-amber-400/50 focus:border-amber-400 rounded-lg text-sm font-mono tracking-wide transition-all outline-none dark:text-slate-200 shadow-sm placeholder-slate-400 dark:placeholder-slate-600"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                 />
@@ -1128,15 +1197,20 @@ export default function TemplateGenerator() {
             </div>
 
             <div className="flex items-center gap-4">
+              <div className="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-full bg-amber-100/90 dark:bg-amber-950/50 border border-amber-300/80 dark:border-amber-700/60 text-amber-900 dark:text-amber-200 text-xs font-bold shadow-xs">
+                <Ribbon className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400 fill-amber-500" />
+                <span className="text-[11px] font-bold">Setembro Amarelo • Apoio CVV 188</span>
+              </div>
+
               <Tooltip text={theme === 'light' ? 'Ativar Modo Noturno' : 'Ativar Modo Claro'} position="bottom">
                 <button
                   onClick={toggleTheme}
                   className="p-2.5 rounded-lg bg-white dark:bg-slate-900 border-slate-200/80 dark:border-slate-700/50 text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-100 dark:bg-slate-900/20 shadow-sm transition-all"
                 >
                   {theme === 'light' ? (
-                    <Zap className="w-5 h-5" />
+                    <Zap className="w-5 h-5 text-amber-500" />
                   ) : (
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-amber-400"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
                   )}
                 </button>
               </Tooltip>
@@ -1144,23 +1218,69 @@ export default function TemplateGenerator() {
               <div className="hidden sm:flex items-center gap-3">
                 <div className="flex-col items-end">
                   <span className="text-[10px] font-black text-slate-700 dark:text-slate-200 tracking-[0.2em]">REDE LESTE</span>
-                  <span className="text-[9px] text-slate-700 dark:text-slate-200 dark:text-white font-mono tracking-widest flex items-center gap-1.5"><span className="w-1.5 h-1.5 rounded-full bg-slate-100 dark:bg-slate-900 animate-pulse"></span> ONLINE</span>
+                  <span className="text-[9px] text-slate-700 dark:text-slate-200 dark:text-white font-mono tracking-widest flex items-center gap-1.5"><span className="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse"></span> ONLINE</span>
                 </div>
               </div>
             </div>
           </div>
         </header>
 
-        <main className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8 space-y-10 scrollbar-thin scrollbar-thumb-slate-200 dark:scrollbar-thumb-slate-800 transition-colors duration-500 relative z-10">
-          <div className="bg-indigo-50 dark:bg-indigo-900/20 border-indigo-200 dark:border-indigo-900/50 rounded-2xl p-6 mb-8">
+        <main className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8 space-y-8 scrollbar-thin scrollbar-thumb-slate-200 dark:scrollbar-thumb-slate-800 transition-colors duration-500 relative z-10">
+          {/* Banner Setembro Amarelo & Mensagens Motivacionais */}
+          <div className="bg-gradient-to-r from-amber-500/15 via-yellow-400/10 to-amber-500/15 dark:from-amber-950/40 dark:via-yellow-950/25 dark:to-amber-950/40 border border-amber-300 dark:border-amber-700/60 rounded-2xl p-5 sm:p-6 mb-6 shadow-sm backdrop-blur-sm relative overflow-hidden">
+            <div className="absolute top-0 right-0 -mr-6 -mt-6 w-36 h-36 bg-amber-400/20 dark:bg-amber-500/10 rounded-full blur-2xl pointer-events-none" />
+            
+            <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 relative z-10">
+              <div className="flex items-start sm:items-center gap-3.5">
+                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-amber-400 to-yellow-500 flex items-center justify-center text-slate-950 shadow-md shadow-amber-500/30 shrink-0">
+                  <Ribbon className="w-6 h-6 fill-slate-950" />
+                </div>
+                <div>
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <span className="text-xs font-black uppercase tracking-widest text-amber-900 dark:text-amber-200 bg-amber-200/80 dark:bg-amber-900/60 px-2.5 py-0.5 rounded-full border border-amber-300 dark:border-amber-700">
+                      SETEMBRO AMARELO
+                    </span>
+                    <span className="text-xs text-amber-900/80 dark:text-amber-300 font-bold">
+                      Mês de Valorização da Vida & Apoio Emocional
+                    </span>
+                  </div>
+                  <motion.p 
+                    key={currentQuoteIndex}
+                    initial={{ opacity: 0, y: 4 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.3 }}
+                    className="text-sm font-semibold text-slate-800 dark:text-amber-100 mt-2 leading-relaxed"
+                  >
+                    &ldquo;{MOTIVATIONAL_MESSAGES[currentQuoteIndex]}&rdquo;
+                  </motion.p>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-2.5 shrink-0 self-end md:self-center">
+                <button
+                  onClick={nextQuote}
+                  className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold bg-white/90 dark:bg-slate-900/80 hover:bg-amber-50 dark:hover:bg-amber-950/40 text-amber-900 dark:text-amber-300 border border-amber-300 dark:border-amber-700 transition-all shadow-xs active:scale-95 cursor-pointer"
+                >
+                  <Sparkles className="w-3.5 h-3.5 text-amber-500" />
+                  <span>Outra Mensagem</span>
+                </button>
+                <div className="px-3.5 py-2 rounded-xl text-xs font-mono font-bold bg-amber-400 dark:bg-amber-500 text-slate-950 shadow-xs flex items-center gap-1.5">
+                  <HeartHandshake className="w-4 h-4" />
+                  <span>CVV 188</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="bg-amber-50/70 dark:bg-amber-950/30 border border-amber-200/80 dark:border-amber-800/50 rounded-2xl p-6 mb-8">
             <div className="flex items-center gap-3 mb-3">
-              <AlertTriangle className="w-6 h-6 text-indigo-600 dark:text-indigo-400" />
-              <h2 className="text-lg font-bold text-indigo-800 dark:text-indigo-200 uppercase tracking-tight">REGISTROS DE ATENDIMENTO APRENDE +</h2>
+              <AlertTriangle className="w-6 h-6 text-amber-600 dark:text-amber-400" />
+              <h2 className="text-lg font-bold text-amber-900 dark:text-amber-200 uppercase tracking-tight">REGISTROS DE ATENDIMENTO APRENDE +</h2>
             </div>
             <div className="space-y-2">
               <p className="text-sm font-bold text-amber-900 dark:text-amber-100 italic">ATENÇÃO:</p>
               <p className="text-sm font-bold text-amber-800 dark:text-amber-300">CARGA DECLARADA INCOMPLETA:</p>
-              <p className="text-xs text-amber-700 dark:text-amber-400 leading-relaxed">
+              <p className="text-xs text-amber-800 dark:text-amber-400 leading-relaxed">
                 LIGAÇÕES NOVAS/REATIVAÇÕES PRECISAM CONSTAR NO SAP CRM COM UMA DECLARAÇÃO REAL DOS EQUIPAMENTOS QUE O CLIENTE FAZ OU FARÁ USO, PORTANTO SERÁ CONSIDERADO COMO INCOMPLETO OS CASOS EM QUE FOR DECLARADA EX: APENAS LÂMPADAS.
               </p>
             </div>
@@ -1177,12 +1297,12 @@ export default function TemplateGenerator() {
                   className="space-y-6"
                 >
                   <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 bg-gradient-to-br from-indigo-500/10 to-violet-500/10 dark:from-indigo-500/20 dark:to-violet-500/20 rounded-xl flex items-center justify-center text-indigo-600 dark:text-indigo-400 shadow-sm border border-indigo-200/50 dark:border-indigo-500/20 transition-colors duration-500">
+                    <div className="w-12 h-12 bg-gradient-to-br from-amber-500/15 to-yellow-500/15 dark:from-amber-500/25 dark:to-yellow-500/25 rounded-xl flex items-center justify-center text-amber-600 dark:text-amber-400 shadow-sm border border-amber-300/50 dark:border-amber-500/30 transition-colors duration-500">
                       {category.icon}
                     </div>
                     <div>
-                      <h2 className="text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-slate-800 to-indigo-600 dark:from-white dark:to-indigo-400 tracking-tight">{category.name}</h2>
-                      <p className="text-sm font-mono text-slate-700 dark:text-slate-200 dark:text-white/80">{category.templates.length} templates carregados</p>
+                      <h2 className="text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-slate-900 via-amber-800 to-amber-600 dark:from-white dark:via-amber-200 dark:to-amber-400 tracking-tight">{category.name}</h2>
+                      <p className="text-sm font-mono text-slate-700 dark:text-slate-300">{category.templates.length} templates carregados</p>
                     </div>
                   </div>
 
@@ -1261,7 +1381,7 @@ export default function TemplateGenerator() {
 
 
                   {category.templates.length === 0 ? (
-                    <div className="bg-white/60 dark:bg-slate-900/30 border border-dashed border-indigo-200 dark:border-indigo-800/40 rounded-2xl p-10 text-center flex flex-col items-center justify-center">
+                    <div className="bg-white/60 dark:bg-slate-900/30 border border-dashed border-amber-200/60 dark:border-amber-800/40 rounded-2xl p-10 text-center flex flex-col items-center justify-center">
                       <div className="w-12 h-12 rounded-xl bg-amber-50 dark:bg-amber-950/30 text-amber-500 flex items-center justify-center mb-3">
                         {category.id === 'favorites' ? <Heart className="w-6 h-6 text-rose-500" /> : <Flame className="w-6 h-6 text-amber-500" />}
                       </div>
@@ -1280,18 +1400,18 @@ export default function TemplateGenerator() {
                         <motion.div
                           key={template.id}
                           layoutId={template.id}
-                          className="group bg-white/70 dark:bg-slate-900/40 backdrop-blur-xl border-indigo-200 dark:border-indigo-800/20 dark:border-indigo-300 dark:border-indigo-700/30 rounded-2xl p-6 hover:bg-white dark:hover:bg-slate-900/60 hover:border-indigo-200 dark:border-indigo-800 dark:hover:border-indigo-300 dark:border-indigo-700/80 hover:shadow-[0_8px_30px_rgba(255,223,0,0.15)] dark:hover:shadow-[0_8px_30px_rgba(255,223,0,0.2)] transition-all duration-300 flex-col relative overflow-hidden"
+                          className="group bg-white/80 dark:bg-slate-900/50 backdrop-blur-xl border border-slate-200/80 dark:border-slate-800/80 rounded-2xl p-6 hover:bg-white dark:hover:bg-slate-900/70 hover:border-amber-300 dark:hover:border-amber-500/60 hover:shadow-[0_8px_30px_rgba(245,158,11,0.14)] transition-all duration-300 flex-col relative overflow-hidden"
                         >
-                          <div className="absolute top-0 right-0 w-32 h-32 bg-indigo-50 dark:bg-indigo-950/20 dark:bg-slate-900/5 rounded-full blur-[40px] pointer-events-none group-hover:bg-slate-100 dark:bg-slate-900/20 transition-colors duration-500"></div>
+                          <div className="absolute top-0 right-0 w-32 h-32 bg-amber-100/40 dark:bg-amber-950/20 rounded-full blur-[40px] pointer-events-none group-hover:bg-amber-200/40 dark:group-hover:bg-amber-900/20 transition-colors duration-500"></div>
                           <div className="flex items-start justify-between mb-6 relative z-10">
                             <div className="space-y-1">
                               <h3 
                                 onClick={() => toggleExpanded(template.id)}
-                                className="cursor-pointer font-bold text-slate-700 dark:text-slate-200 leading-tight group-hover:text-slate-700 dark:text-slate-200 dark:text-white dark:group-hover:text-slate-700 dark:text-slate-200 transition-colors"
+                                className="cursor-pointer font-bold text-slate-800 dark:text-slate-100 leading-tight group-hover:text-amber-700 dark:group-hover:text-amber-300 transition-colors"
                               >
                                 {template.title}
                               </h3>
-                              <span className="text-[10px] font-mono text-slate-700 dark:text-slate-200 dark:text-white uppercase tracking-widest block mt-1">SYS.ID: {template.id}</span>
+                              <span className="text-[10px] font-mono text-slate-500 dark:text-slate-400 uppercase tracking-widest block mt-1">SYS.ID: {template.id}</span>
                             </div>
                             <div className="flex items-center gap-2">
                               {/* Contador de Utilizações */}
@@ -1326,13 +1446,13 @@ export default function TemplateGenerator() {
                                   className={cn(
                                     "shrink-0 p-3 rounded-full transition-all shadow-sm border",
                                     copiedId === template.id 
-                                      ? "bg-indigo-100 dark:bg-indigo-900/40 border-indigo-300 dark:border-indigo-500/50 text-indigo-700 dark:text-indigo-400 scale-110 shadow-[0_0_15px_rgba(99,102,241,0.2)]" 
+                                      ? "bg-amber-100 dark:bg-amber-900/40 border-amber-300 dark:border-amber-500/50 text-amber-800 dark:text-amber-300 scale-110 shadow-[0_0_15px_rgba(245,158,11,0.25)]" 
                                       : copyErrorId === template.id
                                         ? "bg-rose-500 border-rose-500 text-white scale-110"
-                                        : "bg-white/80 dark:bg-slate-900/50 border-slate-200 dark:border-indigo-300 dark:border-indigo-700/30 text-slate-700 dark:text-slate-200 dark:text-white group-hover:bg-gradient-to-r group-hover:from-slate-100 dark:from-slate-900 group-hover:to-slate-300 dark:to-slate-800 group-hover:border-indigo-300 dark:border-indigo-700 dark:group-hover:border-indigo-300 dark:border-indigo-700 group-hover:text-white dark:group-hover:text-[#002776]"
+                                        : "bg-white/90 dark:bg-slate-900/60 border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-200 group-hover:border-amber-300 dark:group-hover:border-amber-600/50 group-hover:bg-amber-50 dark:group-hover:bg-amber-950/30 group-hover:text-amber-700 dark:group-hover:text-amber-300"
                                   )}
                                 >
-                                  {copiedId === template.id ? <Check className="w-5 h-5 text-indigo-600 dark:text-indigo-400" /> : copyErrorId === template.id ? <AlertTriangle className="w-5 h-5" /> : <Copy className="w-5 h-5" />}
+                                  {copiedId === template.id ? <Check className="w-5 h-5 text-amber-600 dark:text-amber-400" /> : copyErrorId === template.id ? <AlertTriangle className="w-5 h-5" /> : <Copy className="w-5 h-5" />}
                                 </button>
                               </Tooltip>
                             </div>
@@ -1349,11 +1469,11 @@ export default function TemplateGenerator() {
                               >
                                 <div className="relative flex-1 group/pre mt-4">
                                   <div className="absolute top-3 right-3 opacity-0 group-hover/pre:opacity-100 transition-opacity">
-                                    <div className="bg-white/80 dark:bg-slate-900/80 backdrop-blur px-2 py-1 rounded-md text-[10px] font-black text-slate-700 dark:text-slate-200 border-slate-200/50 dark:border-indigo-300 dark:border-indigo-700/30 shadow-sm tracking-wide">
+                                    <div className="bg-white/80 dark:bg-slate-900/80 backdrop-blur px-2 py-1 rounded-md text-[10px] font-black text-slate-700 dark:text-slate-200 border-slate-200/50 dark:border-slate-700/50 shadow-sm tracking-wide">
                                       CONTEÚDO TERMINAL
                                     </div>
                                   </div>
-                                  <pre className="text-[11px] text-slate-700 dark:text-slate-200 bg-slate-50 dark:bg-slate-950 p-5 rounded-xl font-mono whitespace-pre-wrap leading-relaxed border-slate-200/60 dark:border-indigo-300 dark:border-indigo-700/30 max-h-48 overflow-y-auto scrollbar-thin scrollbar-thumb-slate-200 dark:scrollbar-thumb-green-800 shadow-inner transition-colors duration-500 relative">
+                                  <pre className="text-[11px] text-slate-700 dark:text-slate-200 bg-slate-50 dark:bg-slate-950 p-5 rounded-xl font-mono whitespace-pre-wrap leading-relaxed border-slate-200/60 dark:border-slate-800/80 max-h-48 overflow-y-auto scrollbar-thin scrollbar-thumb-amber-200 dark:scrollbar-thumb-amber-900/50 shadow-inner transition-colors duration-500 relative">
                                     {template.content}
                                   </pre>
                                 </div>
@@ -1364,16 +1484,16 @@ export default function TemplateGenerator() {
                           <div className="mt-6 pt-6 border-t border-slate-200/50 dark:border-slate-700/50 flex items-center justify-between">
                             <div className="flex -space-x-2 opacity-50">
                               {[1, 2, 3].map(i => (
-                                <div key={i} className="w-6 h-6 rounded-full bg-slate-100 dark:bg-slate-900 border-2 border-white dark:border-indigo-200 dark:border-indigo-800" />
+                                <div key={i} className="w-6 h-6 rounded-full bg-amber-50 dark:bg-amber-950/40 border-2 border-white dark:border-amber-900/40" />
                               ))}
                             </div>
                             <Tooltip text={copiedId === template.id ? "Copiado!" : copyErrorId === template.id ? "Erro ao Copiar" : "Copiar todo o conteúdo template"}>
                               <button 
                                 onClick={() => handleCopy(template.content, template.id)}
-                                className="text-xs font-black text-slate-700 dark:text-slate-200 dark:text-white dark:text-slate-200 flex items-center gap-1 hover:gap-2 transition-all uppercase tracking-widest"
+                                className="text-xs font-black text-slate-700 dark:text-slate-300 group-hover:text-amber-700 dark:group-hover:text-amber-300 flex items-center gap-1 hover:gap-2 transition-all uppercase tracking-widest"
                               >
                                 Copiar Terminal
-                                <ChevronRight className="w-4 h-4 text-slate-700 dark:text-slate-200" />
+                                <ChevronRight className="w-4 h-4 text-amber-600 dark:text-amber-400" />
                               </button>
                             </Tooltip>
                           </div>
@@ -1389,27 +1509,27 @@ export default function TemplateGenerator() {
 
           {filteredCategories.length === 0 && (
             <div className="flex-col items-center justify-center py-32 text-center relative">
-              <div className="absolute inset-0 bg-slate-100 dark:bg-slate-900/5 dark:bg-slate-800/10 blur-[100px] rounded-full w-64 h-64 mx-auto -z-10" />
-              <div className="w-24 h-24 bg-white dark:bg-slate-900 rounded-xl shadow-[0_0_20px_rgba(34,197,94,0.1)] border-slate-200 dark:border-indigo-300 dark:border-indigo-700/30 flex items-center justify-center text-indigo-400 dark:text-indigo-500 mb-6 transition-colors duration-500">
+              <div className="absolute inset-0 bg-amber-100/30 dark:bg-amber-950/20 blur-[100px] rounded-full w-64 h-64 mx-auto -z-10" />
+              <div className="w-24 h-24 bg-white dark:bg-slate-900 rounded-xl shadow-[0_0_20px_rgba(245,158,11,0.15)] border-slate-200 dark:border-slate-800 flex items-center justify-center text-amber-500 mb-6 transition-colors duration-500">
                 <Search className="w-10 h-10 animate-pulse" />
               </div>
               <h3 className="text-xl font-bold text-slate-700 dark:text-slate-200 uppercase tracking-widest">Nenhum registro encontrado</h3>
               <p className="text-slate-800 dark:text-white/70 max-w-sm mt-3 font-mono text-sm leading-relaxed">SISTEMA: Não encontramos referências no banco de dados sobre &quot;{searchQuery}&quot;. Tente recalibrar os parâmetros de busca.</p>
               <button 
                 onClick={() => setSearchQuery('')}
-                className="mt-8 px-8 py-3.5 bg-slate-100 dark:bg-slate-900 text-slate-700 dark:text-slate-200 rounded-lg font-black uppercase tracking-widest shadow-[0_0_20px_rgba(34,197,94,0.3)] hover:bg-slate-200 dark:bg-slate-900 transition-all hover:scale-105 active:scale-95 border-indigo-300 dark:border-indigo-700"
+                className="mt-8 px-8 py-3.5 bg-amber-400 dark:bg-amber-500 text-slate-950 rounded-lg font-black uppercase tracking-widest shadow-[0_0_20px_rgba(245,158,11,0.3)] hover:bg-amber-500 dark:hover:bg-amber-400 transition-all hover:scale-105 active:scale-95 border border-amber-400"
               >
                 Resetar Parâmetros
               </button>
             </div>
           )}
           {/* Footer watermark */}
-          <div className="mt-8 pt-8 border-t border-slate-200/50 dark:border-slate-700/30 flex-col sm:flex-row items-center justify-between text-xs text-slate-700 dark:text-slate-200/60 font-medium pb-4">
+          <div className="mt-8 pt-8 border-t border-amber-200/40 dark:border-amber-900/20 flex-col sm:flex-row items-center justify-between text-xs text-slate-700 dark:text-slate-400 font-medium pb-4">
             <div className="flex items-center gap-2">
-              
-              <span>Textos e Templates</span>
+              <Ribbon className="w-3.5 h-3.5 text-amber-500 fill-amber-500" />
+              <span>Setembro Amarelo • Valorize a Vida</span>
             </div>
-            <span>Sistema de Registros</span>
+            <span>Sistema de Registros Padrão Atendimento Leste</span>
           </div>
         </main>
       </div>
@@ -1421,14 +1541,14 @@ export default function TemplateGenerator() {
             initial={{ opacity: 0, y: 50, x: "-50%", scale: 0.9 }}
             animate={{ opacity: 1, y: 0, x: "-50%", scale: 1 }}
             exit={{ opacity: 0, y: 20, x: "-50%", scale: 0.9 }}
-            className="fixed bottom-10 left-1/2 z-[100] bg-slate-900 dark:bg-slate-950 text-white px-8 py-4 rounded-xl shadow-[0_0_30px_rgba(34,197,94,0.2)] flex items-center gap-4 border-indigo-300 dark:border-indigo-700/30 backdrop-blur-xl"
+            className="fixed bottom-10 left-1/2 z-[100] bg-slate-900 dark:bg-slate-950 text-white px-8 py-4 rounded-xl shadow-[0_0_30px_rgba(245,158,11,0.25)] flex items-center gap-4 border border-amber-400/40 backdrop-blur-xl"
           >
-            <div className="w-8 h-8 bg-slate-100 dark:bg-slate-900/20 border-indigo-300 dark:border-indigo-700/50 rounded-lg flex items-center justify-center shadow-[0_0_15px_rgba(34,197,94,0.4)] text-slate-700 dark:text-slate-200">
-              <Check className="w-5 h-5 text-indigo-600 dark:text-indigo-400" />
+            <div className="w-8 h-8 bg-amber-500/20 border border-amber-400/50 rounded-lg flex items-center justify-center shadow-[0_0_15px_rgba(245,158,11,0.4)] text-amber-400">
+              <Check className="w-5 h-5 text-amber-400" />
             </div>
             <div>
-              <p className="text-sm font-black tracking-widest text-slate-700 dark:text-slate-200">TRANSFERÊNCIA CONCLUÍDA!</p>
-              <p className="text-[10px] text-slate-700 dark:text-slate-200/70 font-mono tracking-widest mt-1">Dados validados na área de transferência.</p>
+              <p className="text-sm font-black tracking-widest text-slate-100">TRANSFERÊNCIA CONCLUÍDA!</p>
+              <p className="text-[10px] text-amber-300/80 font-mono tracking-widest mt-1">Dados validados na área de transferência.</p>
             </div>
           </motion.div>
         )}

@@ -1,6 +1,6 @@
 {
-  "name": "Textos Campeões",
-  "description": "Textos Padrão Atendimento Leste - Edição Especial Setembro Amarelo: Valorização da Vida e Apoio Emocional.",
+  "name": "Texto Padrão",
+  "description": "Texto Padrão Atendimento Leste - Edição Especial Outubro Rosa 🎀: Prevenção, Cuidado e Saúde da Mulher.",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }

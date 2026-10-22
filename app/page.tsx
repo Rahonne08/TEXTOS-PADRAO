@@ -232,6 +232,11 @@ TELEFONE: XXXXXXXXXXXXXXXXXX`
         id: 'troca-titularidade-unidades-geradoras',
         title: 'Troca de Titularidade de Unidades Geradoras',
         content: 'ABERTA PARA GARANTIR A EFETIVAÇÃO COMPLETA DO PROCESSO DE TROCA DE TITULARIDADE DA UNIDADE GERADORA. ESSA ETAPA É PARA ATIVAÇÃO E MANUTENÇÃO DOS FLAGS DE GERAÇÃO DISTRIBUÍDA (GD) NO SISTEMA, ASSEGURANDO QUE A UNIDADE GERADORA CONTINUE DEVIDAMENTE CONFIGURADA PARA PARTICIPAÇÃO NO SISTEMA DE COMPENSAÇÃO DE ENERGIA ELÉTRICA (SCEE) E ATENDENDO ÀS REGULAMENTAÇÕES VIGENTES.'
+      },
+      {
+        id: 'troca-titularidade-cooperativas',
+        title: 'Troca de Titularidade Cooperativas',
+        content: 'Retorno de titularidade, tendo como titular atual a empresa FIT/ACER. Atendimento realizado conforme orientações do Informativo nº 106/2026.'
       }
     ]
   },

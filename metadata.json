@@ -1,6 +1,6 @@
 {
-  "name": "Texto Padrão",
-  "description": "Texto Padrão Atendimento Leste - Edição Especial Outubro Rosa 🎀: Prevenção, Cuidado e Saúde da Mulher.",
+  "name": "Texto Padrão - Energy Tech",
+  "description": "Central de Atendimento Energético: Plataforma moderna de scripts e procedimentos operacionais padronizados.",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }

@@ -7,6 +7,8 @@ import {
   Copy, 
   Check, 
   ChevronRight, 
+  ChevronDown,
+  ChevronUp,
   Zap, 
   UserPlus, 
   RefreshCw, 
@@ -16,10 +18,7 @@ import {
   Trash2, 
   Clock, 
   MapPin, 
-  Mail, 
   ArrowLeftRight,
-  ClipboardList,
-  Scissors,
   Activity,
   MessageSquare,
   RotateCcw,
@@ -31,16 +30,17 @@ import {
   Pin,
   X,
   Info,
-  Heart,
   Star,
-  LayoutTemplate,
   Flame,
-  TrendingUp,
-  Ribbon,
   Sun,
+  Moon,
   Sparkles,
-  HeartHandshake,
-  Quote
+  Layers,
+  CheckCircle2,
+  SlidersHorizontal,
+  BookmarkCheck,
+  Terminal,
+  Cpu
 } from 'lucide-react';
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
@@ -49,16 +49,37 @@ function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-const MOTIVATIONAL_MESSAGES = [
-  "Outubro Rosa — Cuidar de si também é um ato de amor. 🎀",
-  "A prevenção e o diagnóstico precoce salvam vidas. Cuide de quem você ama!",
-  "Acolher com paciência e empatia transforma o dia de quem atende e de quem é acolhido. 🌸",
-  "Mulheres fortes, histórias inspiradoras. Valorize sua vida e cuide da sua saúde todos os dias.",
-  "O autoexame e a mamografia são gestos de coragem e amor próprio. Faça a sua parte! 💕",
-  "A sua saúde e o seu bem-estar importam para quem te ama. Priorize o seu autocuidado.",
-  "Um laço rosa de conscientização, esperança e união em prol da vida. Siga em frente!",
-  "Pequenos gestos de gentileza e prevenção salvam o dia. Outubro Rosa: todos pela vida! ✨"
+const OPERATIONAL_TIPS = [
+  "Conexões Novas: sempre declare a carga real de equipamentos no SAP CRM para evitar rejeição da solicitação.",
+  "Religação Monofásica: taxa regulatória de R$ 11,80 com prazo de execução de 24h a 48h.",
+  "Troca de Titularidade sem Débito: certifique-se da ausência de pendências financeiras na UC conforme Informativo 029/2025.",
+  "Troca Titularidade Cooperativas: retorno de titularidade FIT/ACER conforme Informativo nº 106/2026.",
+  "Registro de Danos Elétricos: detalhe marca, modelo, tempo de uso e relato de oscilação ou falta de energia.",
+  "Baixa Renda: confirme a data da última atualização do NIS e anexe a documentação necessária ao CRM."
 ];
+
+const CATEGORY_DESCRIPTIONS: Record<string, string> = {
+  'alteracao': 'Atualização de parceiro, instalação e classe',
+  'ligacao-nova': 'Padrão pronto, financiamento e deferimentos',
+  'reativacao': 'Religação de unidade e verificação de padrão',
+  'provisoria': 'Eventos e obras com ou sem medição',
+  'troca-titularidade': 'Troca com/sem débito e cooperativas',
+  'parcelamento': 'Simulação de débitos e tabela de alçadas',
+  'desligamento': 'Desativação definitiva de conta contrato',
+  'danos': 'Ressarcimento de aparelhos danificados',
+  'tensao': 'Oscilações frequentes e desequilíbrio',
+  'fraude': 'Registro anônimo de irregularidades e desvio',
+  'reclamacao': 'Registro formal de insatisfação e prazos',
+  'manifesto-cliente': 'Elogios e agradecimentos ao atendimento',
+  'religacao': 'Monofásica (R$ 11,80), trifásica e troca',
+  'servico-tecnico-rede': 'Deslocamento de poste e infraestrutura',
+  'medidor': 'Aferição, avaria, mudança de local e ramal',
+  'fatura': '2ª via, adimplência, data certa e digital',
+  'baixa-renda': 'Tarifa social, inativação e análise NIS',
+  'emergencial': 'Falta de fase, cabo partido e risco',
+  'devolucao': 'Pagamento duplicado e crédito em fatura',
+  'debito-automatico': 'Cadastro bancário e termo de adesão'
+};
 
 const Tooltip = ({ text, children, position = 'top' }: { text: string, children: React.ReactNode, position?: 'top' | 'bottom' | 'left' | 'right' }) => {
   const positionClasses = {
@@ -72,11 +93,11 @@ const Tooltip = ({ text, children, position = 'top' }: { text: string, children:
     <div className="group/tooltip relative inline-flex items-center justify-center">
       {children}
       <div className={cn(
-        "absolute hidden group-hover/tooltip:block z-50 px-2.5 py-1.5 bg-slate-900 dark:bg-slate-900 text-white text-[10px] font-bold rounded-lg shadow-2xl pointer-events-none whitespace-nowrap border-slate-700/50",
+        "absolute hidden group-hover/tooltip:block z-50 px-2.5 py-1.5 bg-[#101F30] text-[#F5F8FC] border border-[#183B56] text-[11px] font-medium rounded-md shadow-2xl pointer-events-none whitespace-nowrap",
         positionClasses[position]
       )}>
         <motion.div
-          initial={{ opacity: 0, scale: 0.9, y: 2 }}
+          initial={{ opacity: 0, scale: 0.95, y: 2 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           className="flex items-center gap-1.5"
         >
@@ -655,53 +676,86 @@ const NegotiationTable = () => {
   ];
 
   return (
-    <div className="space-y-6 mt-4">
-      <div className="flex items-center gap-2 mb-3">
-        <Info className="w-5 h-5 text-slate-700 dark:text-slate-200 dark:text-white dark:text-slate-200" />
-        <h3 className="text-base font-black text-slate-700 dark:text-slate-200">Tabela de Parâmetros de Negociação</h3>
+    <div className="space-y-5 mt-6">
+      <div className="flex items-center gap-2.5 pb-2 border-b border-[#183B56]/40 dark:border-[#183B56]/60">
+        <div className="p-1.5 rounded-lg bg-[#19C9E8]/10 text-[#19C9E8]">
+          <Cpu className="w-4 h-4" />
+        </div>
+        <div>
+          <h3 className="text-sm font-bold text-slate-900 dark:text-[#F5F8FC] uppercase tracking-wider">
+            Tabela de Parâmetros e Alçadas de Negociação
+          </h3>
+          <p className="text-xs text-slate-500 dark:text-slate-400">
+            Limites operacionais de parcelamento de débitos por perfil de atendimento
+          </p>
+        </div>
       </div>
       
-      <div className="grid-cols-1 gap-4">
+      <div className="grid grid-cols-1 gap-5">
         {categories.map((cat, idx) => (
-          <div key={idx} className="bg-white dark:bg-slate-900 rounded-xl border border-pink-200/70 dark:border-pink-900/40 overflow-hidden shadow-[0_4px_20px_rgba(236,72,153,0.06)] transition-colors duration-500">
-            <div className="bg-gradient-to-r from-pink-500/10 via-rose-500/10 to-pink-500/10 dark:bg-pink-950/30 p-3 text-center border-b border-pink-200/60 dark:border-pink-900/40">
-              <h4 className="text-pink-950 dark:text-pink-100 font-black text-lg tracking-wider">{cat.title}</h4>
-              <p className="text-pink-800/80 dark:text-pink-300/80 text-[10px] mt-0.5 font-mono">{cat.subtitle}</p>
+          <div 
+            key={idx} 
+            className="bg-white dark:bg-[#13273D] rounded-xl border border-slate-200 dark:border-[#183B56] overflow-hidden shadow-sm"
+          >
+            <div className="bg-slate-50 dark:bg-[#0E1E2F] px-4 py-3 border-b border-slate-200 dark:border-[#183B56] flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1">
+              <span className="text-[#183B56] dark:text-[#19C9E8] font-bold text-sm tracking-wider flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-[#19C9E8]"></span>
+                {cat.title}
+              </span>
+              <span className="text-slate-600 dark:text-slate-400 text-xs font-mono">{cat.subtitle}</span>
             </div>
             
             <div className="overflow-x-auto">
-              <table className="w-full text-left border-collapse">
+              <table className="w-full text-left border-collapse text-xs">
                 <thead>
-                  <tr className="bg-pink-50/40 dark:bg-slate-900/50 border-b border-pink-100 dark:border-slate-800/50">
-                    <th className="p-2 text-[9px] font-black text-slate-700 dark:text-slate-200 uppercase tracking-widest border-r border-slate-200 dark:border-slate-800/50">Perfil</th>
-                    <th className="p-2 text-[9px] font-black text-slate-700 dark:text-slate-200 uppercase tracking-widest border-r border-slate-200 dark:border-slate-800/50">Qtd Faturas</th>
-                    <th className="p-2 text-[9px] font-black text-slate-700 dark:text-slate-200 uppercase tracking-widest text-center" colSpan={3}>Parâmetros</th>
+                  <tr className="bg-slate-100/70 dark:bg-[#0B1724] border-b border-slate-200 dark:border-[#183B56]/70 text-slate-600 dark:text-slate-300">
+                    <th className="p-2.5 font-bold uppercase tracking-wider border-r border-slate-200 dark:border-[#183B56]/70">Perfil de Atendimento</th>
+                    <th className="p-2.5 font-bold uppercase tracking-wider border-r border-slate-200 dark:border-[#183B56]/70 text-center">Qtd Faturas</th>
+                    <th className="p-2.5 font-bold uppercase tracking-wider text-center" colSpan={3}>Parâmetros Permitidos</th>
                   </tr>
-                  <tr className="bg-pink-50/20 dark:bg-slate-900/30 border-b border-slate-200 dark:border-slate-800/50">
-                    <th className="p-1.5 border-r border-slate-200 dark:border-slate-800/50"></th>
-                    <th className="p-1.5 border-r border-slate-200 dark:border-slate-800/50"></th>
-                    <th className="p-1.5 text-[8px] font-bold text-slate-700 dark:text-slate-200 uppercase text-center border-r border-slate-200 dark:border-slate-800/50">Entrada Mínima</th>
-                    <th className="p-1.5 text-[8px] font-bold text-slate-700 dark:text-slate-200 uppercase text-center border-r border-slate-200 dark:border-slate-800/50">Nº Máx Parcelas</th>
-                    <th className="p-1.5 text-[8px] font-bold text-slate-700 dark:text-slate-200 uppercase text-center">Dívida Máxima</th>
+                  <tr className="bg-slate-50/50 dark:bg-[#0D1C2C] border-b border-slate-200 dark:border-[#183B56]/50 text-slate-500 dark:text-slate-400 text-[11px]">
+                    <th className="p-1.5 border-r border-slate-200 dark:border-[#183B56]/50"></th>
+                    <th className="p-1.5 border-r border-slate-200 dark:border-[#183B56]/50"></th>
+                    <th className="p-1.5 font-semibold text-center border-r border-slate-200 dark:border-[#183B56]/50">Entrada Mínima</th>
+                    <th className="p-1.5 font-semibold text-center border-r border-slate-200 dark:border-[#183B56]/50">Nº Máx Parcelas</th>
+                    <th className="p-1.5 font-semibold text-center">Dívida Máxima</th>
                   </tr>
                 </thead>
-                <tbody>
+                <tbody className="divide-y divide-slate-100 dark:divide-[#183B56]/40">
                   {cat.profiles.map((profile) => (
                     <React.Fragment key={profile.id}>
                       {profile.rows.map((row, rowIdx) => (
-                        <tr key={rowIdx} className="border-b border-slate-100 dark:border-slate-800/30 hover:bg-pink-50/30 dark:hover:bg-pink-950/20 transition-colors">
+                        <tr 
+                          key={rowIdx} 
+                          className="hover:bg-[#19C9E8]/5 dark:hover:bg-[#19C9E8]/10 transition-colors"
+                        >
                           {rowIdx === 0 && (
-                            <td className="p-2 text-[10px] font-bold text-slate-700 dark:text-slate-200 border-r border-slate-200 dark:border-slate-700/30 bg-pink-50/20 dark:bg-slate-800/10" rowSpan={profile.rows.length}>
-                              <div className="flex items-center gap-1.5">
-                                <span className="w-4 h-4 rounded-full bg-pink-100 dark:bg-pink-950/50 text-pink-700 dark:text-pink-300 flex items-center justify-center text-[9px] shrink-0 border border-pink-200 dark:border-pink-800/60 font-bold">{profile.id}</span>
+                            <td 
+                              className="p-3 font-semibold text-slate-800 dark:text-slate-200 border-r border-slate-200 dark:border-[#183B56]/60 bg-slate-50/40 dark:bg-[#0E1E2F]/40" 
+                              rowSpan={profile.rows.length}
+                            >
+                              <div className="flex items-center gap-2">
+                                <span className="w-5 h-5 rounded-md bg-[#183B56]/20 dark:bg-[#19C9E8]/20 text-[#183B56] dark:text-[#19C9E8] flex items-center justify-center text-[10px] shrink-0 font-bold border border-[#183B56]/30 dark:border-[#19C9E8]/30">
+                                  {profile.id}
+                                </span>
                                 <span className="leading-tight">{profile.name}</span>
                               </div>
                             </td>
                           )}
-                          <td className="p-2 text-[10px] font-medium text-slate-700 dark:text-slate-200 border-r border-slate-200 dark:border-slate-700/30 text-center">{row.qty}</td>
-                          <td className="p-2 text-[10px] font-bold text-slate-700 dark:text-slate-200 dark:text-white dark:text-slate-200 text-center border-r border-slate-200 dark:border-slate-700/30">{row.entry}</td>
-                          <td className="p-2 text-[10px] font-bold text-slate-700 dark:text-slate-200 text-center border-r border-slate-200 dark:border-slate-700/30">{row.maxInstallments}</td>
-                          <td className="p-2 text-[10px] font-bold text-slate-700 dark:text-slate-200 dark:text-white dark:text-slate-200 text-center">{row.maxDebt}</td>
+                          <td className="p-2.5 text-center text-slate-600 dark:text-slate-300 font-medium border-r border-slate-200 dark:border-[#183B56]/60">
+                            {row.qty}
+                          </td>
+                          <td className="p-2.5 text-center font-bold text-slate-800 dark:text-[#F5F8FC] border-r border-slate-200 dark:border-[#183B56]/60">
+                            <span className={cn(row.entry === '0%' ? "text-[#A3FF42] bg-[#A3FF42]/10 dark:bg-[#A3FF42]/20 px-2 py-0.5 rounded" : "")}>
+                              {row.entry}
+                            </span>
+                          </td>
+                          <td className="p-2.5 text-center font-semibold text-slate-700 dark:text-slate-200 border-r border-slate-200 dark:border-[#183B56]/60">
+                            {row.maxInstallments}
+                          </td>
+                          <td className="p-2.5 text-center font-semibold text-slate-700 dark:text-slate-200">
+                            {row.maxDebt}
+                          </td>
                         </tr>
                       ))}
                     </React.Fragment>
@@ -726,20 +780,19 @@ export default function TemplateGenerator() {
   const [pinnedCategories, setPinnedCategories] = useState<string[]>([]);
   const [usageCounts, setUsageCounts] = useState<Record<string, number>>({});
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const [theme, setTheme] = useState<'light' | 'dark'>('light');
+  const [theme, setTheme] = useState<'light' | 'dark'>('dark');
   const [mounted, setMounted] = useState(false);
   const [toast, setToast] = useState<{ message: string, type: 'success' | 'error' } | null>(null);
-  const [currentQuoteIndex, setCurrentQuoteIndex] = useState(0);
+  const [tipIndex, setTipIndex] = useState(0);
 
-  const nextQuote = () => {
-    setCurrentQuoteIndex((prev) => (prev + 1) % MOTIVATIONAL_MESSAGES.length);
+  const nextTip = () => {
+    setTipIndex((prev) => (prev + 1) % OPERATIONAL_TIPS.length);
   };
 
-  // Rotate motivational quote periodically
   useEffect(() => {
     const timer = setInterval(() => {
-      setCurrentQuoteIndex((prev) => (prev + 1) % MOTIVATIONAL_MESSAGES.length);
-    }, 14000);
+      setTipIndex((prev) => (prev + 1) % OPERATIONAL_TIPS.length);
+    }, 12000);
     return () => clearInterval(timer);
   }, []);
 
@@ -749,7 +802,6 @@ export default function TemplateGenerator() {
     );
   };
 
-  // Load theme, favorites, pinned categories, and usage counts from localStorage on mount
   useEffect(() => {
     const initData = () => {
       try {
@@ -775,17 +827,15 @@ export default function TemplateGenerator() {
           setUsageCounts(JSON.parse(savedUsage));
         }
       } catch (e) {
-        console.warn('localStorage access failed. Ensure cookies/storage are allowed if using iframe.', e);
+        console.warn('localStorage access error', e);
       }
       setMounted(true);
     };
     
-    // Defer state updates to avoid linter warning and cascading renders
     const timer = setTimeout(initData, 0);
     return () => clearTimeout(timer);
   }, []);
 
-  // Update localStorage when favorites change
   useEffect(() => {
     if (!mounted) return;
     try {
@@ -793,7 +843,6 @@ export default function TemplateGenerator() {
     } catch (e) {}
   }, [favorites, mounted]);
 
-  // Update localStorage when pinned categories change
   useEffect(() => {
     if (!mounted) return;
     try {
@@ -801,7 +850,6 @@ export default function TemplateGenerator() {
     } catch (e) {}
   }, [pinnedCategories, mounted]);
 
-  // Update localStorage when usageCounts change
   useEffect(() => {
     if (!mounted) return;
     try {
@@ -809,7 +857,6 @@ export default function TemplateGenerator() {
     } catch (e) {}
   }, [usageCounts, mounted]);
 
-  // Update localStorage and document class when theme changes
   useEffect(() => {
     if (!mounted) return;
     try {
@@ -826,7 +873,6 @@ export default function TemplateGenerator() {
     setTheme(prev => prev === 'light' ? 'dark' : 'light');
   };
 
-  // Close sidebar on category selection (mobile)
   const handleCategorySelect = (id: string | null) => {
     setSelectedCategory(id);
     setIsSidebarOpen(false);
@@ -846,8 +892,16 @@ export default function TemplateGenerator() {
     );
   };
 
+  const totalTemplatesCount = useMemo(() => {
+    return SERVICE_CATEGORIES.reduce((acc, cat) => acc + cat.templates.length, 0);
+  }, []);
+
+  const totalCopiesCount = useMemo(() => {
+    if (!mounted) return 0;
+    return Object.values(usageCounts).reduce((a, b) => a + b, 0);
+  }, [usageCounts, mounted]);
+
   const filteredCategories = useMemo(() => {
-    // Return raw templates if not mounted to avoid hydration mismatch with dates
     if (!mounted) return SERVICE_CATEGORIES;
 
     const currentDate = new Date().toLocaleDateString('pt-BR');
@@ -865,8 +919,8 @@ export default function TemplateGenerator() {
       return [{
         id: 'favorites',
         name: 'Meus Favoritos',
-        icon: <Heart className="w-5 h-5 fill-rose-500 text-rose-500" />,
-        info: favoriteTemplates.length === 0 ? 'Você ainda não adicionou nenhum template aos favoritos. Clique no ícone de coração em qualquer template para favoritá-lo.' : undefined,
+        icon: <Star className="w-5 h-5 text-[#A3FF42] fill-[#A3FF42]" />,
+        info: favoriteTemplates.length === 0 ? 'Você ainda não marcou nenhum template como favorito. Clique na estrela em qualquer card para fixá-lo aqui.' : undefined,
         templates: processTemplates(favoriteTemplates).filter(template => 
           !searchQuery || 
           template.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -884,10 +938,10 @@ export default function TemplateGenerator() {
       return [{
         id: 'most-used',
         name: 'Templates Mais Usados',
-        icon: <Flame className="w-5 h-5 text-pink-500 fill-pink-500/20" />,
+        icon: <Flame className="w-5 h-5 text-[#19C9E8] fill-[#19C9E8]/20" />,
         info: usedTemplates.length === 0 
-          ? 'Nenhum template foi utilizado ainda. Copie qualquer template no sistema para contabilizar o uso e ver o ranking aqui.'
-          : `Exibindo ${usedTemplates.length} ${usedTemplates.length === 1 ? 'template utilizado' : 'templates utilizados'} ordenados pela quantidade de cópias.`,
+          ? 'Nenhum script foi copiado ainda. Ao copiar textos no sistema, eles serão classificados por frequência de uso aqui.'
+          : `Exibindo ${usedTemplates.length} ${usedTemplates.length === 1 ? 'script utilizado' : 'scripts utilizados'} classificados por frequência de cópia.`,
         templates: processTemplates(usedTemplates).filter(template => 
           !searchQuery || 
           template.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -921,7 +975,6 @@ export default function TemplateGenerator() {
         await navigator.clipboard.writeText(text);
         success = true;
       } else {
-        // Fallback for non-secure contexts or older browsers
         const textArea = document.createElement("textarea");
         textArea.value = text;
         textArea.style.position = "fixed";
@@ -947,62 +1000,59 @@ export default function TemplateGenerator() {
             [id]: (prev[id] || 0) + 1
           }));
         }
-        setToast({ message: 'Texto copiado para a área de transferência', type: 'success' });
+        setToast({ message: 'Texto copiado com sucesso para a área de transferência', type: 'success' });
         setTimeout(() => setCopiedId(null), 2000);
         setTimeout(() => setToast(null), 3000);
       } else {
         setCopyErrorId(id);
-        setToast({ message: 'Erro ao copiar texto.', type: 'error' });
+        setToast({ message: 'Não foi possível copiar o texto.', type: 'error' });
         setTimeout(() => setCopyErrorId(null), 3000);
         setTimeout(() => setToast(null), 3000);
       }
     } catch (err) {
       console.error('Failed to copy: ', err);
       setCopyErrorId(id);
-      setToast({ message: 'Erro ao copiar texto.', type: 'error' });
+      setToast({ message: 'Erro ao copiar para a área de transferência.', type: 'error' });
       setTimeout(() => setCopyErrorId(null), 3000);
       setTimeout(() => setToast(null), 3000);
     }
   };
 
   return (
-    <div className="h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 font-sans flex overflow-hidden transition-colors duration-500 relative">
-      {/* Outubro Rosa Glowing Atmosphere & Background Watermarks */}
+    <div className="h-screen bg-[#F5F8FC] dark:bg-[#101F30] text-slate-900 dark:text-[#F5F8FC] font-sans flex overflow-hidden transition-colors duration-300 relative selection:bg-[#A3FF42] selection:text-[#101F30]">
+      {/* Background Subtle Circuit Mesh / Ambient Tech Gradients */}
       <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none select-none">
-        {/* Soft Pink / Rose Glowing Ambient Orbs */}
-        <div className="absolute left-[-10%] top-[-10%] w-[45%] h-[45%] rounded-full bg-pink-400/20 dark:bg-pink-500/10 blur-[130px] mix-blend-multiply dark:mix-blend-lighten" />
-        <div className="absolute right-[-5%] bottom-[-10%] w-[50%] h-[50%] rounded-full bg-rose-300/20 dark:bg-rose-500/10 blur-[150px] mix-blend-multiply dark:mix-blend-lighten" />
-        <div className="absolute top-[25%] left-[55%] w-[35%] h-[35%] rounded-full bg-pink-500/15 dark:bg-pink-600/10 blur-[120px] mix-blend-multiply dark:mix-blend-lighten" />
+        {/* Subtle Ambient Orbs */}
+        <div className="absolute left-[-5%] top-[-10%] w-[45%] h-[45%] rounded-full bg-[#19C9E8]/10 dark:bg-[#183B56]/40 blur-[130px]" />
+        <div className="absolute right-[-10%] bottom-[-10%] w-[50%] h-[50%] rounded-full bg-[#A3FF42]/10 dark:bg-[#19C9E8]/10 blur-[150px]" />
+        <div className="absolute top-[35%] left-[50%] w-[35%] h-[35%] rounded-full bg-[#183B56]/10 dark:bg-[#101F30]/60 blur-[120px]" />
 
-        {/* Ambient Decorative Icons in Background */}
-        <div className="absolute top-16 right-[12%] opacity-[0.07] dark:opacity-[0.04] text-pink-600 dark:text-pink-400 transform rotate-12">
-          <Ribbon className="w-32 h-32 fill-current" />
-        </div>
-        <div className="absolute bottom-20 left-[6%] opacity-[0.06] dark:opacity-[0.03] text-rose-500 dark:text-rose-400 transform -rotate-12">
-          <Heart className="w-32 h-32 fill-current" />
-        </div>
-        <div className="absolute top-[50%] left-[2%] opacity-[0.06] dark:opacity-[0.03] text-pink-500 transform rotate-45">
-          <Ribbon className="w-28 h-28 fill-current" />
-        </div>
+        {/* Discrete Circuit Traces / Tech Grid SVG */}
+        <svg 
+          className="absolute inset-0 w-full h-full opacity-[0.03] dark:opacity-[0.05] stroke-slate-900 dark:stroke-cyan-400" 
+          xmlns="http://www.w3.org/2000/svg" 
+          width="100%" 
+          height="100%"
+        >
+          <defs>
+            <pattern id="tech-grid" width="60" height="60" patternUnits="userSpaceOnUse">
+              <path d="M 60 0 L 0 0 0 60" fill="none" strokeWidth="1" />
+              <circle cx="60" cy="0" r="1.5" />
+              <circle cx="0" cy="60" r="1.5" />
+            </pattern>
+          </defs>
+          <rect width="100%" height="100%" fill="url(#tech-grid)" />
+        </svg>
 
-        {/* Background Motivational Typography Watermarks */}
-        <div className="absolute top-10 left-8 text-pink-800/[0.07] dark:text-pink-300/[0.05] font-black text-2xl lg:text-4xl uppercase tracking-widest rotate-[-4deg] whitespace-nowrap">
-          🎀 OUTUBRO ROSA — CUIDAR DE SI TAMBÉM É UM ATO DE AMOR
+        {/* Ambient Subtle Energy Watermarks */}
+        <div className="absolute top-12 left-10 text-slate-900/[0.02] dark:text-[#19C9E8]/[0.03] font-black text-3xl lg:text-5xl uppercase tracking-widest rotate-[-3deg] whitespace-nowrap">
+          ENERGY TECH • CENTRAL DE ATENDIMENTO ENERGÉTICO
         </div>
-        <div className="absolute top-[24%] right-10 text-rose-800/[0.07] dark:text-rose-300/[0.05] font-black text-xl lg:text-3xl uppercase tracking-widest rotate-[3deg] whitespace-nowrap">
-          PREVENÇÃO E DIAGNÓSTICO PRECOCE SALVAM VIDAS 💕
+        <div className="absolute top-[48%] right-8 text-slate-900/[0.02] dark:text-[#A3FF42]/[0.025] font-black text-2xl lg:text-4xl uppercase tracking-widest rotate-[2deg] whitespace-nowrap">
+          AGILIDADE OPERACIONAL • PADRONIZAÇÃO DE SCRIPTS
         </div>
-        <div className="absolute top-[46%] left-12 text-pink-800/[0.08] dark:text-pink-300/[0.05] font-black text-2xl lg:text-4xl uppercase tracking-widest rotate-[-2deg] whitespace-nowrap">
-          🎗️ OUTUBRO ROSA • TOQUE DE VIDA • PREVENÇÃO E AMOR
-        </div>
-        <div className="absolute top-[68%] right-12 text-rose-800/[0.07] dark:text-rose-300/[0.05] font-black text-xl lg:text-3xl uppercase tracking-widest rotate-[4deg] whitespace-nowrap">
-          ACOLHER COM EMPATIA • CADA VIDA É PRECIOSA ✨
-        </div>
-        <div className="absolute bottom-24 left-16 text-pink-800/[0.07] dark:text-pink-300/[0.05] font-black text-2xl lg:text-4xl uppercase tracking-widest rotate-[-3deg] whitespace-nowrap">
-          AUTOEXAME & MAMOGRAFIA • CUIDE DE QUEM VOCÊ AMA 🌸
-        </div>
-        <div className="absolute bottom-8 right-20 text-rose-800/[0.07] dark:text-rose-300/[0.05] font-black text-xl lg:text-3xl uppercase tracking-widest rotate-[2deg] whitespace-nowrap">
-          SEJA GENTIL CONSIGO MESMA • SUA SAÚDE IMPORTA 💖
+        <div className="absolute bottom-16 left-12 text-slate-900/[0.02] dark:text-[#19C9E8]/[0.025] font-black text-2xl lg:text-4xl uppercase tracking-widest rotate-[-1deg] whitespace-nowrap">
+          CONFIABILIDADE & EFICIÊNCIA • SISTEMA INTEGRADO
         </div>
       </div>
       
@@ -1010,78 +1060,94 @@ export default function TemplateGenerator() {
       <AnimatePresence>
         {toast && (
           <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            className="fixed top-6 left-1/2 -translate-x-1/2 z-[100] flex items-center gap-3 px-5 py-3.5 rounded-xl shadow-[0_0_20px_rgba(0,0,0,0.2)] border backdrop-blur-xl"
+            initial={{ opacity: 0, y: -20, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -20, scale: 0.95 }}
+            className="fixed top-6 left-1/2 -translate-x-1/2 z-[100] flex items-center gap-3 px-5 py-3 rounded-xl shadow-2xl border backdrop-blur-xl"
             style={{
-              backgroundColor: toast.type === 'success' ? 'rgba(236, 72, 153, 0.15)' : 'rgba(239, 68, 68, 0.15)',
-              borderColor: toast.type === 'success' ? 'rgba(236, 72, 153, 0.5)' : 'rgba(239, 68, 68, 0.5)',
-              color: toast.type === 'success' ? '#db2777' : '#ef4444',
-              boxShadow: toast.type === 'success' ? '0 20px rgba(236, 72, 153, 0.2)' : '0 20px rgba(239, 68, 68, 0.2)'
+              backgroundColor: toast.type === 'success' ? '#101F30' : '#101F30',
+              borderColor: toast.type === 'success' ? '#A3FF42' : '#EF4444',
+              color: '#F5F8FC'
             }}
           >
-            {toast.type === 'success' ? <Check className="w-5 h-5 text-pink-600 dark:text-pink-400" /> : <AlertTriangle className="w-5 h-5" />}
-            <span className="text-sm font-bold tracking-wide">{toast.message}</span>
+            {toast.type === 'success' ? (
+              <div className="w-6 h-6 rounded-md bg-[#A3FF42]/20 border border-[#A3FF42]/50 flex items-center justify-center text-[#A3FF42]">
+                <Check className="w-4 h-4" />
+              </div>
+            ) : (
+              <div className="w-6 h-6 rounded-md bg-red-500/20 border border-red-500/50 flex items-center justify-center text-red-400">
+                <AlertTriangle className="w-4 h-4" />
+              </div>
+            )}
+            <span className="text-xs font-semibold tracking-wide">{toast.message}</span>
           </motion.div>
         )}
       </AnimatePresence>
 
       {/* Sidebar Navigation */}
       <aside className={cn(
-        "fixed inset-y-0 left-0 z-50 w-72 bg-white/90 dark:bg-slate-900/90 backdrop-blur-xl border-r border-pink-200/50 dark:border-pink-900/30 transition-all duration-300 ease-in-out lg:relative lg:translate-x-0 flex flex-col h-full shadow-[4px_0_24px_-10px_rgba(236,72,153,0.08)]",
+        "fixed inset-y-0 left-0 z-50 w-72 bg-white/95 dark:bg-[#0B1724]/95 backdrop-blur-xl border-r border-slate-200 dark:border-[#183B56]/70 transition-all duration-300 ease-in-out lg:relative lg:translate-x-0 flex flex-col h-full shadow-lg lg:shadow-none",
         isSidebarOpen ? "translate-x-0" : "-translate-x-full"
       )}>
         <div className="flex flex-col h-full relative z-10">
-          <div className="p-6 border-b border-pink-200/40 dark:border-pink-900/30 flex items-center justify-between shrink-0">
+          {/* Sidebar Header */}
+          <div className="p-5 border-b border-slate-200 dark:border-[#183B56]/60 flex items-center justify-between shrink-0 bg-slate-50/50 dark:bg-[#0E1E2F]/50">
             <div className="flex items-center gap-3">
-              <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-pink-500 via-rose-500 to-pink-600 flex items-center justify-center text-white shadow-lg shadow-pink-500/30 shrink-0">
-                <Ribbon className="w-5 h-5 fill-white text-white" />
+              <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-[#183B56] to-[#101F30] border border-[#19C9E8]/40 flex items-center justify-center text-[#A3FF42] shadow-sm shrink-0">
+                <Zap className="w-5 h-5 fill-[#A3FF42] text-[#A3FF42]" />
               </div>
               <div>
-                <span className="font-black text-lg tracking-tight text-slate-800 dark:text-white uppercase drop-shadow-sm block leading-tight">
-                  TEXTOS PADRÃO <span className="bg-clip-text text-transparent bg-gradient-to-r from-pink-600 to-rose-500">LESTE</span>
+                <span className="font-black text-base tracking-tight text-slate-900 dark:text-[#F5F8FC] uppercase block leading-tight">
+                  TEXTO PADRÃO
                 </span>
-                <span className="text-[10px] font-bold text-pink-700 dark:text-pink-300 tracking-wider uppercase flex items-center gap-1">
-                  <span>🎀 Outubro Rosa</span>
+                <span className="text-[10px] font-bold text-[#19C9E8] tracking-widest uppercase flex items-center gap-1.5">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#A3FF42] animate-pulse"></span>
+                  ENERGY TECH
                 </span>
               </div>
             </div>
             <Tooltip text="Fechar Menu" position="left">
-              <button onClick={() => setIsSidebarOpen(false)} className="lg:hidden p-2 text-slate-700 dark:text-slate-200 hover:text-slate-900 dark:hover:text-white">
+              <button 
+                onClick={() => setIsSidebarOpen(false)} 
+                className="lg:hidden p-2 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white rounded-lg hover:bg-slate-100 dark:hover:bg-[#183B56]/40"
+              >
                 <X className="w-5 h-5" />
               </button>
             </Tooltip>
           </div>
 
-          <div className="flex-1 overflow-y-auto p-4 space-y-1.5 scrollbar-thin scrollbar-thumb-pink-200 dark:scrollbar-thumb-pink-900/40 scrollbar-track-transparent">
+          {/* Quick Filters */}
+          <div className="p-3 border-b border-slate-200 dark:border-[#183B56]/50 space-y-1">
             <button
               onClick={() => handleCategorySelect(null)}
               className={cn(
-                "w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold transition-all border border-transparent",
+                "w-full flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-xs font-semibold transition-all border",
                 selectedCategory === null 
-                  ? "bg-gradient-to-r from-pink-100 to-rose-50 dark:from-pink-950/60 dark:to-rose-950/40 text-pink-950 dark:text-pink-100 border-pink-300 dark:border-pink-700/60 shadow-[0_0_15px_rgba(236,72,153,0.15)]" 
-                  : "text-slate-700 dark:text-slate-200 hover:bg-pink-50/60 dark:hover:bg-pink-950/20 hover:text-pink-900 dark:hover:text-pink-200"
+                  ? "bg-[#183B56]/15 dark:bg-[#183B56]/60 text-slate-900 dark:text-[#A3FF42] border-[#183B56]/40 dark:border-[#19C9E8]/40 shadow-xs" 
+                  : "text-slate-700 dark:text-slate-300 border-transparent hover:bg-slate-100 dark:hover:bg-[#183B56]/30 hover:text-slate-900 dark:hover:text-[#F5F8FC]"
               )}
             >
-              <FileText className="w-4 h-4 text-pink-500 dark:text-pink-400" />
+              <Layers className="w-4 h-4 text-[#19C9E8]" />
               <span className="flex-1 text-left">Todos os Serviços</span>
+              <span className="text-[10px] font-mono font-bold text-slate-500 dark:text-slate-400">
+                {SERVICE_CATEGORIES.length}
+              </span>
             </button>
 
             <button
               onClick={() => handleCategorySelect('most-used')}
               className={cn(
-                "w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold transition-all border border-transparent",
+                "w-full flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-xs font-semibold transition-all border",
                 selectedCategory === 'most-used' 
-                  ? "bg-pink-100/90 dark:bg-pink-950/50 text-pink-950 dark:text-pink-100 border-pink-300 dark:border-pink-700/60 shadow-[0_0_15px_rgba(236,72,153,0.18)]" 
-                  : "text-slate-700 dark:text-slate-200 hover:bg-pink-50/60 dark:hover:bg-pink-950/20 hover:text-pink-800 dark:hover:text-pink-300 hover:border-pink-200/40 dark:hover:border-pink-800/30"
+                  ? "bg-[#183B56]/15 dark:bg-[#183B56]/60 text-slate-900 dark:text-[#A3FF42] border-[#183B56]/40 dark:border-[#19C9E8]/40 shadow-xs" 
+                  : "text-slate-700 dark:text-slate-300 border-transparent hover:bg-slate-100 dark:hover:bg-[#183B56]/30 hover:text-slate-900 dark:hover:text-[#F5F8FC]"
               )}
             >
-              <Flame className={cn("w-4 h-4 text-pink-500", selectedCategory === 'most-used' && "fill-pink-500/30")} />
-              <span className="flex-1 text-left">Mais Usados</span>
-              {mounted && Object.values(usageCounts).reduce((a, b) => a + b, 0) > 0 && (
-                <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-pink-200/80 dark:bg-pink-900/60 text-pink-900 dark:text-pink-200 border border-pink-300 dark:border-pink-700 font-bold">
-                  {Object.values(usageCounts).reduce((a, b) => a + b, 0)}
+              <Flame className={cn("w-4 h-4 text-[#19C9E8]", selectedCategory === 'most-used' && "fill-[#19C9E8]/30")} />
+              <span className="flex-1 text-left">Mais Utilizados</span>
+              {mounted && totalCopiesCount > 0 && (
+                <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-[#19C9E8]/10 dark:bg-[#19C9E8]/20 text-[#19C9E8] font-bold border border-[#19C9E8]/30">
+                  {totalCopiesCount}
                 </span>
               )}
             </button>
@@ -1089,23 +1155,28 @@ export default function TemplateGenerator() {
             <button
               onClick={() => handleCategorySelect('favorites')}
               className={cn(
-                "w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold transition-all border border-transparent",
+                "w-full flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-xs font-semibold transition-all border",
                 selectedCategory === 'favorites' 
-                  ? "bg-rose-100/90 dark:bg-rose-950/50 text-rose-950 dark:text-rose-100 border-rose-300 dark:border-rose-700/60 shadow-[0_0_15px_rgba(244,63,94,0.18)]" 
-                  : "text-slate-700 dark:text-slate-200 hover:bg-rose-50/50 dark:hover:bg-rose-950/20 hover:text-rose-700 dark:hover:text-rose-300"
+                  ? "bg-[#183B56]/15 dark:bg-[#183B56]/60 text-slate-900 dark:text-[#A3FF42] border-[#183B56]/40 dark:border-[#19C9E8]/40 shadow-xs" 
+                  : "text-slate-700 dark:text-slate-300 border-transparent hover:bg-slate-100 dark:hover:bg-[#183B56]/30 hover:text-slate-900 dark:hover:text-[#F5F8FC]"
               )}
             >
-              <Heart className={cn("w-4 h-4 text-rose-500", selectedCategory === 'favorites' && "fill-current")} />
+              <Star className={cn("w-4 h-4 text-[#A3FF42]", selectedCategory === 'favorites' && "fill-[#A3FF42]")} />
               <span className="flex-1 text-left">Meus Favoritos</span>
               {mounted && favorites.length > 0 && (
-                <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-rose-100 dark:bg-rose-950/60 text-rose-700 dark:text-rose-300 border border-rose-200 dark:border-rose-800 font-bold">
+                <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-[#A3FF42]/10 dark:bg-[#A3FF42]/20 text-emerald-600 dark:text-[#A3FF42] font-bold border border-[#A3FF42]/30">
                   {favorites.length}
                 </span>
               )}
             </button>
-            
-            <div className="pt-4 pb-2 px-4">
-              <span className="text-[10px] font-black text-slate-700 dark:text-slate-200 dark:text-white uppercase tracking-[0.2em]">Serviços</span>
+          </div>
+
+          {/* Categories List */}
+          <div className="flex-1 overflow-y-auto p-3 space-y-1 scrollbar-thin scrollbar-thumb-slate-300 dark:scrollbar-thumb-[#183B56] scrollbar-track-transparent">
+            <div className="py-2 px-2 flex items-center justify-between">
+              <span className="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest">
+                Categorias ({SERVICE_CATEGORIES.length})
+              </span>
             </div>
 
             {[...SERVICE_CATEGORIES].sort((a, b) => {
@@ -1119,33 +1190,33 @@ export default function TemplateGenerator() {
                 <button
                   onClick={() => handleCategorySelect(cat.id)}
                   className={cn(
-                    "w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold transition-all border border-transparent",
+                    "w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs font-semibold transition-all border",
                     selectedCategory === cat.id 
-                      ? "bg-gradient-to-r from-pink-100 to-rose-50 dark:from-pink-950/60 dark:to-rose-950/40 text-pink-950 dark:text-pink-100 border-pink-300 dark:border-pink-700/60 shadow-[0_0_15px_rgba(236,72,153,0.15)]" 
-                      : "text-slate-700 dark:text-slate-200 hover:bg-pink-50/50 dark:hover:bg-pink-950/20 hover:text-pink-900 dark:hover:text-pink-200"
+                      ? "bg-[#183B56]/20 dark:bg-[#183B56]/70 text-slate-900 dark:text-[#F5F8FC] border-[#19C9E8]/50 shadow-xs" 
+                      : "text-slate-700 dark:text-slate-300 border-transparent hover:bg-slate-100 dark:hover:bg-[#183B56]/30 hover:text-slate-900 dark:hover:text-[#F5F8FC]"
                   )}
                 >
                   <div className={cn(
-                    "p-1.5 rounded-lg transition-colors border",
+                    "p-1 rounded-md transition-colors",
                     selectedCategory === cat.id 
-                      ? "bg-white dark:bg-slate-800 border-pink-300 dark:border-pink-700 text-pink-700 dark:text-pink-400" 
-                      : "bg-slate-100 dark:bg-slate-900/50 border border-transparent dark:border-slate-800/80 text-slate-700 dark:text-slate-200 group-hover:text-pink-700 dark:group-hover:text-pink-300"
+                      ? "text-[#19C9E8] dark:text-[#A3FF42]" 
+                      : "text-slate-500 dark:text-slate-400 group-hover:text-[#19C9E8]"
                   )}>
                     {cat.icon}
                   </div>
-                <span className="flex-1 text-left truncate pr-6">{cat.name}</span>
+                  <span className="flex-1 text-left truncate pr-5">{cat.name}</span>
                 </button>
                 
                 <div className="absolute right-2 top-1/2 -translate-y-1/2 z-10">
-                  <Tooltip text={pinnedCategories.includes(cat.id) ? "Desafixar categoria" : "Fixar categoria no topo"} position="left">
+                  <Tooltip text={pinnedCategories.includes(cat.id) ? "Desafixar categoria" : "Fixar no topo"} position="left">
                     <button
                       onClick={(e) => togglePin(cat.id, e)}
                       className={cn(
-                        "p-1.5 rounded-lg transition-all opacity-0 group-hover:opacity-100 hover:bg-pink-100 dark:hover:bg-pink-950/40",
-                        pinnedCategories.includes(cat.id) && "opacity-100 text-pink-600 dark:text-pink-400"
+                        "p-1 rounded transition-all opacity-0 group-hover:opacity-100 hover:bg-slate-200 dark:hover:bg-[#183B56]",
+                        pinnedCategories.includes(cat.id) && "opacity-100 text-[#19C9E8]"
                       )}
                     >
-                      <Pin className={cn("w-3.5 h-3.5", pinnedCategories.includes(cat.id) && "fill-current")} />
+                      <Pin className={cn("w-3 h-3", pinnedCategories.includes(cat.id) && "fill-current text-[#19C9E8]")} />
                     </button>
                   </Tooltip>
                 </div>
@@ -1153,243 +1224,414 @@ export default function TemplateGenerator() {
             ))}
           </div>
 
-          <div className="p-4 border-t border-pink-200/40 dark:border-pink-900/20 shrink-0 relative">
-            <div className="bg-pink-50/90 dark:bg-pink-950/30 border border-pink-200/80 dark:border-pink-800/50 rounded-xl p-4 mb-4">
-              <div className="flex items-center gap-2 mb-2">
-                <Ribbon className="w-4 h-4 text-pink-600 dark:text-pink-400 fill-pink-500 shrink-0" />
-                <span className="text-[10px] font-black text-pink-900 dark:text-pink-200 uppercase tracking-widest">Outubro Rosa</span>
-              </div>
-              <p className="text-[10px] text-pink-900/80 dark:text-pink-300/80 leading-relaxed font-mono">
-                &gt; Cuidar de si é um ato de amor.<br />
-                &gt; Prevenção e diagnóstico precoce.<br />
-                &gt; Conscientização e cuidado.
-              </p>
+          {/* Sidebar Footer */}
+          <div className="p-4 border-t border-slate-200 dark:border-[#183B56]/60 bg-slate-50/50 dark:bg-[#0B1724] shrink-0 text-xs">
+            <div className="flex items-center gap-2 mb-1.5 text-slate-800 dark:text-slate-200 font-semibold">
+              <Zap className="w-3.5 h-3.5 text-[#A3FF42] fill-[#A3FF42]" />
+              <span>Central Energética Leste</span>
             </div>
-            <div className="text-center py-2 border-t border-slate-200/50 dark:border-slate-700/30">
-              <p className="text-[9px] font-mono text-slate-800 dark:text-white/70 uppercase tracking-widest">
-                SYS.DEV // <a href="https://github.com/Rahonne08" target="_blank" rel="noopener noreferrer" className="hover:text-slate-700 dark:text-slate-200 dark:text-white dark:hover:text-slate-300 dark:text-slate-200 transition-colors underline-offset-2">PABLO RAHONNE</a>
-              </p>
-            </div>
+            <p className="text-[11px] text-slate-500 dark:text-slate-400 font-mono">
+              v2.8 • Base de Atendimento
+            </p>
           </div>
         </div>
       </aside>
 
-      {/* Main Content */}
-      <div className="flex-1 flex flex-col min-w-0 h-full">
-        {/* Header */}
-        <header className="sticky top-0 z-40 bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border-b border-pink-200/50 dark:border-pink-900/30 transition-colors duration-500 shadow-xs relative">
-          <div className="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-pink-500 via-rose-400 to-pink-600 pointer-events-none" />
+      {/* Main Content Area */}
+      <div className="flex-1 flex flex-col min-w-0 h-full overflow-hidden">
+        {/* Intelligent Top Header */}
+        <header className="sticky top-0 z-40 bg-white/90 dark:bg-[#101F30]/90 backdrop-blur-xl border-b border-slate-200 dark:border-[#183B56]/80 transition-colors duration-300 shadow-xs shrink-0">
+          <div className="h-0.5 bg-gradient-to-r from-[#19C9E8] via-[#A3FF42] to-[#19C9E8] pointer-events-none" />
+          
           <div className="px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
+            {/* Left: Mobile menu toggle + Brand Title */}
             <div className="flex items-center gap-3">
               <Tooltip text="Abrir Menu" position="right">
                 <button 
                   onClick={() => setIsSidebarOpen(true)}
-                  className="lg:hidden p-2 text-slate-700 dark:text-slate-200 hover:bg-pink-50 dark:hover:bg-slate-800/50 border border-transparent dark:border-slate-700/50 rounded-lg"
+                  className="lg:hidden p-2 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-[#183B56]/40 rounded-lg transition-colors"
                 >
-                  <Menu className="w-6 h-6" />
+                  <Menu className="w-5 h-5" />
                 </button>
               </Tooltip>
 
-              <div className="hidden sm:flex lg:hidden items-center gap-2">
-                <span className="font-black text-sm tracking-tight text-slate-800 dark:text-white uppercase">
-                  TEXTOS PADRÃO
-                </span>
-                <span className="text-[10px] font-bold text-pink-600 dark:text-pink-300 bg-pink-100 dark:bg-pink-950/60 px-2 py-0.5 rounded-full border border-pink-200 dark:border-pink-800">
-                  🎀 Outubro Rosa
-                </span>
-              </div>
-              
-              <div className="relative flex-1 min-w-[260px] sm:min-w-[320px] max-w-8xl group">
-                <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400 dark:text-slate-500 group-focus-within:text-pink-500 dark:group-focus-within:text-pink-400 transition-colors" />
-                <input 
-                  type="text"
-                  placeholder="CONSULTAR BASE DE DADOS..."
-                  className="w-full pl-12 pr-4 py-2.5 bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm border-slate-200/80 dark:border-slate-700/50 focus:bg-white dark:focus:bg-black focus:ring-1 focus:ring-pink-500/40 dark:ring-pink-400/40 focus:border-pink-400 rounded-lg text-sm font-mono tracking-wide transition-all outline-none dark:text-slate-200 shadow-sm placeholder-slate-400 dark:placeholder-slate-600"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                />
+              <div className="flex items-center gap-2.5">
+                <div className="w-8 h-8 rounded-lg bg-[#183B56] border border-[#19C9E8]/50 flex items-center justify-center text-[#A3FF42] shadow-xs">
+                  <Zap className="w-4 h-4 fill-[#A3FF42]" />
+                </div>
+                <div>
+                  <div className="flex items-center gap-2">
+                    <span className="font-black text-sm tracking-tight text-slate-900 dark:text-[#F5F8FC] uppercase">
+                      TEXTO PADRÃO
+                    </span>
+                    <span className="hidden sm:inline-block px-1.5 py-0.5 text-[9px] font-mono font-bold uppercase rounded bg-[#19C9E8]/10 text-[#19C9E8] border border-[#19C9E8]/30">
+                      ENERGY TECH
+                    </span>
+                  </div>
+                  <span className="text-[10px] text-slate-500 dark:text-slate-400 font-medium block">
+                    CENTRAL DE ATENDIMENTO ENERGÉTICO
+                  </span>
+                </div>
               </div>
             </div>
 
-            <div className="flex items-center gap-4">
-              <div className="hidden md:flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-gradient-to-r from-pink-100/90 to-rose-100/80 dark:from-pink-950/60 dark:to-rose-950/50 border border-pink-300/80 dark:border-pink-700/60 text-pink-950 dark:text-pink-200 text-xs font-bold shadow-xs">
-                <Ribbon className="w-3.5 h-3.5 text-pink-600 dark:text-pink-400 fill-pink-500 animate-pulse" />
-                <span className="text-[11px] font-bold">🎀 Outubro Rosa • Edição Especial</span>
+            {/* Center: Search Field */}
+            <div className="flex-1 max-w-xl mx-2 hidden md:block">
+              <div className="relative group">
+                <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 dark:text-slate-500 group-focus-within:text-[#19C9E8] transition-colors" />
+                <input 
+                  type="text"
+                  placeholder="Pesquisar por serviço, código, procedimento ou palavra-chave..."
+                  className="w-full pl-10 pr-9 py-2 bg-slate-100/90 dark:bg-[#0B1724] border border-slate-200 dark:border-[#183B56] focus:border-[#19C9E8] dark:focus:border-[#19C9E8] focus:bg-white dark:focus:bg-[#0B1724] focus:ring-1 focus:ring-[#19C9E8]/40 rounded-lg text-xs font-mono tracking-wide transition-all outline-none text-slate-900 dark:text-[#F5F8FC] placeholder:text-slate-400 dark:placeholder:text-slate-500"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                />
+                {searchQuery && (
+                  <button 
+                    onClick={() => setSearchQuery('')}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:hover:text-white"
+                  >
+                    <X className="w-3.5 h-3.5" />
+                  </button>
+                )}
+              </div>
+            </div>
+
+            {/* Right: Operational Status & Controls */}
+            <div className="flex items-center gap-3">
+              {/* Operational Indicator */}
+              <div className="hidden sm:flex items-center gap-2 px-2.5 py-1 rounded-md bg-slate-100 dark:bg-[#0B1724] border border-slate-200 dark:border-[#183B56] text-[11px] font-mono text-slate-600 dark:text-slate-300">
+                <span className="w-2 h-2 rounded-full bg-[#A3FF42] animate-pulse"></span>
+                <span className="font-semibold">REDE ATIVA</span>
               </div>
 
-              <Tooltip text={theme === 'light' ? 'Ativar Modo Noturno' : 'Ativar Modo Claro'} position="bottom">
+              {/* Theme Toggle Button */}
+              <Tooltip text={theme === 'light' ? 'Ativar Modo Escuro' : 'Ativar Modo Claro'} position="bottom">
                 <button
                   onClick={toggleTheme}
-                  className="p-2.5 rounded-lg bg-white dark:bg-slate-900 border-slate-200/80 dark:border-slate-700/50 text-slate-700 dark:text-slate-200 hover:bg-pink-50/50 dark:hover:bg-slate-800/40 shadow-sm transition-all cursor-pointer"
+                  className="p-2 rounded-lg bg-slate-100 dark:bg-[#0B1724] border border-slate-200 dark:border-[#183B56] text-slate-700 dark:text-slate-200 hover:border-[#19C9E8]/60 transition-all cursor-pointer shadow-xs"
                 >
                   {theme === 'light' ? (
-                    <Zap className="w-5 h-5 text-pink-500" />
+                    <Moon className="w-4 h-4 text-slate-700" />
                   ) : (
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-pink-400"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
+                    <Sun className="w-4 h-4 text-[#A3FF42]" />
                   )}
                 </button>
               </Tooltip>
+            </div>
+          </div>
 
-              <div className="hidden sm:flex items-center gap-3">
-                <div className="flex-col items-end">
-                  <span className="text-[10px] font-black text-slate-700 dark:text-slate-200 tracking-[0.2em]">REDE LESTE</span>
-                  <span className="text-[9px] text-slate-700 dark:text-slate-200 dark:text-white font-mono tracking-widest flex items-center gap-1.5"><span className="w-1.5 h-1.5 rounded-full bg-pink-500 animate-pulse"></span> ONLINE</span>
-                </div>
-              </div>
+          {/* Mobile Search Bar */}
+          <div className="px-4 pb-3 md:hidden">
+            <div className="relative group">
+              <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 dark:text-slate-500 group-focus-within:text-[#19C9E8] transition-colors" />
+              <input 
+                type="text"
+                placeholder="Pesquisar textos ou procedimentos..."
+                className="w-full pl-10 pr-9 py-2 bg-slate-100 dark:bg-[#0B1724] border border-slate-200 dark:border-[#183B56] focus:border-[#19C9E8] rounded-lg text-xs font-mono outline-none text-slate-900 dark:text-[#F5F8FC]"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
+              {searchQuery && (
+                <button 
+                  onClick={() => setSearchQuery('')}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:hover:text-white"
+                >
+                  <X className="w-3.5 h-3.5" />
+                </button>
+              )}
             </div>
           </div>
         </header>
 
-        <main className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8 space-y-8 scrollbar-thin scrollbar-thumb-pink-200 dark:scrollbar-thumb-pink-900/40 transition-colors duration-500 relative z-10">
-          {/* Banner Outubro Rosa & Mensagens de Prevenção e Cuidado */}
-          <div className="bg-gradient-to-r from-pink-500/15 via-rose-400/10 to-pink-500/15 dark:from-pink-950/40 dark:via-rose-950/25 dark:to-pink-950/40 border border-pink-300 dark:border-pink-700/60 rounded-2xl p-5 sm:p-6 mb-6 shadow-sm backdrop-blur-sm relative overflow-hidden">
-            <div className="absolute top-0 right-0 -mr-6 -mt-6 w-36 h-36 bg-pink-400/20 dark:bg-pink-500/10 rounded-full blur-2xl pointer-events-none" />
+        {/* Scrollable Main Body */}
+        <main className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8 space-y-8 scrollbar-thin scrollbar-thumb-slate-300 dark:scrollbar-thumb-[#183B56] relative z-10">
+          {/* Energy Tech Hero Panel */}
+          <div className="bg-gradient-to-r from-white via-slate-50 to-white dark:from-[#0E1E2F] dark:via-[#13273D] dark:to-[#0E1E2F] border border-slate-200 dark:border-[#183B56] rounded-2xl p-5 sm:p-7 shadow-xs relative overflow-hidden">
+            {/* Subtle high-tech accent light */}
+            <div className="absolute top-0 right-0 w-72 h-72 bg-[#19C9E8]/10 dark:bg-[#19C9E8]/15 rounded-full blur-3xl pointer-events-none" />
             
-            <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 relative z-10">
-              <div className="flex items-start sm:items-center gap-3.5">
-                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-pink-500 via-rose-500 to-pink-600 flex items-center justify-center text-white shadow-md shadow-pink-500/30 shrink-0">
-                  <Ribbon className="w-6 h-6 fill-white text-white" />
+            <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 relative z-10">
+              <div className="space-y-3 max-w-2xl">
+                <div className="flex items-center gap-2 flex-wrap">
+                  <span className="px-2.5 py-1 rounded-md text-[10px] font-mono font-bold tracking-wider bg-[#101F30] text-[#A3FF42] border border-[#183B56]">
+                    CENTRAL DE ATENDIMENTO ENERGÉTICO
+                  </span>
+                  <span className="text-xs text-slate-500 dark:text-slate-400 font-medium">
+                    Eficiência • Padronização • Resoluções Normativas
+                  </span>
                 </div>
-                <div>
-                  <div className="flex items-center gap-2 flex-wrap">
-                    <span className="text-xs font-black uppercase tracking-widest text-pink-900 dark:text-pink-100 bg-pink-200/90 dark:bg-pink-900/60 px-2.5 py-0.5 rounded-full border border-pink-300 dark:border-pink-700">
-                      🎀 OUTUBRO ROSA
-                    </span>
-                    <span className="text-xs text-pink-900/80 dark:text-pink-300 font-bold">
-                      Mês de Prevenção & Conscientização • Cuidar de si também é um ato de amor
-                    </span>
-                  </div>
-                  <motion.p 
-                    key={currentQuoteIndex}
-                    initial={{ opacity: 0, y: 4 }}
+
+                <h1 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-[#F5F8FC] tracking-tight">
+                  Biblioteca Integrada de Scripts & Procedimentos
+                </h1>
+
+                {/* Rotating Operational Tip */}
+                <div className="flex items-start gap-2.5 pt-1 text-xs text-slate-600 dark:text-slate-300 font-mono">
+                  <span className="text-[#19C9E8] font-bold shrink-0">DIRETRIZ:</span>
+                  <motion.p
+                    key={tipIndex}
+                    initial={{ opacity: 0, y: 3 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.3 }}
-                    className="text-sm font-semibold text-slate-800 dark:text-pink-100 mt-2 leading-relaxed"
+                    transition={{ duration: 0.25 }}
+                    className="leading-relaxed"
                   >
-                    &ldquo;{MOTIVATIONAL_MESSAGES[currentQuoteIndex]}&rdquo;
+                    &ldquo;{OPERATIONAL_TIPS[tipIndex]}&rdquo;
                   </motion.p>
                 </div>
               </div>
 
-              <div className="flex items-center gap-2.5 shrink-0 self-end md:self-center">
-                <button
-                  onClick={nextQuote}
-                  className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold bg-white/95 dark:bg-slate-900/80 hover:bg-pink-50 dark:hover:bg-pink-950/40 text-pink-900 dark:text-pink-300 border border-pink-300 dark:border-pink-700 transition-all shadow-xs active:scale-95 cursor-pointer"
-                >
-                  <Sparkles className="w-3.5 h-3.5 text-pink-500" />
-                  <span>Outra Mensagem</span>
-                </button>
-                <div className="px-3.5 py-2 rounded-xl text-xs font-mono font-bold bg-gradient-to-r from-pink-600 to-rose-600 text-white shadow-xs flex items-center gap-1.5">
-                  <Heart className="w-4 h-4 fill-white" />
-                  <span>Prevenção 136</span>
+              {/* Quick Operational Metrics */}
+              <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-2 gap-3 shrink-0">
+                <div className="bg-slate-50 dark:bg-[#0B1724] border border-slate-200 dark:border-[#183B56] p-3 rounded-xl min-w-[110px]">
+                  <span className="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider block">
+                    Categorias
+                  </span>
+                  <span className="text-lg font-black text-slate-900 dark:text-[#19C9E8] font-mono">
+                    {SERVICE_CATEGORIES.length}
+                  </span>
+                </div>
+
+                <div className="bg-slate-50 dark:bg-[#0B1724] border border-slate-200 dark:border-[#183B56] p-3 rounded-xl min-w-[110px]">
+                  <span className="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider block">
+                    Templates
+                  </span>
+                  <span className="text-lg font-black text-slate-900 dark:text-[#F5F8FC] font-mono">
+                    {totalTemplatesCount}
+                  </span>
+                </div>
+
+                <div className="bg-slate-50 dark:bg-[#0B1724] border border-slate-200 dark:border-[#183B56] p-3 rounded-xl min-w-[110px]">
+                  <span className="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider block">
+                    Total Cópias
+                  </span>
+                  <span className="text-lg font-black text-slate-900 dark:text-[#A3FF42] font-mono">
+                    {totalCopiesCount}
+                  </span>
+                </div>
+
+                <div className="bg-slate-50 dark:bg-[#0B1724] border border-slate-200 dark:border-[#183B56] p-3 rounded-xl min-w-[110px]">
+                  <span className="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider block">
+                    Favoritos
+                  </span>
+                  <span className="text-lg font-black text-slate-900 dark:text-amber-400 font-mono">
+                    {favorites.length}
+                  </span>
                 </div>
               </div>
             </div>
+
+            {/* Change tip button */}
+            <div className="mt-4 pt-3 border-t border-slate-200/80 dark:border-[#183B56]/50 flex items-center justify-between">
+              <span className="text-[11px] text-slate-500 dark:text-slate-400">
+                Alinhado aos manuais de atendimento e Informtivos Operacionais vigentes.
+              </span>
+              <button
+                onClick={nextTip}
+                className="flex items-center gap-1.5 text-xs font-semibold text-[#183B56] dark:text-[#19C9E8] hover:text-[#19C9E8] dark:hover:text-[#A3FF42] transition-colors cursor-pointer"
+              >
+                <Sparkles className="w-3.5 h-3.5" />
+                <span>Próxima Diretriz</span>
+              </button>
+            </div>
           </div>
 
-          <div className="bg-pink-50/70 dark:bg-pink-950/30 border border-pink-200/80 dark:border-pink-800/50 rounded-2xl p-6 mb-8">
-            <div className="flex items-center gap-3 mb-3">
-              <AlertTriangle className="w-6 h-6 text-pink-600 dark:text-pink-400" />
-              <h2 className="text-lg font-bold text-pink-950 dark:text-pink-200 uppercase tracking-tight">REGISTROS DE ATENDIMENTO APRENDE +</h2>
+          {/* Operational Notice: Carga Declarada Incompleta */}
+          <div className="bg-amber-500/10 dark:bg-[#183B56]/40 border border-amber-500/30 dark:border-amber-500/40 rounded-xl p-4 sm:p-5 flex items-start gap-3.5">
+            <div className="p-2 rounded-lg bg-amber-500/20 text-amber-600 dark:text-amber-400 shrink-0 mt-0.5">
+              <AlertTriangle className="w-5 h-5" />
             </div>
-            <div className="space-y-2">
-              <p className="text-sm font-bold text-pink-900 dark:text-pink-100 italic">ATENÇÃO:</p>
-              <p className="text-sm font-bold text-pink-800 dark:text-pink-300">CARGA DECLARADA INCOMPLETA:</p>
-              <p className="text-xs text-pink-900/80 dark:text-pink-300/90 leading-relaxed">
-                LIGAÇÕES NOVAS/REATIVAÇÕES PRECISAM CONSTAR NO SAP CRM COM UMA DECLARAÇÃO REAL DOS EQUIPAMENTOS QUE O CLIENTE FAZ OU FARÁ USO, PORTANTO SERÁ CONSIDERADO COMO INCOMPLETO OS CASOS EM QUE FOR DECLARADA EX: APENAS LÂMPADAS.
+            <div className="space-y-1">
+              <div className="flex items-center gap-2">
+                <span className="text-xs font-bold uppercase tracking-wider text-amber-700 dark:text-amber-300">
+                  REGISTRO OPERACIONAL DE ATENDIMENTO
+                </span>
+                <span className="text-[10px] font-mono px-1.5 py-0.2 rounded bg-amber-500/20 text-amber-700 dark:text-amber-300">
+                  OBRIGATÓRIO
+                </span>
+              </div>
+              <p className="text-xs text-slate-700 dark:text-slate-300 leading-relaxed font-sans">
+                <strong>CARGA DECLARADA INCOMPLETA:</strong> Ligações novas e reativações precisam constar no SAP CRM com uma declaração real e detalhada dos equipamentos utilizados pelo cliente. Declarações genéricas (ex: apenas lâmpadas) serão sumariamente rejeitadas.
               </p>
             </div>
           </div>
+
+          {/* Quick Access Category Cards (when no specific category is filtered or when viewing all) */}
+          {!selectedCategory && !searchQuery && (
+            <div className="space-y-4">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <SlidersHorizontal className="w-4 h-4 text-[#19C9E8]" />
+                  <h2 className="text-sm font-bold uppercase tracking-wider text-slate-800 dark:text-[#F5F8FC]">
+                    Acesso Rápido aos Serviços
+                  </h2>
+                </div>
+                <span className="text-xs text-slate-500 dark:text-slate-400">
+                  Clique para navegar diretamente ao serviço
+                </span>
+              </div>
+
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-5 gap-3">
+                {SERVICE_CATEGORIES.map((cat) => (
+                  <button
+                    key={cat.id}
+                    onClick={() => handleCategorySelect(cat.id)}
+                    className="p-3.5 bg-white dark:bg-[#13273D] border border-slate-200 dark:border-[#183B56] hover:border-[#19C9E8] dark:hover:border-[#19C9E8] rounded-xl text-left transition-all duration-200 hover:shadow-md group flex flex-col justify-between h-full cursor-pointer"
+                  >
+                    <div>
+                      <div className="flex items-center justify-between mb-2">
+                        <div className="p-2 rounded-lg bg-slate-100 dark:bg-[#0B1724] text-[#183B56] dark:text-[#19C9E8] group-hover:text-[#A3FF42] transition-colors">
+                          {cat.icon}
+                        </div>
+                        <span className="text-[10px] font-mono font-bold px-1.5 py-0.5 rounded bg-slate-100 dark:bg-[#0B1724] text-slate-500 dark:text-slate-400">
+                          {cat.templates.length}
+                        </span>
+                      </div>
+                      <h3 className="text-xs font-bold text-slate-900 dark:text-[#F5F8FC] leading-snug group-hover:text-[#19C9E8] transition-colors">
+                        {cat.name}
+                      </h3>
+                      <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-1 line-clamp-2 leading-relaxed font-sans">
+                        {CATEGORY_DESCRIPTIONS[cat.id] || `${cat.templates.length} scripts padronizados`}
+                      </p>
+                    </div>
+                    
+                    <div className="mt-3 pt-2 border-t border-slate-100 dark:border-[#183B56]/60 flex items-center justify-between text-[10px] font-semibold text-slate-500 dark:text-slate-400 group-hover:text-[#19C9E8]">
+                      <span>Consultar</span>
+                      <ChevronRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
+                    </div>
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Active Filter Bar (when viewing a single category or search) */}
+          {(selectedCategory || searchQuery) && (
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-3.5 bg-white dark:bg-[#13273D] border border-slate-200 dark:border-[#183B56] rounded-xl shadow-xs">
+              <div className="flex items-center gap-2 flex-wrap">
+                <span className="text-xs text-slate-500 dark:text-slate-400">Visualizando:</span>
+                {selectedCategory && (
+                  <span className="px-2.5 py-1 rounded-md text-xs font-bold bg-[#183B56]/15 dark:bg-[#183B56] text-[#183B56] dark:text-[#A3FF42] border border-[#183B56]/30 dark:border-[#19C9E8]/40 flex items-center gap-1.5">
+                    {selectedCategory === 'favorites' ? 'Meus Favoritos' : selectedCategory === 'most-used' ? 'Mais Utilizados' : SERVICE_CATEGORIES.find(c => c.id === selectedCategory)?.name}
+                  </span>
+                )}
+                {searchQuery && (
+                  <span className="px-2.5 py-1 rounded-md text-xs font-mono bg-slate-100 dark:bg-[#0B1724] text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-[#183B56] flex items-center gap-1.5">
+                    Busca: &ldquo;{searchQuery}&rdquo;
+                  </span>
+                )}
+              </div>
+
+              <div className="flex items-center gap-2">
+                {searchQuery && (
+                  <button
+                    onClick={() => setSearchQuery('')}
+                    className="px-2.5 py-1 text-xs text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white rounded hover:bg-slate-100 dark:hover:bg-[#183B56]/50 transition-colors"
+                  >
+                    Limpar Busca
+                  </button>
+                )}
+                {selectedCategory && (
+                  <button
+                    onClick={() => setSelectedCategory(null)}
+                    className="px-3 py-1 text-xs font-semibold bg-[#183B56] dark:bg-[#183B56] text-[#A3FF42] hover:bg-[#101F30] rounded-lg transition-colors flex items-center gap-1 shadow-xs cursor-pointer"
+                  >
+                    <span>Ver Todos os Serviços</span>
+                    <ChevronRight className="w-3.5 h-3.5" />
+                  </button>
+                )}
+              </div>
+            </div>
+          )}
+
+          {/* Template Library Categories */}
           <AnimatePresence mode="popLayout">
             {filteredCategories
               .filter(cat => !selectedCategory || cat.id === selectedCategory)
               .map((category) => (
                 <motion.section 
                   key={category.id}
-                  initial={{ opacity: 0, y: 20 }}
+                  initial={{ opacity: 0, y: 15 }}
                   animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, scale: 0.95 }}
-                  className="space-y-6"
+                  exit={{ opacity: 0, scale: 0.98 }}
+                  className="space-y-4 pt-2"
                 >
-                  <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 bg-gradient-to-br from-pink-500/15 to-rose-500/15 dark:from-pink-500/25 dark:to-rose-500/25 rounded-xl flex items-center justify-center text-pink-600 dark:text-pink-400 shadow-sm border border-pink-300/50 dark:border-pink-500/30 transition-colors duration-500">
-                      {category.icon}
+                  {/* Category Header */}
+                  <div className="flex items-center justify-between pb-2 border-b border-slate-200 dark:border-[#183B56]/80">
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 bg-slate-100 dark:bg-[#183B56] rounded-xl flex items-center justify-center text-[#183B56] dark:text-[#A3FF42] border border-slate-200 dark:border-[#19C9E8]/30 shadow-xs">
+                        {category.icon}
+                      </div>
+                      <div>
+                        <h2 className="text-lg font-black text-slate-900 dark:text-[#F5F8FC] tracking-tight">
+                          {category.name}
+                        </h2>
+                        <span className="text-xs font-mono text-slate-500 dark:text-slate-400">
+                          {category.templates.length} {category.templates.length === 1 ? 'script disponível' : 'scripts disponíveis'}
+                        </span>
+                      </div>
                     </div>
-                    <div>
-                      <h2 className="text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-slate-900 via-pink-800 to-rose-600 dark:from-white dark:via-pink-200 dark:to-rose-400 tracking-tight">{category.name}</h2>
-                      <p className="text-sm font-mono text-slate-700 dark:text-slate-300">{category.templates.length} templates carregados</p>
+
+                    <div className="flex items-center gap-2">
+                      <Tooltip text={pinnedCategories.includes(category.id) ? "Desafixar" : "Fixar categoria"}>
+                        <button
+                          onClick={(e) => togglePin(category.id, e)}
+                          className={cn(
+                            "p-2 rounded-lg border transition-all text-xs flex items-center gap-1 cursor-pointer",
+                            pinnedCategories.includes(category.id)
+                              ? "bg-[#19C9E8]/10 text-[#19C9E8] border-[#19C9E8]/40"
+                              : "bg-white dark:bg-[#13273D] border-slate-200 dark:border-[#183B56] text-slate-500 hover:text-slate-800 dark:hover:text-slate-200"
+                          )}
+                        >
+                          <Pin className={cn("w-3.5 h-3.5", pinnedCategories.includes(category.id) && "fill-current")} />
+                          <span className="hidden sm:inline text-[11px] font-semibold">
+                            {pinnedCategories.includes(category.id) ? "Fixada" : "Fixar"}
+                          </span>
+                        </button>
+                      </Tooltip>
                     </div>
                   </div>
 
+                  {/* Category Info Box (e.g., Ligação Nova Instructions & Quick Copies) */}
                   {category.info && (
-                    <div className="bg-pink-50/60 dark:bg-slate-900/80 border border-pink-200/80 dark:border-pink-900/40 rounded-xl p-5 flex-col gap-4 shadow-sm">
+                    <div className="bg-slate-50 dark:bg-[#0E1E2F] border border-slate-200 dark:border-[#183B56] rounded-xl p-4 space-y-3">
                       <div className="flex items-start gap-3">
-                        <Info className="w-5 h-5 text-pink-600 dark:text-pink-400 shrink-0 mt-0.5" />
-                        <p className="text-sm text-slate-700 dark:text-slate-200 leading-relaxed font-mono">
+                        <Info className="w-5 h-5 text-[#19C9E8] shrink-0 mt-0.5" />
+                        <p className="text-xs text-slate-700 dark:text-slate-300 leading-relaxed font-mono whitespace-pre-wrap">
                           {category.info}
                         </p>
                       </div>
+
                       {category.info.includes('naoinformado@equatorialenergia.com.br') && (
-                        <div className="flex-col items-end gap-2">
-                          <Tooltip text={copiedId === 'email-copy' ? "Email Copiado!" : copyErrorId === 'email-copy' ? "Erro ao Copiar" : "Copiar endereço de email"}>
+                        <div className="flex flex-wrap gap-2 pt-2 border-t border-slate-200/80 dark:border-[#183B56]/60">
+                          <Tooltip text={copiedId === 'email-copy' ? "Email Copiado!" : "Copiar email padrão"}>
                             <button
                               onClick={() => handleCopy('naoinformado@equatorialenergia.com.br', 'email-copy')}
                               className={cn(
-                                "flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-bold transition-all border w-fit font-mono shadow-xs cursor-pointer",
+                                "flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-mono font-bold transition-all border shadow-xs cursor-pointer",
                                 copiedId === 'email-copy'
-                                  ? "bg-gradient-to-r from-pink-600 to-rose-600 text-white border-pink-600"
-                                  : copyErrorId === 'email-copy' 
-                                    ? "bg-rose-50 dark:bg-rose-900/20 text-rose-600 dark:text-rose-400 border-rose-200 dark:border-rose-900/50" 
-                                    : "bg-white dark:bg-slate-900/60 text-pink-800 dark:text-pink-300 border-pink-300 dark:border-pink-800/60 hover:bg-pink-50 dark:hover:bg-pink-950/40"
+                                  ? "bg-[#A3FF42] text-[#101F30] border-[#A3FF42]"
+                                  : "bg-white dark:bg-[#183B56] text-slate-800 dark:text-[#F5F8FC] border-slate-300 dark:border-[#19C9E8]/50 hover:bg-slate-100 dark:hover:bg-[#183B56]/80"
                               )}
                             >
-                              {copiedId === 'email-copy' ? (
-                                <>
-                                  <Check className="w-3.5 h-3.5" />
-                                  Email Copiado!
-                                </>
-                              ) : copyErrorId === 'email-copy' ? (
-                                <>
-                                  <AlertTriangle className="w-3.5 h-3.5" />
-                                  Erro ao Copiar
-                                </>
-                              ) : (
-                                <>
-                                  <Copy className="w-3.5 h-3.5" />
-                                  Copiar Email
-                                </>
-                              )}
+                              {copiedId === 'email-copy' ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
+                              <span>Copiar E-mail Padrão</span>
                             </button>
                           </Tooltip>
+
                           {category.info.includes('Carta de Deferimento assinada_UC XXXX') && (
-                            <Tooltip text={copiedId === 'title-copy' ? "Título Copiado!" : copyErrorId === 'title-copy' ? "Erro ao Copiar" : "Copiar título da carta"}>
+                            <Tooltip text={copiedId === 'title-copy' ? "Título Copiado!" : "Copiar nome padrão do arquivo"}>
                               <button
                                 onClick={() => handleCopy('Carta de Deferimento assinada_UC XXXX', 'title-copy')}
                                 className={cn(
-                                  "flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-bold transition-all border w-fit font-mono shadow-xs cursor-pointer",
+                                  "flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-mono font-bold transition-all border shadow-xs cursor-pointer",
                                   copiedId === 'title-copy'
-                                    ? "bg-gradient-to-r from-pink-600 to-rose-600 text-white border-pink-600"
-                                    : copyErrorId === 'title-copy' 
-                                      ? "bg-rose-50 dark:bg-rose-900/20 text-rose-600 dark:text-rose-400 border-rose-200 dark:border-rose-900/50" 
-                                      : "bg-white dark:bg-slate-900/60 text-pink-800 dark:text-pink-300 border-pink-300 dark:border-pink-800/60 hover:bg-pink-50 dark:hover:bg-pink-950/40"
+                                    ? "bg-[#A3FF42] text-[#101F30] border-[#A3FF42]"
+                                    : "bg-white dark:bg-[#183B56] text-slate-800 dark:text-[#F5F8FC] border-slate-300 dark:border-[#19C9E8]/50 hover:bg-slate-100 dark:hover:bg-[#183B56]/80"
                                 )}
                               >
-                                {copiedId === 'title-copy' ? (
-                                  <>
-                                    <Check className="w-3.5 h-3.5" />
-                                    Título Copiado!
-                                  </>
-                                ) : copyErrorId === 'title-copy' ? (
-                                  <>
-                                    <AlertTriangle className="w-3.5 h-3.5" />
-                                    Erro ao Copiar
-                                  </>
-                                ) : (
-                                  <>
-                                    <Copy className="w-3.5 h-3.5" />
-                                    Copiar Título da Carta
-                                  </>
-                                )}
+                                {copiedId === 'title-copy' ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
+                                <span>Copiar Título da Carta</span>
                               </button>
                             </Tooltip>
                           )}
@@ -1398,184 +1640,227 @@ export default function TemplateGenerator() {
                     </div>
                   )}
 
+                  {/* Empty state for category */}
                   {category.templates.length === 0 ? (
-                    <div className="bg-white/60 dark:bg-slate-900/30 border border-dashed border-pink-200/70 dark:border-pink-800/40 rounded-2xl p-10 text-center flex flex-col items-center justify-center">
-                      <div className="w-12 h-12 rounded-xl bg-pink-50 dark:bg-pink-950/30 text-pink-500 flex items-center justify-center mb-3">
-                        {category.id === 'favorites' ? <Heart className="w-6 h-6 text-rose-500 fill-rose-500" /> : <Flame className="w-6 h-6 text-pink-500 fill-pink-500" />}
+                    <div className="bg-white dark:bg-[#13273D] border border-dashed border-slate-300 dark:border-[#183B56] rounded-xl p-8 text-center flex flex-col items-center justify-center">
+                      <div className="w-10 h-10 rounded-lg bg-slate-100 dark:bg-[#0B1724] text-slate-400 flex items-center justify-center mb-2">
+                        {category.id === 'favorites' ? <Star className="w-5 h-5" /> : <Flame className="w-5 h-5" />}
                       </div>
-                      <h3 className="text-base font-bold text-slate-800 dark:text-slate-200">
-                        {category.id === 'favorites' ? 'Nenhum favorito adicionado' : 'Nenhum template utilizado ainda'}
+                      <h3 className="text-sm font-bold text-slate-800 dark:text-[#F5F8FC]">
+                        {category.id === 'favorites' ? 'Nenhum favorito cadastrado' : 'Nenhum script utilizado ainda'}
                       </h3>
-                      <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 max-w-md">
+                      <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 max-w-sm">
                         {category.id === 'favorites' 
-                          ? 'Clique no ícone de coração em qualquer template para adicioná-lo aos seus favoritos.'
-                          : 'Conforme você copiar e utilizar os templates no sistema, eles aparecerão ordenados por frequência de uso aqui.'}
+                          ? 'Clique na estrela em qualquer card para adicioná-lo à sua lista de acesso rápido.'
+                          : 'Conforme você copiar textos pelo sistema, os mais frequentes serão ranqueados aqui.'}
                       </p>
                     </div>
                   ) : (
-                    <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-                      {category.templates.map((template) => (
-                        <motion.div
-                          key={template.id}
-                          layoutId={template.id}
-                          className="group bg-white/85 dark:bg-slate-900/60 backdrop-blur-xl border border-pink-100/90 dark:border-pink-950/40 rounded-2xl p-6 hover:bg-white dark:hover:bg-slate-900/80 hover:border-pink-300 dark:hover:border-pink-600/60 hover:shadow-[0_10px_35px_rgba(236,72,153,0.13)] transition-all duration-300 flex flex-col relative overflow-hidden"
-                        >
-                          <div className="absolute top-0 right-0 w-32 h-32 bg-pink-100/40 dark:bg-pink-950/20 rounded-full blur-[40px] pointer-events-none group-hover:bg-pink-200/40 dark:group-hover:bg-pink-900/20 transition-colors duration-500"></div>
-                          <div className="flex items-start justify-between mb-6 relative z-10">
-                            <div className="space-y-1">
-                              <h3 
-                                onClick={() => toggleExpanded(template.id)}
-                                className="cursor-pointer font-bold text-slate-800 dark:text-slate-100 leading-tight group-hover:text-pink-600 dark:group-hover:text-pink-300 transition-colors"
-                              >
-                                {template.title}
-                              </h3>
-                              <span className="text-[10px] font-mono text-slate-500 dark:text-slate-400 uppercase tracking-widest block mt-1">SYS.ID: {template.id}</span>
-                            </div>
-                            <div className="flex items-center gap-2">
-                              {/* Contador de Utilizações */}
-                              <Tooltip text={`${usageCounts[template.id] || 0} ${(usageCounts[template.id] || 0) === 1 ? 'uso registrado' : 'usos registrados'}`}>
-                                <div className={cn(
-                                  "flex items-center gap-1 px-2.5 py-1.5 rounded-full text-xs font-mono font-bold transition-all border",
-                                  (usageCounts[template.id] || 0) > 0
-                                    ? "bg-pink-50/80 dark:bg-pink-950/40 text-pink-800 dark:text-pink-300 border-pink-200/80 dark:border-pink-800/60 shadow-xs"
-                                    : "bg-slate-100/60 dark:bg-slate-800/30 text-slate-400 dark:text-slate-500 border-slate-200/50 dark:border-slate-800/50"
-                                )}>
-                                  <Flame className={cn("w-3.5 h-3.5", (usageCounts[template.id] || 0) > 0 ? "text-pink-500 fill-pink-500/30" : "text-slate-400 dark:text-slate-500")} />
-                                  <span>{usageCounts[template.id] || 0}</span>
-                                </div>
-                              </Tooltip>
+                    /* Templates Grid */
+                    <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+                      {category.templates.map((template) => {
+                        const isExpanded = expandedTemplates.includes(template.id);
+                        const isFav = favorites.includes(template.id);
+                        const isCopied = copiedId === template.id;
+                        const copyCount = usageCounts[template.id] || 0;
 
-                              <Tooltip text={favorites.includes(template.id) ? "Remover dos Favoritos" : "Adicionar aos Favoritos"}>
-                                <button
-                                  onClick={(e) => toggleFavorite(template.id, e)}
-                                  className={cn(
-                                    "p-3 rounded-full transition-all shadow-sm cursor-pointer border",
-                                    favorites.includes(template.id)
-                                      ? "bg-pink-50 dark:bg-pink-900/30 text-pink-600 border-pink-200 dark:border-pink-900/50 shadow-xs"
-                                      : "bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-700/50 text-slate-600 dark:text-slate-300 hover:bg-pink-50 dark:hover:bg-pink-900/20 hover:text-pink-500 hover:border-pink-200 dark:hover:border-pink-900/50"
-                                  )}
-                                >
-                                  <Heart className={cn("w-5 h-5", favorites.includes(template.id) && "fill-current text-pink-600")} />
-                                </button>
-                              </Tooltip>
-                              <Tooltip text={copiedId === template.id ? "Copiado!" : copyErrorId === template.id ? "Erro ao Copiar" : "Copiar Template"}>
-                                <button
-                                  onClick={() => handleCopy(template.content, template.id)}
-                                  className={cn(
-                                    "shrink-0 p-3 rounded-full transition-all shadow-sm border cursor-pointer",
-                                    copiedId === template.id 
-                                      ? "bg-gradient-to-r from-pink-600 to-rose-600 border-pink-600 text-white scale-110 shadow-[0_0_15px_rgba(236,72,153,0.35)]" 
-                                      : copyErrorId === template.id
-                                        ? "bg-rose-500 border-rose-500 text-white scale-110"
-                                        : "bg-white/90 dark:bg-slate-900/60 border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-200 group-hover:border-pink-300 dark:group-hover:border-pink-600/50 group-hover:bg-pink-50 dark:group-hover:bg-pink-950/30 group-hover:text-pink-600 dark:group-hover:text-pink-300"
-                                  )}
-                                >
-                                  {copiedId === template.id ? <Check className="w-5 h-5 text-white" /> : copyErrorId === template.id ? <AlertTriangle className="w-5 h-5" /> : <Copy className="w-5 h-5" />}
-                                </button>
-                              </Tooltip>
-                            </div>
-                          </div>
-                          
-                          <AnimatePresence>
-                            {expandedTemplates.includes(template.id) && (
-                              <motion.div
-                                initial={{ height: 0, opacity: 0 }}
-                                animate={{ height: 'auto', opacity: 1 }}
-                                exit={{ height: 0, opacity: 0 }}
-                                transition={{ duration: 0.3, ease: "easeInOut" }}
-                                className="overflow-hidden"
-                              >
-                                <div className="relative flex-1 group/pre mt-4">
-                                  <div className="absolute top-3 right-3 opacity-0 group-hover/pre:opacity-100 transition-opacity">
-                                    <div className="bg-white/80 dark:bg-slate-900/80 backdrop-blur px-2 py-1 rounded-md text-[10px] font-black text-slate-700 dark:text-slate-200 border-slate-200/50 dark:border-slate-700/50 shadow-sm tracking-wide">
-                                      CONTEÚDO TERMINAL
+                        return (
+                          <motion.div
+                            key={template.id}
+                            layoutId={template.id}
+                            className="bg-white dark:bg-[#13273D] border border-slate-200 dark:border-[#183B56] rounded-xl p-5 hover:border-[#19C9E8]/70 dark:hover:border-[#19C9E8]/70 hover:shadow-lg transition-all duration-200 flex flex-col justify-between relative group"
+                          >
+                            <div>
+                              {/* Top Bar inside Card */}
+                              <div className="flex items-start justify-between gap-3 mb-3">
+                                <div>
+                                  <span className="text-[10px] font-mono font-bold text-[#19C9E8] uppercase tracking-wider block">
+                                    SYS.ID: {template.id}
+                                  </span>
+                                  <h3 
+                                    onClick={() => toggleExpanded(template.id)}
+                                    className="cursor-pointer font-bold text-sm text-slate-900 dark:text-[#F5F8FC] leading-snug group-hover:text-[#19C9E8] transition-colors mt-0.5"
+                                  >
+                                    {template.title}
+                                  </h3>
+                                </div>
+
+                                <div className="flex items-center gap-1.5 shrink-0">
+                                  {/* Usage Count Pill */}
+                                  <Tooltip text={`${copyCount} ${copyCount === 1 ? 'cópia registrada' : 'cópias registradas'}`}>
+                                    <div className={cn(
+                                      "flex items-center gap-1 px-2 py-1 rounded text-[11px] font-mono font-bold transition-all border",
+                                      copyCount > 0
+                                        ? "bg-[#183B56]/20 dark:bg-[#0B1724] text-[#19C9E8] border-[#183B56]/40 dark:border-[#19C9E8]/30"
+                                        : "bg-slate-100 dark:bg-[#0B1724] text-slate-400 border-slate-200 dark:border-[#183B56]"
+                                    )}>
+                                      <Flame className={cn("w-3 h-3", copyCount > 0 ? "text-[#19C9E8] fill-[#19C9E8]" : "text-slate-400")} />
+                                      <span>{copyCount}</span>
                                     </div>
+                                  </Tooltip>
+
+                                  {/* Favorite Toggle Button */}
+                                  <Tooltip text={isFav ? "Remover dos Favoritos" : "Adicionar aos Favoritos"}>
+                                    <button
+                                      onClick={(e) => toggleFavorite(template.id, e)}
+                                      className={cn(
+                                        "p-1.5 rounded-lg transition-all border cursor-pointer",
+                                        isFav
+                                          ? "bg-amber-500/10 text-amber-500 border-amber-500/30"
+                                          : "bg-slate-100 dark:bg-[#0B1724] border-slate-200 dark:border-[#183B56] text-slate-400 hover:text-amber-500"
+                                      )}
+                                    >
+                                      <Star className={cn("w-3.5 h-3.5", isFav && "fill-current text-amber-500")} />
+                                    </button>
+                                  </Tooltip>
+                                </div>
+                              </div>
+
+                              {/* Preview text or expandable content */}
+                              <div className="mt-3">
+                                <div className="relative">
+                                  <div className="flex items-center justify-between text-[10px] font-mono uppercase text-slate-500 dark:text-slate-400 mb-1 px-1">
+                                    <span className="flex items-center gap-1">
+                                      <Terminal className="w-3 h-3 text-[#19C9E8]" />
+                                      Script Operacional
+                                    </span>
+                                    <button
+                                      onClick={() => toggleExpanded(template.id)}
+                                      className="hover:text-slate-900 dark:hover:text-[#F5F8FC] flex items-center gap-0.5 cursor-pointer font-sans"
+                                    >
+                                      <span>{isExpanded ? 'Recolher' : 'Expandir'}</span>
+                                      {isExpanded ? <ChevronUp className="w-3 h-3" /> : <ChevronDown className="w-3 h-3" />}
+                                    </button>
                                   </div>
-                                  <pre className="text-[11px] text-slate-700 dark:text-slate-200 bg-slate-50 dark:bg-slate-950 p-5 rounded-xl font-mono whitespace-pre-wrap leading-relaxed border border-pink-100 dark:border-slate-800/80 max-h-48 overflow-y-auto scrollbar-thin scrollbar-thumb-pink-200 dark:scrollbar-thumb-pink-900/50 shadow-inner transition-colors duration-500 relative">
+
+                                  <pre className={cn(
+                                    "text-xs text-slate-800 dark:text-slate-200 bg-slate-50 dark:bg-[#0A1420] p-3.5 rounded-lg font-mono whitespace-pre-wrap leading-relaxed border border-slate-200 dark:border-[#183B56]/80 overflow-y-auto scrollbar-thin scrollbar-thumb-slate-300 dark:scrollbar-thumb-[#183B56] transition-all",
+                                    isExpanded ? "max-h-72" : "max-h-24 line-clamp-3"
+                                  )}>
                                     {template.content}
                                   </pre>
                                 </div>
-                              </motion.div>
-                            )}
-                          </AnimatePresence>
-
-                          <div className="mt-6 pt-6 border-t border-slate-200/50 dark:border-slate-700/50 flex items-center justify-between">
-                            <div className="flex -space-x-2 opacity-50">
-                              {[1, 2, 3].map(i => (
-                                <div key={i} className="w-6 h-6 rounded-full bg-pink-50 dark:bg-pink-950/40 border-2 border-white dark:border-pink-900/40" />
-                              ))}
+                              </div>
                             </div>
-                            <Tooltip text={copiedId === template.id ? "Copiado!" : copyErrorId === template.id ? "Erro ao Copiar" : "Copiar todo o conteúdo template"}>
-                              <button 
-                                onClick={() => handleCopy(template.content, template.id)}
-                                className="text-xs font-black text-slate-700 dark:text-slate-300 group-hover:text-pink-600 dark:group-hover:text-pink-300 flex items-center gap-1 hover:gap-2 transition-all uppercase tracking-widest cursor-pointer"
+
+                            {/* Card Action Buttons */}
+                            <div className="mt-5 pt-3 border-t border-slate-100 dark:border-[#183B56]/60 flex items-center justify-between gap-3">
+                              <button
+                                onClick={() => toggleExpanded(template.id)}
+                                className="text-xs text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-[#F5F8FC] flex items-center gap-1 font-medium cursor-pointer"
                               >
-                                Copiar Terminal
-                                <ChevronRight className="w-4 h-4 text-pink-600 dark:text-pink-400" />
+                                {isExpanded ? (
+                                  <>
+                                    <span>Recolher</span>
+                                    <ChevronUp className="w-3.5 h-3.5" />
+                                  </>
+                                ) : (
+                                  <>
+                                    <span>Ver Completo</span>
+                                    <ChevronDown className="w-3.5 h-3.5" />
+                                  </>
+                                )}
                               </button>
-                            </Tooltip>
-                          </div>
-                        </motion.div>
-                      ))}
+
+                              {/* Primary Energy Tech Copy Button */}
+                              <Tooltip text={isCopied ? "Copiado com Sucesso!" : "Copiar texto para colar no SAP/CRM"}>
+                                <button
+                                  onClick={() => handleCopy(template.content, template.id)}
+                                  className={cn(
+                                    "flex items-center gap-2 px-3.5 py-2 rounded-lg text-xs font-bold transition-all shadow-xs active:scale-95 cursor-pointer",
+                                    isCopied
+                                      ? "bg-[#A3FF42] text-[#101F30] font-black scale-105 shadow-[0_0_15px_rgba(163,255,66,0.5)]"
+                                      : "bg-[#101F30] dark:bg-[#183B56] hover:bg-[#183B56] dark:hover:bg-[#19C9E8] text-[#A3FF42] dark:text-[#A3FF42] dark:hover:text-[#101F30] border border-[#183B56] dark:border-[#19C9E8]/40"
+                                  )}
+                                >
+                                  {isCopied ? (
+                                    <>
+                                      <CheckCircle2 className="w-4 h-4 text-[#101F30]" />
+                                      <span>Copiado!</span>
+                                    </>
+                                  ) : (
+                                    <>
+                                      <Copy className="w-3.5 h-3.5" />
+                                      <span>Copiar Script</span>
+                                    </>
+                                  )}
+                                </button>
+                              </Tooltip>
+                            </div>
+                          </motion.div>
+                        );
+                      })}
                     </div>
                   )}
 
+                  {/* Negotiation Table Component */}
                   {category.showNegotiationTable && <NegotiationTable />}
                 </motion.section>
               ))}
           </AnimatePresence>
 
+          {/* Empty Search Results State */}
           {filteredCategories.length === 0 && (
-            <div className="flex-col items-center justify-center py-32 text-center relative">
-              <div className="absolute inset-0 bg-pink-100/30 dark:bg-pink-950/20 blur-[100px] rounded-full w-64 h-64 mx-auto -z-10" />
-              <div className="w-24 h-24 bg-white dark:bg-slate-900 rounded-xl shadow-[0_0_20px_rgba(236,72,153,0.15)] border border-pink-200 dark:border-slate-800 flex items-center justify-center text-pink-500 mb-6 transition-colors duration-500">
-                <Search className="w-10 h-10 animate-pulse" />
+            <div className="flex flex-col items-center justify-center py-20 text-center relative">
+              <div className="w-16 h-16 bg-slate-100 dark:bg-[#13273D] rounded-2xl border border-slate-200 dark:border-[#183B56] flex items-center justify-center text-slate-400 mb-4">
+                <Search className="w-8 h-8" />
               </div>
-              <h3 className="text-xl font-bold text-slate-700 dark:text-slate-200 uppercase tracking-widest">Nenhum registro encontrado</h3>
-              <p className="text-slate-800 dark:text-white/70 max-w-sm mt-3 font-mono text-sm leading-relaxed">SISTEMA: Não encontramos referências no banco de dados sobre &quot;{searchQuery}&quot;. Tente recalibrar os parâmetros de busca.</p>
+              <h3 className="text-base font-bold text-slate-800 dark:text-[#F5F8FC] uppercase tracking-wider">
+                Nenhum script encontrado
+              </h3>
+              <p className="text-slate-500 dark:text-slate-400 max-w-sm mt-2 text-xs leading-relaxed font-sans">
+                Não localizamos procedimentos correspondentes ao termo &ldquo;{searchQuery}&rdquo;. Tente buscar por outras palavras-chave ou termos operacionais.
+              </p>
               <button 
                 onClick={() => setSearchQuery('')}
-                className="mt-8 px-8 py-3.5 bg-gradient-to-r from-pink-600 to-rose-600 hover:from-pink-700 hover:to-rose-700 text-white rounded-lg font-black uppercase tracking-widest shadow-[0_0_20px_rgba(236,72,153,0.3)] transition-all hover:scale-105 active:scale-95 border border-pink-500 cursor-pointer"
+                className="mt-6 px-4 py-2 bg-[#183B56] text-[#A3FF42] rounded-lg text-xs font-bold uppercase tracking-wider hover:bg-[#101F30] transition-colors shadow-sm cursor-pointer"
               >
-                Resetar Parâmetros
+                Limpar Parâmetros de Busca
               </button>
             </div>
           )}
-          {/* Footer watermark */}
-          <div className="mt-8 pt-8 border-t border-pink-200/40 dark:border-pink-900/20 flex-col sm:flex-row items-center justify-between text-xs text-slate-700 dark:text-slate-400 font-medium pb-4">
+
+          {/* Corporate Footer */}
+          <footer className="pt-8 pb-4 border-t border-slate-200 dark:border-[#183B56]/60 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 dark:text-slate-400 gap-3">
             <div className="flex items-center gap-2">
-              <Ribbon className="w-3.5 h-3.5 text-pink-500 fill-pink-500" />
-              <span>Outubro Rosa • Cuidar de si também é um ato de amor 🎀</span>
+              <Zap className="w-3.5 h-3.5 text-[#A3FF42]" />
+              <span className="font-semibold text-slate-700 dark:text-slate-300">
+                Texto Padrão — Central de Atendimento Energético
+              </span>
+              <span>•</span>
+              <span className="font-mono text-[11px]">Energy Tech</span>
             </div>
-            <span>Texto Padrão Atendimento Leste — Edição Outubro Rosa</span>
-          </div>
+            <div className="font-mono text-[11px] text-slate-500 dark:text-slate-400">
+              DESENVOLVIDO POR // <a href="https://github.com/Rahonne08" target="_blank" rel="noopener noreferrer" className="hover:text-[#19C9E8] transition-colors underline-offset-2">PABLO RAHONNE</a>
+            </div>
+          </footer>
         </main>
       </div>
 
-      {/* Toast Notification */}
+      {/* Floating Transfer Confirmation Toast */}
       <AnimatePresence>
-        {copiedId && (
+        {copiedId && copiedId !== 'email-copy' && copiedId !== 'title-copy' && (
           <motion.div
-            initial={{ opacity: 0, y: 50, x: "-50%", scale: 0.9 }}
+            initial={{ opacity: 0, y: 40, x: "-50%", scale: 0.95 }}
             animate={{ opacity: 1, y: 0, x: "-50%", scale: 1 }}
-            exit={{ opacity: 0, y: 20, x: "-50%", scale: 0.9 }}
-            className="fixed bottom-10 left-1/2 z-[100] bg-slate-900 dark:bg-slate-950 text-white px-8 py-4 rounded-xl shadow-[0_0_30px_rgba(236,72,153,0.25)] flex items-center gap-4 border border-pink-400/40 backdrop-blur-xl"
+            exit={{ opacity: 0, y: 20, x: "-50%", scale: 0.95 }}
+            className="fixed bottom-8 left-1/2 z-[100] bg-[#101F30] text-[#F5F8FC] px-6 py-3.5 rounded-xl shadow-[0_10px_40px_rgba(0,0,0,0.5)] flex items-center gap-3.5 border border-[#19C9E8]/50 backdrop-blur-xl"
           >
-            <div className="w-8 h-8 bg-pink-500/20 border border-pink-400/50 rounded-lg flex items-center justify-center shadow-[0_0_15px_rgba(236,72,153,0.4)] text-pink-400">
-              <Check className="w-5 h-5 text-pink-400" />
+            <div className="w-8 h-8 bg-[#A3FF42]/20 border border-[#A3FF42]/40 rounded-lg flex items-center justify-center text-[#A3FF42] shrink-0">
+              <Check className="w-4 h-4 text-[#A3FF42]" />
             </div>
             <div>
-              <p className="text-sm font-black tracking-widest text-slate-100">TRANSFERÊNCIA CONCLUÍDA!</p>
-              <p className="text-[10px] text-pink-300/80 font-mono tracking-widest mt-1">Dados validados na área de transferência.</p>
+              <p className="text-xs font-bold tracking-wide text-[#F5F8FC]">SCRIPT TRANSFERIDO COM SUCESSO</p>
+              <p className="text-[10px] text-slate-400 font-mono">Texto pronto para colar no SAP / CRM / Ajuri.</p>
             </div>
           </motion.div>
         )}
       </AnimatePresence>
 
-      {/* Mobile Overlay */}
+      {/* Mobile Sidebar Overlay */}
       {isSidebarOpen && (
         <div 
-          className="fixed inset-0 bg-slate-900/20 dark:bg-slate-950/40 backdrop-blur-sm z-40 lg:hidden"
+          className="fixed inset-0 bg-[#101F30]/60 backdrop-blur-sm z-40 lg:hidden"
           onClick={() => setIsSidebarOpen(false)}
         />
       )}

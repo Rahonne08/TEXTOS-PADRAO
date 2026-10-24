@@ -2,10 +2,10 @@ import type {Metadata} from 'next';
 import './globals.css'; // Global styles
 
 export const metadata: Metadata = {
-  title: 'Texto Padrão Atendimento Leste — Outubro Rosa 🎀',
-  description: 'Texto Padrão Atendimento Leste - Edição Especial Outubro Rosa: Cuidar de si também é um ato de amor.',
+  title: 'Texto Padrão — Central de Atendimento Energético | Energy Tech',
+  description: 'Central de Atendimento Energético: Plataforma moderna de scripts e procedimentos operacionais padronizados.',
   icons: {
-    icon: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23ec4899" stroke="%23db2777" stroke-width="1.5"><path d="M12 2C8 2 6 5 6 8c0 4 6 11 6 11s6-7 6-11c0-3-2-6-6-6z"/><circle cx="12" cy="8" r="2.5" fill="%23fce7f3"/></svg>',
+    icon: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23101F30"><rect width="24" height="24" rx="6" fill="%23101F30"/><path d="M13 2L4 14h7l-2 8 11-12h-7l2-8z" fill="%23A3FF42" stroke="%2319C9E8" stroke-width="0.8"/></svg>',
   }
 };
 
